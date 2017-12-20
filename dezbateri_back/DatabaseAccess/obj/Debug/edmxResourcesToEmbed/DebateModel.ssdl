@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dezbateriModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CategoryDebate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="debate_id" Type="int" Nullable="false" />
+    <Property Name="category_id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Content">
+    <Key>
+      <PropertyRef Name="debate_id" />
+    </Key>
+    <Property Name="debate_id" Type="int" Nullable="false" />
+    <Property Name="round_1" Type="text" Nullable="false" />
+    <Property Name="round_2" Type="text" Nullable="false" />
+    <Property Name="round_3" Type="text" Nullable="false" />
+    <Property Name="round_4" Type="text" Nullable="false" />
+    <Property Name="round_5" Type="text" Nullable="false" />
+    <Property Name="round_6" Type="text" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DebateInfo">
+    <Key>
+      <PropertyRef Name="debate_id" />
+    </Key>
+    <Property Name="debate_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="subject" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="date_created" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="state" Type="varchar" MaxLength="32" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RoundState">
+    <Key>
+      <PropertyRef Name="debate_id" />
+    </Key>
+    <Property Name="debate_id" Type="int" Nullable="false" />
+    <Property Name="next_round" Type="int" Nullable="false" />
+    <Property Name="time_to_next" Type="varchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="Birthdate" Type="varchar" MaxLength="35" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserDebate">
+    <Key>
+      <PropertyRef Name="debate_id" />
+    </Key>
+    <Property Name="debate_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="pro_username" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="con_username" Type="varchar" MaxLength="35" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Vote">
+    <Key>
+      <PropertyRef Name="vote_id" />
+    </Key>
+    <Property Name="vote_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="debate_id" Type="int" Nullable="false" />
+    <Property Name="user_username" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="vote_pro" Type="bool" Nullable="false" />
+  </EntityType>
+  <Association Name="cd-category-id">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="CategoryDebate" Type="Self.CategoryDebate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CategoryDebate">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="cd-debate-id">
+    <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
+    <End Role="CategoryDebate" Type="Self.CategoryDebate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DebateInfo">
+        <PropertyRef Name="debate_id" />
+      </Principal>
+      <Dependent Role="CategoryDebate">
+        <PropertyRef Name="debate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="content-debate-id">
+    <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
+    <End Role="Content" Type="Self.Content" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="DebateInfo">
+        <PropertyRef Name="debate_id" />
+      </Principal>
+      <Dependent Role="Content">
+        <PropertyRef Name="debate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="round-debate-id">
+    <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
+    <End Role="RoundState" Type="Self.RoundState" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="DebateInfo">
+        <PropertyRef Name="debate_id" />
+      </Principal>
+      <Dependent Role="RoundState">
+        <PropertyRef Name="debate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="user-debate-id">
+    <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
+    <End Role="UserDebate" Type="Self.UserDebate" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="DebateInfo">
+        <PropertyRef Name="debate_id" />
+      </Principal>
+      <Dependent Role="UserDebate">
+        <PropertyRef Name="debate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'user-id-con' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="user-id-con" />-->
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'user-id-pro' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="user-id-pro" />-->
+  <Association Name="vote-debate-id">
+    <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
+    <End Role="Vote" Type="Self.Vote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DebateInfo">
+        <PropertyRef Name="debate_id" />
+      </Principal>
+      <Dependent Role="Vote">
+        <PropertyRef Name="debate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'vote-username' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="vote-username" />-->
+  <EntityContainer Name="dezbateriModelStoreContainer">
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <EntitySet Name="CategoryDebate" EntityType="Self.CategoryDebate" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <EntitySet Name="Content" EntityType="Self.Content" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <EntitySet Name="DebateInfo" EntityType="Self.DebateInfo" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <EntitySet Name="RoundState" EntityType="Self.RoundState" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <EntitySet Name="UserDebate" EntityType="Self.UserDebate" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <EntitySet Name="Vote" EntityType="Self.Vote" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <AssociationSet Name="cd-category-id" Association="Self.cd-category-id">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="CategoryDebate" EntitySet="CategoryDebate" />
+    </AssociationSet>
+    <AssociationSet Name="cd-debate-id" Association="Self.cd-debate-id">
+      <End Role="DebateInfo" EntitySet="DebateInfo" />
+      <End Role="CategoryDebate" EntitySet="CategoryDebate" />
+    </AssociationSet>
+    <AssociationSet Name="content-debate-id" Association="Self.content-debate-id">
+      <End Role="DebateInfo" EntitySet="DebateInfo" />
+      <End Role="Content" EntitySet="Content" />
+    </AssociationSet>
+    <AssociationSet Name="round-debate-id" Association="Self.round-debate-id">
+      <End Role="DebateInfo" EntitySet="DebateInfo" />
+      <End Role="RoundState" EntitySet="RoundState" />
+    </AssociationSet>
+    <AssociationSet Name="user-debate-id" Association="Self.user-debate-id">
+      <End Role="DebateInfo" EntitySet="DebateInfo" />
+      <End Role="UserDebate" EntitySet="UserDebate" />
+    </AssociationSet>
+    <AssociationSet Name="vote-debate-id" Association="Self.vote-debate-id">
+      <End Role="DebateInfo" EntitySet="DebateInfo" />
+      <End Role="Vote" EntitySet="Vote" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

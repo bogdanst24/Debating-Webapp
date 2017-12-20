@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="dezbateriApp">
+<head >
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>dezbateri.ro</title>
+
+    <link href="https://fonts.googleapis.com/css?family=David+Libre|Hind:400,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="./node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/0.9.2/trix.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/packs/advanced-search-form/css/style.css">
+
+    <link rel="stylesheet" href="assets/packs/reading-progress-indicator/css/style.css">
+    <link rel="stylesheet" href="assets/css/myStyle.css">
+    <link rel="stylesheet" href="assets/packs/auto-hide/header.css">
+
+
+</head>
+
+    <body ng-app="dezbateriApp">
+
+        <div ng-view="" class="content"></div>
+
+        <div class="all-footer">
+            <footer class="footer1">
+                <div class="container">
+
+                    <div class="row"><!-- row -->
+                        <div class="col-lg-3 col-md-3"><!-- widgets column left -->
+                            <ul class="list-unstyled clear-margins"><!-- widgets -->
+                                <li class="widget-container widget_nav_menu"><!-- widgets list -->
+                                    <h1 class="title-widget">Useful links</h1>
+                                    <ul>
+                                        <li><a  href="#"><i class="fa fa-angle-double-right"></i> About Us</a></li>
+                                        <li><a  href="#"><i class="fa fa-angle-double-right"></i> Contact Us</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div><!-- widgets column left end -->
+
+
+                        <div class="col-lg-3 col-md-3"><!-- widgets column left -->
+                            <ul class="list-unstyled clear-margins"><!-- widgets -->
+                                <li class="widget-container widget_nav_menu"><!-- widgets list -->
+                                    <h1 class="title-widget">Useful links</h1>
+                                    <ul>
+                                        <li><a  href="#"><i class="fa fa-angle-double-right"></i>  Test Series Schedule</a></li>
+                                        <li><a  href="#"><i class="fa fa-angle-double-right"></i>  Postal Coaching</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div><!-- widgets column left end -->
+
+
+                        <div class="col-lg-3 col-md-3"><!-- widgets column left -->
+                            <ul class="list-unstyled clear-margins"><!-- widgets -->
+                                <li class="widget-container widget_nav_menu"><!-- widgets list -->
+                                    <h1 class="title-widget">Useful links</h1>
+                                    <ul>
+                                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Enquiry Form</a></li>
+                                        <li><a href="#"><i class="fa fa-angle-double-right"></i> Online Test Series</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div><!-- widgets column left end -->
+
+
+                        <div class="col-lg-3 col-md-3"><!-- widgets column center -->
+                            <ul class="list-unstyled clear-margins"><!-- widgets -->
+                                <li class="widget-container widget_recent_news"><!-- widgets list -->
+                                    <h1 class="title-widget">Detalii contact </h1>
+                                    <div class="footerp">
+                                        <p><b>E-mail :</b> <a href="mailto:bogdan.stupariu0@gmail.com">bogdan.stupariu0@gmail.com</a></p>
+                                        <p><b>Tel. : </b>7042827160, </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="copyright">
+                                © 2017, Bogdan Stupariu, All rights reserved
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="design">
+                                <a href="#">Project </a> |  <a target="_blank">Web Design & Development by Bogdan Stupariu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+    <script src="./node_modules/angular/angular.min.js"></script>
+    <script src="./node_modules/angular-route/angular-route.min.js"></script>
+    <script src="./node_modules/angular-sanitize/angular-sanitize.js"></script>
+
+    <!--AGULAR BEFORE JQUERY-->
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/moment/moment.js"></script>
+    <script src="./node_modules/moment/min/locales.min.js"></script>
+    <script src="./node_modules/humanize-duration/humanize-duration.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./node_modules/bootstrap/js/transition.js"></script>
+    <script src="./node_modules/bootstrap/js/collapse.js"></script>
+
+    <script src="./node_modules/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="./node_modules/jwt-decode/build/jwt-decode.min.js"></script>
+    <script src="./node_modules/angular-utils-pagination/dirPagination.js"></script>
+
+    <script src="assets/packs/modernizr/modernizr.js"></script>
+    <script src="assets/packs/advanced-search-form/js/main.js"></script>
+    <script src="assets/packs/scroll_into_view/jquery.scrollintoview.js"></script>
+    <script src="assets/packs/reading-progress-indicator/js/main.js"></script>
+    <script src="./node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/trix/0.9.2/trix.js"></script>
+    <script src="./node_modules/angular-trix/dist/angular-trix.min.js"></script>
+    <script src="assets/packs/auto-hide/header.js"></script>
+
+    <!--  scripts inside  -->
+    <script src="app/app.js"></script>
+    <script src="app/Controller/homepage.js"></script>
+    <script src="app/Controller/dezbateri.js"></script>
+    <script src="app/Controller/opinii.js"></script>
+    <script src="app/Controller/login.js"></script>
+    <script src="app/Service/userServices.js"></script>
+    <script src="app/Service/navigateServices.js"></script>
+    <script src="app/Controller/debate.js"></script>
+    <script src="app/Service/debateServices.js"></script>
+    <script src="app/Service/loginServices.js"></script>
+    <script src="app/Service/errorHandler.js"></script>
+
+</html>

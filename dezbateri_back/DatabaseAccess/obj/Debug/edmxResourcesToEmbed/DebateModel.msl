@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="dezbateriModelStoreContainer" CdmEntityContainer="dezbateriEntities">
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="dezbateriModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CategoryDebates">
+      <EntityTypeMapping TypeName="dezbateriModel.CategoryDebate">
+        <MappingFragment StoreEntitySet="CategoryDebate">
+          <ScalarProperty Name="debate_id" ColumnName="debate_id" />
+          <ScalarProperty Name="category_id" ColumnName="category_id" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Contents">
+      <EntityTypeMapping TypeName="dezbateriModel.Content">
+        <MappingFragment StoreEntitySet="Content">
+          <ScalarProperty Name="debate_id" ColumnName="debate_id" />
+          <ScalarProperty Name="round_1" ColumnName="round_1" />
+          <ScalarProperty Name="round_2" ColumnName="round_2" />
+          <ScalarProperty Name="round_3" ColumnName="round_3" />
+          <ScalarProperty Name="round_4" ColumnName="round_4" />
+          <ScalarProperty Name="round_5" ColumnName="round_5" />
+          <ScalarProperty Name="round_6" ColumnName="round_6" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DebateInfoes">
+      <EntityTypeMapping TypeName="dezbateriModel.DebateInfo">
+        <MappingFragment StoreEntitySet="DebateInfo">
+          <ScalarProperty Name="debate_id" ColumnName="debate_id" />
+          <ScalarProperty Name="subject" ColumnName="subject" />
+          <ScalarProperty Name="date_created" ColumnName="date_created" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RoundStates">
+      <EntityTypeMapping TypeName="dezbateriModel.RoundState">
+        <MappingFragment StoreEntitySet="RoundState">
+          <ScalarProperty Name="debate_id" ColumnName="debate_id" />
+          <ScalarProperty Name="next_round" ColumnName="next_round" />
+          <ScalarProperty Name="time_to_next" ColumnName="time_to_next" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="dezbateriModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserDebates">
+      <EntityTypeMapping TypeName="dezbateriModel.UserDebate">
+        <MappingFragment StoreEntitySet="UserDebate">
+          <ScalarProperty Name="debate_id" ColumnName="debate_id" />
+          <ScalarProperty Name="pro_username" ColumnName="pro_username" />
+          <ScalarProperty Name="con_username" ColumnName="con_username" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Votes">
+      <EntityTypeMapping TypeName="dezbateriModel.Vote">
+        <MappingFragment StoreEntitySet="Vote">
+          <ScalarProperty Name="vote_id" ColumnName="vote_id" />
+          <ScalarProperty Name="debate_id" ColumnName="debate_id" />
+          <ScalarProperty Name="user_username" ColumnName="user_username" />
+          <ScalarProperty Name="vote_pro" ColumnName="vote_pro" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

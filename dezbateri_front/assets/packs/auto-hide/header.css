@@ -1,0 +1,174 @@
+.header-main {
+    width: 80%;
+    margin: 0 auto;
+    clear: both;
+}
+
+.header-main-menu{
+    display: flex;
+}
+
+a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.header-nav {
+    background: #fff;
+    height: 80px;
+    line-height: 80px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    z-index: 9998;
+    transition: all 0.5s;
+}
+.header-nav.scrollUp {
+    transform: translateY(-80px);
+}
+.header-nav ul.header-main-menu {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    float: right;
+}
+.header-nav ul.header-main-menu li {
+    display: inline-block;
+    margin: 0 10px;
+}
+.header-nav ul.header-main-menu li a {
+    color: #666;
+    font-size: large;
+}
+.header-nav a#brand {
+    text-transform: uppercase;
+    foat: left;
+    font-weight: 800;
+    font-size: 20px;
+}
+.header-nav button {
+    background: none;
+    width: 30px;
+    height: 40px;
+    margin-top: 20px;
+    border: none;
+    float: right;
+    display: inline-block;
+    cursor: pointer;
+    display: none;
+}
+.header-nav button span {
+    width: 30px;
+    height: 40px;
+    height: 2px;
+    background: #333;
+    display: block;
+    margin: 5px 0;
+}
+
+
+/*landing*/
+.header-landing{
+    max-height: 450px;
+    max-width: 100%;
+    margin-top: 81px;
+    overflow: hidden;
+}
+
+.header-landing img{
+    width: 100%;
+}
+
+/*secondary*/
+.header-secondary{
+    background-color: #26283d;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    text-align: center;
+    transition: all 0.5s;
+    z-index: 10;
+}
+
+.header-secondary ul{
+    list-style: none;
+    display: inline-flex;
+    margin: 25px;
+    padding: 0;
+    transition: all 1.0s;
+}
+
+.header-secondary ul li{
+    margin: auto 20px;
+    font-size: large;
+}
+
+.header-secondary ul li a{
+    color: #afafaf;
+    opacity:0.8;
+}
+
+.header-secondary ul li a:hover{
+    color: #f0f0f0;
+    text-decoration: none;
+    opacity:0.8;
+}
+
+.fixit{
+    position: fixed;
+    top:80px;
+    left:0;
+}
+
+.fixit-top{
+    transform: translateY(-80px);
+}
+
+.content{
+    flex: 1 0 auto;
+}
+
+.main-content{
+    margin-top: 30px;
+}
+
+.margin-top-main-content{
+    margin-top: 130px;
+}
+
+@media (max-width: 768px) {
+
+    .header-nav ul.header-main-menu {
+        display: grid;
+        width: 100%;
+        background: white;
+        position: absolute;
+        right: 0;
+        transition: all 1s;
+        height: 0;
+        overflow: hidden;
+    }
+
+    .header-nav button {
+        display: block;
+    }
+
+    .header-nav ul.header-main-menu li {
+        display: inline-block;
+        margin: 0 35px;
+        line-height: 50px;
+        border-bottom: 1px solid #cecece;
+    }
+
+    .header-secondary ul {
+        margin: 25px 5px;
+    }
+
+    .header-secondary ul li {
+        margin: auto;
+        font-size: smaller;
+        padding: 5px;
+    }
+}

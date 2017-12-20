@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dezbateriModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="CategoryDebates" Relationship="Self.cd_category_id" FromRole="Category" ToRole="CategoryDebate" />
+  </EntityType>
+  <EntityType Name="CategoryDebate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="debate_id" Type="Int32" Nullable="false" />
+    <Property Name="category_id" Type="Int32" Nullable="false" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Category" Relationship="Self.cd_category_id" FromRole="CategoryDebate" ToRole="Category" />
+    <NavigationProperty Name="DebateInfo" Relationship="Self.cd_debate_id" FromRole="CategoryDebate" ToRole="DebateInfo" />
+  </EntityType>
+  <EntityType Name="Content">
+    <Key>
+      <PropertyRef Name="debate_id" />
+    </Key>
+    <Property Name="debate_id" Type="Int32" Nullable="false" />
+    <Property Name="round_1" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="round_2" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="round_3" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="round_4" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="round_5" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="round_6" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="DebateInfo" Relationship="Self.content_debate_id" FromRole="Content" ToRole="DebateInfo" />
+  </EntityType>
+  <EntityType Name="DebateInfo">
+    <Key>
+      <PropertyRef Name="debate_id" />
+    </Key>
+    <Property Name="debate_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="subject" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="date_created" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="state" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="CategoryDebates" Relationship="Self.cd_debate_id" FromRole="DebateInfo" ToRole="CategoryDebate" />
+    <NavigationProperty Name="Content" Relationship="Self.content_debate_id" FromRole="DebateInfo" ToRole="Content" />
+    <NavigationProperty Name="RoundState" Relationship="Self.round_debate_id" FromRole="DebateInfo" ToRole="RoundState" />
+    <NavigationProperty Name="UserDebate" Relationship="Self.user_debate_id" FromRole="DebateInfo" ToRole="UserDebate" />
+    <NavigationProperty Name="Votes" Relationship="Self.vote_debate_id" FromRole="DebateInfo" ToRole="Vote" />
+  </EntityType>
+  <EntityType Name="RoundState">
+    <Key>
+      <PropertyRef Name="debate_id" />
+    </Key>
+    <Property Name="debate_id" Type="Int32" Nullable="false" />
+    <Property Name="next_round" Type="Int32" Nullable="false" />
+    <Property Name="time_to_next" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="DebateInfo" Relationship="Self.round_debate_id" FromRole="RoundState" ToRole="DebateInfo" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Type" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Birthdate" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserDebate">
+    <Key>
+      <PropertyRef Name="debate_id" />
+    </Key>
+    <Property Name="debate_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="pro_username" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="con_username" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="DebateInfo" Relationship="Self.user_debate_id" FromRole="UserDebate" ToRole="DebateInfo" />
+  </EntityType>
+  <EntityType Name="Vote">
+    <Key>
+      <PropertyRef Name="vote_id" />
+    </Key>
+    <Property Name="vote_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="debate_id" Type="Int32" Nullable="false" />
+    <Property Name="user_username" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="vote_pro" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="DebateInfo" Relationship="Self.vote_debate_id" FromRole="Vote" ToRole="DebateInfo" />
+  </EntityType>
+  <Association Name="cd_category_id">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="CategoryDebate" Type="Self.CategoryDebate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CategoryDebate">
+        <PropertyRef Name="category_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="cd_debate_id">
+    <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
+    <End Role="CategoryDebate" Type="Self.CategoryDebate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DebateInfo">
+        <PropertyRef Name="debate_id" />
+      </Principal>
+      <Dependent Role="CategoryDebate">
+        <PropertyRef Name="debate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="content_debate_id">
+    <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
+    <End Role="Content" Type="Self.Content" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="DebateInfo">
+        <PropertyRef Name="debate_id" />
+      </Principal>
+      <Dependent Role="Content">
+        <PropertyRef Name="debate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="round_debate_id">
+    <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
+    <End Role="RoundState" Type="Self.RoundState" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="DebateInfo">
+        <PropertyRef Name="debate_id" />
+      </Principal>
+      <Dependent Role="RoundState">
+        <PropertyRef Name="debate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="user_debate_id">
+    <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
+    <End Role="UserDebate" Type="Self.UserDebate" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="DebateInfo">
+        <PropertyRef Name="debate_id" />
+      </Principal>
+      <Dependent Role="UserDebate">
+        <PropertyRef Name="debate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="vote_debate_id">
+    <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
+    <End Role="Vote" Type="Self.Vote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DebateInfo">
+        <PropertyRef Name="debate_id" />
+      </Principal>
+      <Dependent Role="Vote">
+        <PropertyRef Name="debate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dezbateriEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="CategoryDebates" EntityType="Self.CategoryDebate" />
+    <EntitySet Name="Contents" EntityType="Self.Content" />
+    <EntitySet Name="DebateInfoes" EntityType="Self.DebateInfo" />
+    <EntitySet Name="RoundStates" EntityType="Self.RoundState" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="UserDebates" EntityType="Self.UserDebate" />
+    <EntitySet Name="Votes" EntityType="Self.Vote" />
+    <AssociationSet Name="cd_category_id" Association="Self.cd_category_id">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="CategoryDebate" EntitySet="CategoryDebates" />
+    </AssociationSet>
+    <AssociationSet Name="cd_debate_id" Association="Self.cd_debate_id">
+      <End Role="DebateInfo" EntitySet="DebateInfoes" />
+      <End Role="CategoryDebate" EntitySet="CategoryDebates" />
+    </AssociationSet>
+    <AssociationSet Name="content_debate_id" Association="Self.content_debate_id">
+      <End Role="DebateInfo" EntitySet="DebateInfoes" />
+      <End Role="Content" EntitySet="Contents" />
+    </AssociationSet>
+    <AssociationSet Name="round_debate_id" Association="Self.round_debate_id">
+      <End Role="DebateInfo" EntitySet="DebateInfoes" />
+      <End Role="RoundState" EntitySet="RoundStates" />
+    </AssociationSet>
+    <AssociationSet Name="user_debate_id" Association="Self.user_debate_id">
+      <End Role="DebateInfo" EntitySet="DebateInfoes" />
+      <End Role="UserDebate" EntitySet="UserDebates" />
+    </AssociationSet>
+    <AssociationSet Name="vote_debate_id" Association="Self.vote_debate_id">
+      <End Role="DebateInfo" EntitySet="DebateInfoes" />
+      <End Role="Vote" EntitySet="Votes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
