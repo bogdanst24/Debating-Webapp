@@ -1,0 +1,254 @@
+<div ng-controller="loginController as $ctrl">
+
+
+    <div id="header-main-landing" class="header-nav">
+        <div  class="header-main">
+            <a href="#" id="brand">Brand</a>
+            <button id="menu-button">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="header-main-menu" id="menu-header">
+                <li><a class="cursor-show" ng-click="$ctrl.navigateFactory.goToAcasa()">Acasa</a></li>
+                <li><a class="cursor-show" ng-click="$ctrl.navigateFactory.goToDezbateri()">Dezbateri</a></li>
+                <li><a class="cursor-show" ng-click="$ctrl.navigateFactory.goToOpinii()">Opinii</a></li>
+                <li ng-show="!$ctrl.navigateFactory.isLoggedIn()"><a class="cursor-show bolded" ng-click="$ctrl.navigateFactory.goToLogin()">Autentificare</a></li>
+                <li ng-show="$ctrl.navigateFactory.isLoggedIn()" class="dropdown">
+                    <a class="cursor-show bolded">
+                    <span class="dropbtn">
+                       <img src="assets/img/iconUser.png" alt="Logo" style="max-width: 20px; max-height: 20px; margin-bottom: -4px;">
+                        {{$ctrl.userLogged}}
+                    </span>
+                        <div class="dropdown-content">
+                            <a href="#">Vezi profilul</a>
+                            <a ng-click="$ctrl.navigateFactory.logout()">Delogheaza-te</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <main id="main-content" class="main-content">
+
+        <div class="container"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4" ng-show="$ctrl.showLogin" style="margin-top: 100px;">
+
+            <p style="margin-bottom: 25px; font-weight: bold; font-size: 20px; text-align: center">Autentifica-te cu
+                contul propriu</p>
+
+            <form class="form-horizontal" name="loginForm" novalidate ng-submit="$ctrl.login(loginForm)">
+                <div class="alert alert-danger" ng-show="$ctrl.wrongCredentialsVar">
+                    {{$ctrl.wrong}}
+                </div>
+
+                <div class="input-group"
+                     ng-class="{'has-error' : loginForm.email.$invalid && loginForm.email.$dirty,
+                                'has-success' : loginForm.email.$valid && loginForm.email.$dirty}">
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-user"
+                                           style="max-height : 25px;"></i>
+                                    </span>
+                    <input
+                            type="text"
+                            class="form-control"
+                            style="width: 100%; height: 40px "
+                            name="email"
+                            placeholder="e-mail"
+                            ng-pattern="mailRegex"
+                            ng-model="$ctrl.loginemail"
+                            required/>
+
+                </div>
+                <br>
+                <div style="margin-bottom: 25px" class="input-group"
+                     ng-class="{'has-error' : loginForm.password.$invalid && loginForm.password.$dirty,
+                                     'has-success' : loginForm.password.$valid && loginForm.password.$dirty}">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input class="form-control"
+                           style="width: 100%; height: 40px "
+                           type="password"
+                           name="password"
+                           minlength="6"
+                           required
+                           placeholder="parola"
+                           ng-model="$ctrl.loginpassword"/>
+                </div>
+
+                <div class="div-md-12">
+                    <div class="col-md-8" style="font-weight: bold; margin-top: 10px">
+                        Nu ai cont? <a class="cursor-show" ng-click="$ctrl.showRegistration()">Inregistreaza-te acum!</a>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <button class="btn btn-primary pull-right"
+                                style="width: 100px; height: 40px; background-color: #E24E42"
+                                ng-disabled="loginForm.$invalid"
+                                type="submit">
+                            Log In
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-4 " ng-show="$ctrl.showRegister" style="margin-bottom: 200px;">
+
+            <p style="margin-bottom: 25px; font-weight: bold; font-size: 20px; text-align: center">Creaza cont:</p>
+
+            <form class="form-horizontal" name="registrationForm" novalidate>
+
+                <div class="alert alert-danger" ng-show="$ctrl.wrongCredentials() === true;">
+                    {{$ctrl.wrong}}
+                </div>
+
+                <div class="input-group"
+                     ng-class="{'has-error' : registrationForm.email.$invalid && registrationForm.email.$dirty,
+                                 'has-success' : registrationForm.email.$valid && registrationForm.email.$dirty}">
+                                     <span class="input-group-addon">
+                                         <i class="	glyphicon glyphicon-envelope"
+                                            style="max-height : 25px;"></i>
+                                     </span>
+                    <input class="form-control"
+                           style="width: 90%; height: 40px "
+                           type="text"
+                           name="email"
+                           placeholder="e-mail"
+                           maxlength="45"
+                           ng-model="$ctrl.registeremail"
+                           ng-pattern="mailRegex" ;
+                           required/>
+                    <div class="glyphicon glyphicon glyphicon-info-sign pull-right tiptext">
+                        <div class="description">
+                            <p>Adresa de E-mail trebuie sa fie unica, reala si personala.
+                                Adresa de E-mail va fi folosita pentru logare.
+                            <p>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group"
+                     ng-class="{'has-error' : registrationForm.username.$invalid && registrationForm.username.$dirty,
+                                 'has-success' : registrationForm.username.$valid && registrationForm.username.$dirty}">
+                                     <span class="input-group-addon">
+                                         <i class="glyphicon glyphicon-user"
+                                            style="max-height : 25px;"></i>
+                                     </span>
+                    <input class="form-control"
+                           style="width: 90%; height: 40px "
+                           type="text"
+                           name="username"
+                           placeholder="username"
+                           ng-model="$ctrl.registerusername"
+                           ng-pattern="usernameRegex"
+                           minlength="5"
+                           maxlength="25"
+                           required/>
+                    <div class="glyphicon glyphicon glyphicon-info-sign pull-right tiptext">
+                        <div class="description">
+                            <p>Username-ul trebuie sa contina cel putin 5 caractere alfanumerice si cel mult 25.
+                                Username-ul este vizibil (public).
+                            <p>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group"
+                     ng-class="{'has-error' : registrationForm.password.$invalid && registrationForm.password.$dirty,
+                                      'has-success' : registrationForm.password.$valid && registrationForm.password.$dirty}">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input class="form-control"
+                           style="width: 90%; height: 40px "
+                           type="password"
+                           name="password"
+                           minlength="6"
+                           maxlength="25"
+                           required
+                           placeholder="parola"
+                           ng-model="$ctrl.registerpassword"/>
+                    <div class="glyphicon glyphicon glyphicon-info-sign pull-right tiptext">
+                        <div class="description">
+                            <p>Parola trebuie sa contina minim 6 caractere, maxim 25. Recomandam, din motive de
+                                siguranta,
+                                folosirea atat a literelor mari si mici, a cifrelor, cat si a semnelor de punctuatie
+                            <p>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group"
+                     ng-class="{'has-error' : registrationForm.password2.$invalid && registrationForm.password2.$dirty,
+                                      'has-success' : registrationForm.password2.$valid && registrationForm.password2.$dirty }">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input class="form-control"
+                           style="width: 90%; height: 40px "
+                           type="password"
+                           name="password2"
+                           required
+                           my-directive
+                           placeholder="parola"
+                           ng-match="$ctrl.registerpassword"
+                            ng-model="$ctrl.registerpassword2"/>
+                    <div class="glyphicon glyphicon glyphicon-info-sign pull-right tiptext">
+                        <div class="description">
+                            <p>Rescrieti parola pentru a verifica lipsa oricaror greseli de tehnoredactare
+                            <p>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div style="margin-bottom: 25px" class="input-group date" id='datetimepicker9'
+                     ng-class="{'has-success' : registrationForm.birthdate.$touched}">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+
+                    <input
+                           id="datePicked"
+                           placeholder="data nasterii"
+                           style="width:90%; height: 40px ; background-color: #FFFFFF; text-align: left;"
+                           class="form-control input-group-addon"
+                           name="birthdate"
+                           ng-model="$ctrl.registerbirthdate"/>
+                    <div class="glyphicon glyphicon glyphicon-info-sign pull-right tiptext">
+                        <div class="description">
+                            <p>Data de nastere este ceruta pentru a limita accesul la dezbateri sensibile pentru
+                                persoanele ce nu au varsta necesara
+                            <p>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="text-align: center; font-size: 10px;">By clicking "Creaza cont" you agree to our Terms of
+                    Service and Privacy Policy.</p>
+
+                <div class="div-md-12" style="margin-bottom: 50px">
+                    <div class="col-md-4 noselect" style="color: #FFFFFF;height:40px">B</div>
+                    <div class="form-group col-md-4">
+                        <button class="btn btn-primary pull-right"
+                                style="width: 100%; height: 40px; background-color: #E24E42"
+                                ng-disabled="$ctrl.registrationForm.$invalid"
+                                ng-click="$ctrl.registerAccount($ctrl.registrationForm.$valid)"
+                                type="submit">
+                            Creeaza cont
+                        </button>
+                    </div>
+                    <div class="col-md-4 noselect" style="color: #FFFFFF;height:40px">B</div>
+                </div>
+
+                <div class="col-md-12" style="display:inline-block; margin-top:25px; align-content: center">
+                    <div class="col-md-2 noselect" style="color: #ecf0f1;">s</div>
+                    <button ng-click="$ctrl.showLoginF()" class = "col-md-8 noselect" style="background-color: transparent; border: transparent; outline:none; user-focus: none">
+                    <div class="col-md-2 glyphicon glyphicon-share-alt icon-flipped" style="align-content: right;"> </div>
+                    <div class="col-md-10" style="text-align: left; font-size: 17px;">Inapoi la logare.</div>
+                    </button>
+                    <div class="col-md-2 noselect" style="color: #ecf0f1;">B</div>
+                </div>
+
+
+            </form>
+
+        </div>
+        <div class="col-md-4"></div>
+    </main> <!-- .cd-main-content -->
+</div>

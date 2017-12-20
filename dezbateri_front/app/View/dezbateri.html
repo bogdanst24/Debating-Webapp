@@ -1,0 +1,568 @@
+<div ng-controller="dezbateriController as $ctrl">
+
+    <div id="header-main-landing" class="header-nav">
+        <div  class="header-main">
+            <a href="#" id="brand">Brand</a>
+            <button id="menu-button">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="header-main-menu" id="menu-header">
+                <li><a class="cursor-show" ng-click="$ctrl.navigateFactory.goToAcasa()">Acasa</a></li>
+                <li><a class="cursor-show bolded" ng-click="$ctrl.navigateFactory.goToDezbateri()">Dezbateri</a></li>
+                <li><a class="cursor-show" ng-click="$ctrl.navigateFactory.goToOpinii()">Opinii</a></li>
+                <li ng-show="!$ctrl.navigateFactory.isLoggedIn()"><a class="cursor-show"
+                                                               ng-click="$ctrl.navigateFactory.goToLogin()">Autentificare</a>
+                </li>
+                <li ng-show="$ctrl.navigateFactory.isLoggedIn()" class="dropdown">
+                    <a class="cursor-show">
+                    <span class="dropbtn">
+                       <img src="assets/img/iconUser.png" alt="Logo"
+                            style="max-width: 20px; max-height: 20px; margin-bottom: -4px;">
+                        {{$ctrl.userLogged}}
+                    </span>
+                        <div class="dropdown-content">
+                            <a href="#">Vezi profilul</a>
+                            <a ng-click="$ctrl.navigateFactory.logout()">Delogheaza-te</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div id="nav-img" class="header-landing">
+        <img  src="assets/img/cd-hero-backgrousnd.jpg">
+    </div>
+
+    <div id="header-secondary-landing" class="header-secondary no-landing">
+        <ul>
+            <li><a href="#" class="anchor_dezbateri_1">Toate dezbaterile</a></li>
+            <li><a href="#" class="anchor_dezbateri_2">Dezbaterile mele</a></li>
+            <li><a href="#" class="anchor_dezbateri_3">Incepe o dezbatere</a></li>
+            <li><a href="#" class="anchor_dezbateri_4">Categorii</a></li>
+        </ul>
+    </div>
+
+    <main id="main-content" class="main-content">
+
+        <div>
+            <div class="container anchor_dezbateri_1">
+                <div class="heading_page heading_page_red">
+                    <p class=" heading_title" style="margin: 0px">Dezbateri</p>
+                </div>
+
+                <div class="col-md-12" style="display:flex;background-color: #eeeeee; padding: 25px 10px 25px 10px">
+                    <div class="col-md-6">
+                        <input class="form-control" style="width: 100%; height: 50px;  margin: 0"
+                               ng-model="$ctrl.searchFilter" placeholder="Cauta o dezbatere...">
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary pull-right btn_no_focus"
+                                style="height: 50px; background-color: inherit; font-size: large; color: #1d1d1d; border-style: dashed"
+                                ng-click="$ctrl.showAdvancedSearch()">
+                            {{$ctrl.searchMore}}
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-12" style="background-color: #eeeeee; padding: 25px 25px 25px 25px"
+                     ng-show="$ctrl.advancedSearch">
+                    <div class=" noselect col-md-3">
+                        Categorie:
+                        <div class="dropdown">
+                            <select ng-click="$ctrl.setSelectedCategory()" class="btn btn-default dropdown-toggle"
+                                    name="categoryselect" id="categoryselect"
+                                    style="background-color: #FFFFFF; height: 50px" ng-model="$ctrl.categoryselect">
+                                <option id="asta" value="">--- Selecteaza ---</option>
+                                <option ng-repeat="cate in $ctrl.categoriesAll">{{$ctrl.cate.cat}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        Perioada:
+                        <div class="dropdown">
+                            <select ng-click="$ctrl.setSelectedStatus()" class="btn btn-default dropdown-toggle"
+                                    name="statusselect" id="statusselect"
+                                    style="background-color: #FFFFFF; height: 50px" ng-model="$ctrl.statusselect">
+                                <option value="">--- Selecteaza ---</option>
+                                <option ng-repeat="status in $ctrl.statusAll">{{$ctrl.status.sts}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3" pull-right>
+                        <input class="form-control" style="width: 100%; height: 50px;  margin: 0"
+                               ng-model="$ctrl.searchedusername"
+                               placeholder="Cauta dupa utilizator">
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-primary pull-right"
+                                style="height: 50px;width: 50%; background-color: #E24E42; font-size: large"
+                                ng-click="$ctrl.searchForDebates()">
+                            Cauta
+                        </button>
+                    </div>
+                </div>
+                <div ng-show="$ctrl.resetCautare" ng-click="$ctrl.resetDebates()"
+                     style="background-color: #dedede; text-align: center; padding:  0 0 5px 0">
+                    <button class="btn btn-primary"
+                            style="height: 25px;width: 15%; background-color: #2d2d2d; font-size: small; margin-top: 5px;
+                                    border-width: 0; padding: 0"
+                            ng-click="$ctrl.searchForDebates()">
+                        <i class="glyphicon glyphicon-refresh" style="padding: 3px 5px 0 0"></i>
+                        RESETEAZA CAUTAREA
+                    </button>
+                </div>
+                <table class="table table-striped table-responsive ">
+                    <tbody>
+                    <tr ng-show="$ctrl.alldebates.length <= 0">
+                        <td colspan="5" style="text-align:center;">Loading new data!!</td>
+                    </tr>
+
+                    <tr dir-paginate="debate in $ctrl.alldebates | orderBy:sortKey:reverse | filter:$ctrl.searchFilter | itemsPerPage: $ctrl.itemsPerPage"
+                        pagination-id="alldeb">
+
+                        <td class="columnAuto allDebatesTable">
+                            <div class="col-md-9" style="position: relative;">
+                                <a ng-click="$ctrl.navigateFactory.goToDebate(debate.debateDescription.debate_id)"
+                                   class="debate_title">{{$ctrl.debate.debateDescription.subject}}</a>
+                                <p style="font-family: Arial; margin-bottom: 7%">
+                                    {{$ctrl.debate.debateDescription.description}}</p>
+                                <div class="col-md-12" style="background-color: #F2F2F2 ;padding: 0.5%">
+                                    <div class="col-md-2">
+                                        <p style="font-size: 14px; ">
+                                            #ID: {{$ctrl.debate.debateDescription.debate_id}}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p style="font-size: 14px;">
+                                            Categorie:
+                                            <span ng-repeat="cat in $ctrl.debate.debateDescription.category">{{$ctrl.cat}}{{$last ? '' : ' | '}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p style="font-size: 14px;">
+                                            Data: {{$ctrl.debate.debateDescription.date_created}}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p style="font-size: 14px;">
+                                            Status: {{$ctrl.debate.debateDescription.state}}
+                                            <i ng-show="$ctrl.debate.debateDescription.state === 'desfasurare'"
+                                               class=" glyphicon glyphicon-circle-arrow-right"
+                                               style="margin-left: 5px; color: #4cae4c;"></i>
+                                            <i ng-show="$ctrl.debate.debateDescription.state === 'asteptare'"
+                                               class="glyphicon glyphicon-exclamation-sign"
+                                               style="margin-left: 5px; color: gold;"></i>
+                                            <i ng-show="$ctrl.debate.debateDescription.state === 'incheiat'"
+                                               class="glyphicon glyphicon-record"
+                                               style="margin-left: 5px; color: #c00004;"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 procon_red"  >
+                                <div class="col-md-12">
+                                    <p class="oponent_debate">{{$ctrl.debate.debateRound.pro_username}}</p>
+                                </div>
+                                <div class="col-md-12">
+                                    <p class="oponent_vs">vs</p>
+                                </div>
+                                <div class="col-md-12">
+
+                                    <div ng-show="$ctrl.isJoinable(debate.debateDescription.debate_id)===false">
+                                        <p class="oponent_debate">{{$ctrl.debate.debateRound.con_username}}</p>
+                                    </div>
+                                    <div ng-show="$ctrl.isJoinable(debate.debateDescription.debate_id)===true"
+                                         ng-click="$ctrl.navigateFactory.goToDebate(debate.debateDescription.debate_id)"
+                                         class="col-md-10 join-debate-box">
+                                        <p class="join-debate-text"> intra in dezbatere!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+                <dir-pagination-controls
+                        pagination-id="alldeb"
+                        class="pull-right"
+                        max-size="8"
+                        direction-links="true"
+                        boundary-links="true"
+                        on-page-change="data.getData(newPageNumber)">
+                </dir-pagination-controls>
+            </div>
+
+
+            <div class="container anchor_dezbateri_2">
+                <div class="heading_page heading_page_pink">
+                    <p class=" heading_title" style="margin: 0px">Dezbaterile mele</p>
+                </div>
+
+
+                <table class="table table-striped table-responsive">
+                    <tbody>
+                    <tr ng-show="$ctrl.mydebates.length <= 0">
+                        <td colspan="5" style="text-align:center; padding: 15% 0 15% 0">
+                            <a class="cursor-show" style="font-size: larger"
+                               ng-show="!$ctrl.navigateFactory.isLoggedIn()"
+                               ng-click="$ctrl.navigateFactory.goToLogin()">{{$ctrl.myDebatesMessage}}</a>
+                            <a class="cursor-show anchor_dezbateri_3" style="font-size: larger"
+                               ng-show="$ctrl.navigateFactory.isLoggedIn()">{{$ctrl.myDebatesMessage}}</a>
+                        </td>
+                    </tr>
+
+                    <tr dir-paginate="debate in $ctrl.mydebates | orderBy:sortKey:reverse | filter:$ctrl.searchFilter2 | itemsPerPage: $ctrl.itemsPerPage_mydebates "
+                        pagination-id="mydeb">
+
+                        <td class="columnAuto" style="display: flex; border-bottom: 3px solid #eb6e80;">
+                            <div class="col-md-9" style="position: relative;">
+                                <a ng-click="$ctrl.navigateFactory.goToDebate(debate.debateDescription.debate_id)"
+                                   class="debate_title">{{$ctrl.debate.debateDescription.subject}}</a>
+                                <p style="font-family: Arial; margin-bottom: 7%">
+                                    {{$ctrl.debate.debateDescription.description}}</p>
+                                <div class="col-md-12" style="background-color: #F2F2F2 ;padding: 0.5%">
+                                    <div class="col-md-2">
+                                        <p style="font-size: 14px; ">
+                                            #ID: {{$ctrl.debate.debateDescription.debate_id}}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p style="font-size: 14px;">
+                                            Categorie:
+                                            <span ng-repeat="cat in $ctrl.debate.debateDescription.category">{{$ctrl.cat}}{{$last ? '' : ' | '}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p style="font-size: 14px;">
+                                            Data: {{$ctrl.debate.debateDescription.date_created}}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p style="font-size: 14px;">
+                                            Status: {{$ctrl.debate.debateDescription.state}}
+                                            <i ng-show="$ctrl.debate.debateDescription.state === 'desfasurare'"
+                                               class=" glyphicon glyphicon-circle-arrow-right"
+                                               style="margin-left: 5px; color: #4cae4c;"></i>
+                                            <i ng-show="$ctrl.debate.debateDescription.state === 'asteptare'"
+                                               class="glyphicon glyphicon-exclamation-sign"
+                                               style="margin-left: 5px; color: gold;"></i>
+                                            <i ng-show="$ctrl.debate.debateDescription.state === 'incheiat'"
+                                               class="glyphicon glyphicon-record"
+                                               style="margin-left: 5px; color: #c00004;"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 procon_pink">
+                                <div class="col-md-12">
+                                    <p class="oponent_debate">{{$ctrl.debate.debateRound.pro_username}}</p>
+                                </div>
+                                <div class="col-md-12">
+                                    <p class="oponent_vs">vs</p>
+                                </div>
+                                <div class="col-md-12">
+                                    <p class="oponent_debate">{{$ctrl.debate.debateRound.con_username}}</p>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                    </tbody>
+
+                </table>
+
+                <dir-pagination-controls
+                        pagination-id="mydeb"
+                        class="pull-right"
+                        max-size="8"
+                        direction-links="true"
+                        boundary-links="true"
+                        on-page-change="data.getDatamydebates(newPageNumber_mydebates)">
+                </dir-pagination-controls>
+            </div>
+
+            <div class="container anchor_dezbateri_3">
+                <div class="heading_page heading_page_yellow">
+                    <p class=" heading_title" style="margin: 0px"> Incepe o dezbatere</p>
+                </div>
+                <div class="col-md-12">
+                    <div style="margin: 10px 0 25px 0;">
+                        <p style="font-size: 16px; text-align: justify; max-width: 100%"><b>Creaza o
+                            dezbatere!</b> Pentru aceasta, este nevoie sa completezi urmatoarele informatii. Odata
+                            completate
+                            toate informatiile cerute mai jos vei putea apasa butonul <b>"Lanseaza dezbaterea!"</b>.
+                            Aceasta
+                            va fi facuta publica si va fi in starea de "Asteptare" pana in momentul in care un alt
+                            utilizator va intra de partea opozitiei. Initiatorul dezbaterii va fi din oficiu pentru
+                            sustinerea temei propuse - <b> !</b> din acest motiv va atragem atentia asupra formularii,
+                            deoarece
+                            partile (PRO / CON) nu pot fi schimbate ulterior.</p>
+                        <p style="font-weight: bold;font-size: 16px; text-align: justify">Continutul neadecvat va fi
+                            imediat sters, iar autorul risca blocarea sau stergerea contului</p>
+                    </div>
+                    <div class="col-md-12">
+                        <form class="form-horizontal" name="newDebateForm" novalidate>
+
+                            <div class="alert alert-danger" ng-show="$ctrl.wrongInput() === true;">
+                                {{$ctrl.wrong}}
+                            </div>
+
+                            <div class="form-group"
+                                 ng-class="{'has-error' : newDebateForm.subject.$invalid && newDebateForm.subject.$dirty,
+                                 'has-success' : newDebateForm.subject.$valid && newDebateForm.subject.$dirty}">
+                                <span>
+                                    <label for="subject"
+                                           style="font-weight: bold; padding: 0 5px 10px 0">
+                                        Motiune (tema dezbaterii):
+                                    </label>
+                                    <div class="glyphicon glyphicon glyphicon-info-sign tiptext">
+                                        <div class="description">
+                                            <p>Adresa de E-mail trebuie sa fie unica, reala si personala.
+                                                Adresa de E-mail va fi folosita pentru logare.
+                                            <p>
+                                        </div>
+                                    </div>
+                                </span>
+                                <textarea
+                                        class="form-control textarea-newdebate"
+                                        rows="2"
+                                        id="subject" name="subject"
+                                        ng-model="$ctrl.newDebate_subject"
+                                        required
+                                        maxlength="256">
+                                </textarea>
+                            </div>
+
+                            <div class="form-group"
+                                 ng-class="{'has-error' : newDebateForm.description.$invalid && newDebateForm.description.$dirty,
+                                 'has-success' : newDebateForm.description.$valid && newDebateForm.description.$dirty}">
+
+                                <span>
+                                    <label for="description"
+                                           style="font-weight: bold; padding: 0 5px 10px 0">
+                                        Descriere:
+                                    </label>
+                                    <div class="glyphicon glyphicon glyphicon-info-sign tiptext">
+                                        <div class="description">
+                                            <p>Adresa de E-mail trebuie sa fie unica, reala si personala.
+                                                Adresa de E-mail va fi folosita pentru logare.
+                                            <p>
+                                        </div>
+                                    </div>
+                                </span>
+                                <textarea
+                                        class="form-control textarea-newdebate"
+                                        rows="2"
+                                        id="description" name="description"
+                                        ng-model="$ctrl.newDebate_description"
+                                        required
+                                        maxlength="256">
+                                </textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <div>
+                                    <div class="col-md-8" style="padding: 0">
+                                        <label for="description"
+                                               style="font-weight: bold; padding: 0 5px 10px 0">
+                                            Categorii:
+                                        </label>
+                                        <div class="glyphicon glyphicon glyphicon-info-sign tiptext">
+                                            <div class="description">
+                                                <p>Adresa de E-mail trebuie sa fie unica, reala si personala.
+                                                    Adresa de E-mail va fi folosita pentru logare.
+                                                <p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" style="padding: 0">
+                                        <input type="search" class="form-control input-search-category" id="search"
+                                               placeholder="Cauta o categorie..">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="searchable-container">
+
+                                            <div ng-repeat="categ in $ctrl.categoriesAll" class="items"
+                                                 style="width: auto; display: inline-block">
+                                                <div class="info-block block-info clearfix">
+                                                    <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                                                        <label class="btn btn-default">
+                                                            <div class="bizcontent">
+                                                                <input type="checkbox" name="var_id[]"
+                                                                       autocomplete="off" value="">
+                                                                <span class="glyphicon glyphicon-ok glyphicon-lg pull-right"
+                                                                      style="padding: 0 5px 0 3px"></span>
+                                                                {{$ctrl.categ.cat}}
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="!$ctrl.navigateFactory.isLoggedIn()" class="col-md-12"
+                                 style="font-weight: bold; color: #c00004; margin-bottom: 25px; text-align: center">
+                                {{$ctrl.addDebateMessage}}
+                            </div>
+                            <div class="div-md-12" style="margin-bottom: 50px">
+
+                                <div class="col-md-4 noselect" style="color: #FFFFFF;height:40px">B</div>
+                                <div class="form-group col-md-4">
+                                    <button class="btn btn-primary pull-right btn-add-categ"
+                                            ng-disabled="$ctrl.newDebateForm.$invalid"
+                                            ng-click="$ctrl.createDebate(newDebateForm.$valid)"
+                                            type="submit">
+                                        Creeaza dezbaterea
+                                    </button>
+                                </div>
+                                <div class="col-md-4 noselect" style="color: #FFFFFF;height:40px">B</div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container anchor_dezbateri_4">
+                <div class="heading_page heading_page_blue">
+                    <p class=" heading_title" style="margin: 0"> Categorii</p>
+                </div>
+                <div class="row" style="margin: 0">
+                    <div class="col-md-12" style="min-height: 500px; padding: 0; margin: 0">
+                        <div class="categories-container" id="astama">
+                            <div ng-repeat="categ in $ctrl.categoriesAll" class="items"
+                                 style="width: auto; display: inline-block">
+                                <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                                    <div class="flipper">
+                                        <div class="front">
+                                            <div class="insidebox">
+                                                <div style="word-wrap: break-word; height: auto">
+                                                    {{$ctrl.categ.cat}}
+                                                </div>
+                                                <div class="glyphicon glyphicon-hand-up glyphicon-lg"
+                                                     style="padding: 10px 0 0 0"></div>
+                                            </div>
+                                        </div>
+                                        <div class="back">
+                                            <div class="outsidebox" ng-click="$ctrl.changethis(categ.cat)">
+                                                <div style="font-size: large  !important;"> Deschide categoria</div>
+
+                                                <div class="glyphicon glyphicon-share glyphicon-lg"
+                                                     style="padding: 10px 0 20px 0"></div>
+                                                <div style="font-size: small  !important;">
+                                                    {{$ctrl.categ.cat}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="searchable-container" style="display:none; margin: 0" id="allDebatesInCategory">
+                            <div style="background-color: #a7dadc; text-align: center;width: 100%;  height: 42px">
+
+                                <button class="btn btn-primary" ng-click="$ctrl.changeBack()"
+                                        style="background-color: inherit; border-width: 0; font-size: large; outline: none">
+                                    <i class="glyphicon glyphicon-fullscreen" style="margin: 4px 3px 0 0"></i>
+                                    Inapoi la categorii
+                                </button>
+                            </div>
+                            <table class="table table-striped table-responsive" style="text-align: justify">
+                                <tbody>
+
+                                <tr ng-show="$ctrl.debatesOfCateg.length <= 0">
+                                    <td colspan="5" style="text-align:center; padding: 15% 0 15% 0">
+                                        <p>Nu exista nicio dezbatere in aceasta categorie</p>
+                                    </td>
+                                </tr>
+
+                                <tr dir-paginate="debate in $ctrl.debatesOfCateg | orderBy:sortKey:reverse | filter:$ctrl.searchFilter3 | itemsPerPage: $ctrl.itemsPerPage_mydebates "
+                                    pagination-id="mydeb">
+
+                                    <td class="columnAuto" style="display: flex; border-bottom: 3px solid #008f95;">
+                                        <div class="col-md-9" style="position: relative;">
+                                            <a ng-click="$ctrl.navigateFactory.goToDebate(debate.debateDescription.debate_id)"
+                                              class="debate_title" >{{$ctrl.debate.debateDescription.subject}}</a>
+                                            <p style="font-family: Arial; margin-bottom: 7%">
+                                                {{$ctrl.debate.debateDescription.description}}</p>
+                                            <div class="col-md-12" style="background-color: #F2F2F2 ;padding: 0.5%">
+                                                <div class="col-md-2">
+                                                    <p style="font-size: 14px; ">
+                                                        #ID: {{$ctrl.debate.debateDescription.debate_id}}
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <p style="font-size: 14px;">
+                                                        Categorie:
+                                                        <span ng-repeat="cat in $ctrl.debate.debateDescription.category">{{$ctrl.cat}}{{$last ? '' : ' | '}}</span>
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p style="font-size: 14px;">
+                                                        Data: {{$ctrl.debate.debateDescription.date_created}}
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p style="font-size: 14px;">
+                                                        Status: {{$ctrl.debate.debateDescription.state}}
+                                                        <i ng-show="$ctrl.debate.debateDescription.state === 'desfasurare'"
+                                                           class=" glyphicon glyphicon-circle-arrow-right"
+                                                           style="margin-left: 5px; color: #4cae4c;"></i>
+                                                        <i ng-show="$ctrl.debate.debateDescription.state === 'asteptare'"
+                                                           class="glyphicon glyphicon-exclamation-sign"
+                                                           style="margin-left: 5px; color: gold;"></i>
+                                                        <i ng-show="$ctrl.debate.debateDescription.state === 'incheiat'"
+                                                           class="glyphicon glyphicon-record"
+                                                           style="margin-left: 5px; color: #c00004;"></i>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 procon_blue">
+                                            <div class="col-md-12 oponent_box">
+                                                <p class="oponent_debate">{{$ctrl.debate.debateRound.pro_username}} </p>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <p class="oponent_vs">vs</p>
+                                            </div>
+                                            <div class="col-md-12 oponent_box">
+                                                <p class="oponent_debate">{{$ctrl.debate.debateRound.con_username}}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                </tbody>
+
+                            </table>
+
+                            <dir-pagination-controls
+                                    pagination-id="mydeb"
+                                    class="pull-right"
+                                    max-size="8"
+                                    direction-links="true"
+                                    boundary-links="true"
+                                    on-page-change="data.getDatamydebates(newPageNumber_mydebates)">
+                            </dir-pagination-controls>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main> <!-- .cd-main-content -->
+</div>

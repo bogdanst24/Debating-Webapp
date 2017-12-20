@@ -1,0 +1,222 @@
+<div id="home" ng-controller="homepageController as $ctrl">
+    <div id="header-main-landing" class="header-nav">
+        <div  class="header-main">
+            <a href="#" id="brand">Brand</a>
+            <button id="menu-button">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="header-main-menu" id="menu-header">
+                <li><a class="cursor-show bolded" ng-click="$ctrl.navigateFactory.goToAcasa()">Acasa</a></li>
+                <li><a class="cursor-show" ng-click="$ctrl.navigateFactory.goToDezbateri()">Dezbateri</a></li>
+                <li><a class="cursor-show" ng-click="$ctrl.navigateFactory.goToOpinii()">Opinii</a></li>
+                <li ng-show="!$ctrl.navigateFactory.isLoggedIn()"><a class="cursor-show" ng-click="$ctrl.navigateFactory.goToLogin()">Autentificare</a></li>
+                <li ng-show="$ctrl.navigateFactory.isLoggedIn()" class="dropdown">
+                    <a class="cursor-show">
+                    <span class="dropbtn">
+                       <img src="assets/img/iconUser.png" alt="Logo" style="max-width: 20px; max-height: 20px; margin-bottom: -4px;">
+                        {{userLogged}}
+                    </span>
+                        <div class="dropdown-content">
+                            <a href="#">Vezi profilul</a>
+                            <a ng-click="$ctrl.navigateFactory.logout()">Delogheaza-te</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div id="nav-img" class="header-landing">
+        <img  src="assets/img/cd-hero-background.jpg">
+    </div>
+
+    <div id="header-secondary-landing" class="header-secondary">
+        <ul>
+            <li><a href="#" class="anchor1">Dezbateri noi</a></li>
+            <li><a href="#" class="anchor2">Opinii noi</a></li>
+            <li><a href="#" class="anchor3">Sondaje</a></li>
+            <li><a href="#" class="anchor4">Despre site</a></li>
+        </ul>
+    </div>
+
+
+    <main id="main-content" class="main-content">
+
+        <div>
+            <div class="container">
+                <div class="heading_page heading_page_red">
+                    <p class=" heading_title" style="margin: 0px">Dezbateri noi</p>
+                </div>
+                <p class="anchor1">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, quos, voluptate, sunt, in suscipit
+                    quibusdam quis dignissimos eligendi repellendus ipsam exercitationem adipisci nostrum fugit
+                    accusamus
+                    quae cum nisi accusantium eaque.
+                </p>
+
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet
+                    necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente
+                    minus
+                    esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim
+                    odio
+                    natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat
+                    corrupti.
+                    Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam
+                    iure
+                    temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates
+                    molestias
+                    natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia
+                    doloremque
+                    quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure,
+                    vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia
+                    voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in
+                    asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem
+                    voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum
+                    maiores
+                    consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima
+                    cupiditate
+                    quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero
+                    ullam
+                    quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
+                </p>
+            </div>
+            <div class="container">
+                <div class="heading_page heading_page_blue">
+                    <p class="heading_title" style="margin: 0px">Opinii noi</p>
+                </div>
+                <p class="anchor2">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet
+                    necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente
+                    minus
+                    esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim
+                    odio
+                    natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat
+                    corrupti.
+                    Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam
+                    iure
+                    temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates
+                    molestias
+                    natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia
+                    doloremque
+                    quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure,
+                    vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia
+                    voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in
+                    asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem
+                    voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum
+                    maiores
+                    consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima
+                    cupiditate
+                    quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero
+                    ullam
+                    quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
+                </p>
+
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, quos, voluptate, sunt, in suscipit
+                    quibusdam quis dignissimos eligendi repellendus ipsam exercitationem adipisci nostrum fugit
+                    accusamus
+                    quae cum nisi accusantium eaque.
+                </p>
+            </div>
+            <div class="container">
+                <div class="heading_page heading_page_yellow">
+                    <p class=" heading_title" style="margin: 0px">Sondaje</p>
+                </div>
+                <p class="anchor3">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet
+                    necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente
+                    minus
+                    esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim
+                    odio
+                    natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat
+                    corrupti.
+                    Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam
+                    iure
+                    temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates
+                    molestias
+                    natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia
+                    doloremque
+                    quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure,
+                    vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia
+                    voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in
+                    asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem
+                    voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum
+                    maiores
+                    consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima
+                    cupiditate
+                    quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero
+                    ullam
+                    quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
+                </p>
+            </div>
+            <div class="container">
+                <div class="heading_page heading_page_pink">
+                    <p class=" heading_title" style="margin: 0px">Despre site</p>
+                </div>
+                <p class="anchor4">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet
+                    necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente
+                    minus
+                    esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim
+                    odio
+                    natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat
+                    corrupti.
+                    Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam
+                    iure
+                    temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates
+                    molestias
+                    natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia
+                    doloremque
+                    quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure,
+                    vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia
+                    voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in
+                    asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem
+                    voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum
+                    maiores
+                    consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima
+                    cupiditate
+                    quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero
+                    ullam
+                    quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
+                </p>
+            </div>
+            <div class="container">
+                <div class="heading_page heading_page_red">
+                    <p class="heading_title" style="margin: 0px">Actualitate</p>
+                </div>
+                <p class="anchor5">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet
+                    necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente
+                    minus
+                    esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim
+                    odio
+                    natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat
+                    corrupti.
+                    Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam
+                    iure
+                    temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates
+                    molestias
+                    natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia
+                    doloremque
+                    quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure,
+                    vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia
+                    voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in
+                    asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem
+                    voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum
+                    maiores
+                    consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima
+                    cupiditate
+                    quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero
+                    ullam
+                    quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
+                </p>
+            </div>
+        </div>
+    </main> <!-- .cd-main-content -->
+</div>
+
+

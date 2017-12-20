@@ -1,0 +1,356 @@
+<div ng-controller="debateController">
+    <header class="cd-auto-hide-header">
+        <div class="logo"><a href="#0"><img src="assets/img/cd-logo.svg" alt="Logo"></a></div>
+
+        <nav class="cd-primary-nav">
+            <a href="#cd-navigation" class="nav-trigger">
+			<span>
+				<em aria-hidden="true"></em>
+				Menu
+			</span>
+            </a> <!-- .nav-trigger -->
+
+            <ul id="cd-navigation">
+                <li><a class="cursor-show font_19" ng-click="$ctrl.navigateFactory.goToAcasa()">Acasa</a></li>
+                <li><a class="cursor-show font_19 bolded" ng-click="$ctrl.navigateFactory.goToDezbateri()">Dezbateri</a></li>
+                <li><a class="cursor-show font_19" ng-click="$ctrl.navigateFactory.goToOpinii()">Opinii</a></li>
+                <li ng-show="!$ctrl.navigateFactory.isLoggedIn()"><a class="cursor-show font_19"
+                                                               ng-click="$ctrl.navigateFactory.goToLogin()">Autentificare</a>
+                </li>
+                <li ng-show="$ctrl.navigateFactory.isLoggedIn()" class="dropdown">
+                    <a class="cursor-show font_19">
+                    <span class="dropbtn">
+                       <img src="assets/img/iconUser.png" alt="Logo"
+                            style="max-width: 20px; max-height: 20px; margin-bottom: -4px;">
+                        {{$ctrl.userLogged}}
+                    </span>
+                        <div class="dropdown-content">
+                            <a href="#">Vezi profilul</a>
+                            <a ng-click="$ctrl.navigateFactory.logout()">Delogheaza-te</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav> <!-- .cd-primary-nav -->
+
+
+    </header> <!-- .cd-auto-hide-header -->
+
+    <main class="cd-main-content no_padding">
+
+        <header class="cd-header top-cd-header" style="padding-bottom: 0">
+            <div class="cd-nugget-info" style="display: table">
+                <div class="col-md-2" style="padding: 0">
+                    <div class="picture_box">
+                        <div>
+                            <p class="debate_picture_text">Pentru motiune</p>
+                        </div>
+                        <div>
+                            <img src="http://dezbateri.ro/debate/User-icon.png" class="debate_picture_img">
+                        </div>
+                        <div style="background-color:#E9B000; margin-top: 10px">
+                            <p class="debate_picture_username">{{$ctrl.proPlayer}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8" style="padding: 0 3% 2% 3%;">
+                    <div class="debate_details_title" >{{$ctrl.debateMotion}}</div>
+                    <p class="debate_details_description">{{$ctrl.motionDescription}}</p>
+                    <div class="shadowed boxWhite" >
+                        <!-- GENERAL -->
+                        <div id="status_short" class="debate_details_status">
+                            {{$ctrl.statusShort}}
+                        </div>
+                        <div class="debate_details_status_expl">
+                            {{$ctrl.statusExplained}}
+                        </div>
+                        <!--ONLY GOING -->
+                        <div ng-show="$ctrl.goingActive" >
+                            <p class="timer-countdown" id="timer"></p>
+                            <p ng-show="$ctrl.timeleftVisible" class="warning-message">{{$ctrl.timeleftMessage}}</p>
+                            <div class="debate_details_status_expl">
+                                de catre utilizatorul
+                            </div>
+                            <p ng-show="$ctrl.debateState.next_round % 2 === 1" class="next-speaker pro">{{$ctrl.proPlayer}}  </p>
+                            <p ng-show="$ctrl.debateState.next_round % 2 !== 1" class="next-speaker con">{{$ctrl.conPlayer}}  </p>
+
+                        </div>
+                        <!-- ONLY WAITING -->
+                        <div ng-show="$ctrl.!ownDebate">
+                            <button class="btn btn-primary accepta_provocare_btn"
+                                    ng-show="$ctrl.challengeActive" ng-click="$ctrl.joinDebate()">
+                                ACCEPTA PROVOCAREA
+                            </button>
+                        </div>
+                        <div ng-show="$ctrl.ownDebate">
+                            <button class="btn btn-primary renunta_dezbatere_btn"
+                                    ng-show="$ctrl.challengeActive" ng-click="$ctrl.quitDebate()">
+                                RENUNTA LA DEZBATERE
+                            </button>
+                        </div>
+                        <!--  ONLY ENDED-->
+                        <div ng-show="$ctrl.endActive">
+                            <div class="vote-now-title">
+                                Voteaza acum
+                            </div>
+                            <div>
+                                <button class="btn btn-primary vote-btn pro">Voteaza PRO</button>
+                                <button class="btn btn-primary vote-btn con">Voteaza CON</button>
+                            </div>
+                            <div class="endedDebate">
+                                Castigatorul dezbaterii este
+                            </div>
+                            <div class="endedWinner">
+                                {{$ctrl.winner}}
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--  ONLY GOING -->
+                    <div class="col-md-12" style="margin: 1.5% 0 1.5% 0">
+                        <div class="col-md-2">
+                            <p class="debate_details_font_small">
+                                #ID: {{$ctrl.debate_id}}
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="debate_details_font_small">
+                                Categorie:
+                                <span ng-repeat="cat in $ctrl.category">{{$ctrl.cat}}{{$last ? '' : ' | '}}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="debate_details_font_small">
+                                Data: {{$ctrl.date_created}}
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="debate_details_font_small">
+                                Status: {{$ctrl.status}}
+                                <i ng-show="$ctrl.status === 'desfasurare'"
+                                   class=" glyphicon glyphicon-circle-arrow-right glyphicon-lg"
+                                   style="margin-left: 5px; color: #4cae4c;"></i>
+                                <i ng-show="$ctrl.status === 'asteptare'"
+                                   class="glyphicon glyphicon-exclamation-sign glyphicon-lg"
+                                   style="margin-left: 5px; color: gold;"></i>
+                                <i ng-show="$ctrl.status === 'incheiat'"
+                                   class="glyphicon glyphicon-record glyphicon-lg"
+                                   style="margin-left: 5px; color: #c00004;"></i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" style="padding: 0">
+                    <div class="picture_box">
+                        <div>
+                            <p class="debate_picture_text">Impotriva motiunii</p>
+                        </div>
+                        <div>
+                            <img ng-show="$ctrl.!challengeActive" src="http://dezbateri.ro/debate/User-icon.png" class="debate_picture_img">
+                            <img ng-show="$ctrl.challengeActive"
+                                 src="http://dezbateri.ro/debate/Custom-Icon-Design-Pretty-Office-3-Male-User-Help.ico" class="debate_picture_img">
+                        </div>
+                        <div style="background-color:#E24E42; margin-top: 10px">
+                            <p class="debate_picture_username"> {{$ctrl.conPlayer}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- cd-nugget-info -->
+        </header>
+
+
+
+        <div class="cd-articles">
+
+            <article class="article_personalised pro">
+                <div class="article_username pro">
+                    <p class="speech_pro_player">PRO : {{$ctrl.proPlayer}}</p>
+                </div>
+                <trix-editor  spellcheck=false angular-trix ng-model="$ctrl.round1.content" trix-blur="$ctrl.trixBlur(e, editor);" ng-show="$ctrl.round1.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
+                <div ng-show="$ctrl.round1.editable">
+                    <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.saveSpeech()">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                        Salveaza
+                    </button>
+                    <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.publishSpeech()">
+                        <span class="glyphicon glyphicon-save"></span>
+                        Publica
+                    </button>
+                </div>
+                <div ng-bind-html="$ctrl.round1.content" ng-show="$ctrl.!round1.editable" class="speech-text-personal"> </div>
+            </article>
+
+            <article class="article_personalised con">
+                <div class="article_username con">
+                    <p class="speech_pro_player">CON : {{$ctrl.conPlayer}}</p>
+                </div>
+                <trix-editor  spellcheck=false angular-trix ng-model="$ctrl.round2.content" trix-blur="$ctrl.trixBlur(e, editor);" ng-show="$ctrl.round2.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
+                <div ng-show="$ctrl.round2.editable">
+                    <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.saveSpeech()">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                        Salveaza
+                    </button>
+                    <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.publishSpeech()">
+                        <span class="glyphicon glyphicon-save"></span>
+                        Publica
+                    </button>
+                </div>
+                <div ng-bind-html="$ctrl.round2.content" ng-show="$ctrl.!round2.editable" class="speech-text-personal"> </div>
+
+            </article>
+
+            <article class="article_personalised pro">
+                <div class="article_username pro">
+                    <p class="speech_pro_player">PRO : {{$ctrl.proPlayer}}</p>
+                </div>
+                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.round3.content" trix-blur="$ctrl.trixBlur(e, editor);" ng-show="$ctrl.round3.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
+                <div ng-show="$ctrl.round3.editable">
+                    <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.saveSpeech()">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                        Salveaza
+                    </button>
+                    <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.publishSpeech()">
+                        <span class="glyphicon glyphicon-save"></span>
+                        Publica
+                    </button>
+                </div>
+                <div ng-bind-html="$ctrl.round3.content" ng-show="$ctrl.!round3.editable" class="speech-text-personal"> </div>
+
+            </article>
+
+            <article class="article_personalised con">
+                <div class="article_username con">
+                    <p class="speech_pro_player">CON : {{$ctrl.conPlayer}}</p>
+                </div>
+                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.round4.content" trix-blur="$ctrl.trixBlur(e, editor);" ng-show="$ctrl.round4.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
+                <div ng-show="$ctrl.round4.editable">
+                    <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.saveSpeech()">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                        Salveaza
+                    </button>
+                    <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.publishSpeech()">
+                        <span class="glyphicon glyphicon-save"></span>
+                        Publica
+                    </button>
+                </div>
+                <div ng-bind-html="$ctrl.round4.content" ng-show="$ctrl.!round4.editable" class="speech-text-personal"> </div>
+
+            </article>
+
+            <article class="article_personalised pro">
+                <div class="article_username pro">
+                    <p class="speech_pro_player">PRO : {{$ctrl.proPlayer}}</p>
+                </div>
+                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.round5.content" trix-blur="$ctrl.trixBlur(e, editor);" ng-show="$ctrl.round5.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
+                <div ng-show="$ctrl.round5.editable">
+                    <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.saveSpeech()">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                        Salveaza
+                    </button>
+                    <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.publishSpeech()">
+                        <span class="glyphicon glyphicon-save"></span>
+                        Publica
+                    </button>
+                </div>
+                <div ng-bind-html="$ctrl.round5.content" ng-show="$ctrl.!round5.editable" class="speech-text-personal"> </div>
+
+            </article>
+
+            <article class="article_personalised con">
+                <div class="article_username con">
+                    <p class="speech_pro_player">CON : {{$ctrl.conPlayer}}</p>
+                </div>
+                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.round6.content" trix-blur="$ctrl.trixBlur(e, editor);" ng-show="$ctrl.round6.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
+                <div ng-show="$ctrl.round6.editable">
+                    <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.saveSpeech()">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                        Salveaza
+                    </button>
+                    <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.publishSpeech()">
+                        <span class="glyphicon glyphicon-save"></span>
+                        Publica
+                    </button>
+                </div>
+                <div ng-bind-html="$ctrl.round6.content" ng-show="$ctrl.!round6.editable" class="speech-text-personal"> </div>
+
+            </article>
+
+            <aside class="cd-read-more withoutList">
+                <ul class="withoutList">
+                    <li class="right_panel_navigator">
+                        <a>
+                            <em>Runda 1</em>
+                            <b>PRO</b>
+                            <svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
+                                <circle fill="none" stroke="#E9B000" stroke-width="5" cx="18" cy="18" r="16"
+                                        stroke-dasharray="100 100" stroke-dashoffset="100"
+                                        transform="rotate(-90 18 18)"></circle>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <li class="right_panel_navigator con">
+                        <a>
+                            <em>Runda 1</em>
+                            <b>CON</b>
+                            <svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
+                                <circle fill="none" stroke="#E24E42" stroke-width="5" cx="18" cy="18" r="16"
+                                        stroke-dasharray="100 100" stroke-dashoffset="100"
+                                        transform="rotate(-90 18 18)"></circle>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <li class="right_panel_navigator">
+                        <a>
+                            <em>Runda 2</em>
+                            <b>PRO</b>
+                            <svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
+                                <circle fill="none" stroke="#E9B000" stroke-width="5" cx="18" cy="18" r="16"
+                                        stroke-dasharray="100 100" stroke-dashoffset="100"
+                                        transform="rotate(-90 18 18)"></circle>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <li class="right_panel_navigator con">
+                        <a>
+                            <em>Runda 2</em>
+                            <b>CON</b>
+                            <svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
+                                <circle fill="none" stroke="#E24E42" stroke-width="5" cx="18" cy="18" r="16"
+                                        stroke-dasharray="100 100" stroke-dashoffset="100"
+                                        transform="rotate(-90 18 18)"></circle>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <li class="right_panel_navigator">
+                        <a>
+                            <em>Runda 3</em>
+                            <b>PRO</b>
+                            <svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
+                                <circle fill="none" stroke="#E9B000" stroke-width="5" cx="18" cy="18" r="16"
+                                        stroke-dasharray="100 100" stroke-dashoffset="100"
+                                        transform="rotate(-90 18 18)"></circle>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <li class="right_panel_navigator con">
+                        <a>
+                            <em>Runda 3</em>
+                            <b>CON</b>
+                            <svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
+                                <circle fill="none" stroke="#E24E42" stroke-width="5" cx="18" cy="18" r="16"
+                                        stroke-dasharray="100 100" stroke-dashoffset="100"
+                                        transform="rotate(-90 18 18)"></circle>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </aside> <!-- .cd-read-more -->
+        </div> <!-- .cd-articles -->
+
+    </main> <!-- .cd-main-content -->
+</div>

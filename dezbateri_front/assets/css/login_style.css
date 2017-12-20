@@ -1,0 +1,120 @@
+@charset "UTF-8";
+/*
+ink-blue - #062F4F
+blackboard #813772
+oxbloood #B82601
+*/
+body {
+    background: #fafafa; /* fallback for old browsers */
+    /*background: -webkit-linear-gradient(right, #29B8B6, #08bfc2);
+      background: -moz-linear-gradient(right, #29B8B6, #08bfc2);
+      background: -o-linear-gradient(right, #29B8B6, #08bfc2);
+      background: linear-gradient(to left, #29B8B6, #08bfc2);*/
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.inactiveLink {
+    pointer-events: none;
+    cursor: default;
+}
+
+.outer {
+    display: table;
+    position: absolute;
+    height: 80%;
+    width: 100%;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.inner {
+    margin-left: auto;
+    margin-right: auto;
+    width: 360px;
+}
+
+.message {
+    margin: 15px 0 0;
+    color: #e62a09;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.columnAuto {
+    width: 1px;
+    white-space: nowrap
+}
+
+.linkColumn {
+    max-width: 200px;
+    word-break: break-all;
+}
+
+.adminStyle {
+    background-color: #ffffff;
+}
+
+.rowSelected {
+    background-color: #2797aa;
+    color: #ffffff;
+}
+
+.adminSelect {
+    background-color: #565656;
+}
+
+.table > caption + thead > tr:first-child > td, .table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > td, .table > thead:first-child > tr:first-child > th {
+    background-color: #11424a;
+    color: #FFFFFF;
+    border-color: #11424a;
+    border-top: 0
+}
+
+a {
+    color: #565656;
+    text-decoration: none;
+}
+
+.table > tbody {
+    background-color: #FFFFFF;
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: #2797aa;
+    color: #ffffff;
+}
+
+.shadowed {
+    -webkit-box-shadow: 0 0 5px 2px #adadad;
+    -moz-box-shadow: 0 0 5px 2px #adadad;
+    box-shadow: 0 0 5px 2px #adadad;
+}
+
+.showme{
+    display: none;
+}
+.showhim:hover .showme{
+    display : inline-block;
+}
+.showhim:hover .ok{
+    display : none;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.centered {
+
+}
