@@ -22,7 +22,6 @@ app.factory('authInterceptor', function($q,$location){
     return{
         request: function(config){
             config.headers = config.headers || {};
-
             if(localStorage.auth_token){
                 config.headers.token = localStorage.auth_token;
             }
@@ -48,25 +47,19 @@ app.config(function ($routeProvider) {
 
     $routeProvider
     .when('/', {
-        templateUrl: 'app/View/homepage.html',
-        controller: 'homepageController',
-        controllerAs: 'ctrl'
+        templateUrl: 'app/View/homepage.html'
     })
     .when('/dezbateri',{
-        templateUrl: 'app/View/dezbateri.html',
-        controller: 'dezbateriController'
+        templateUrl: 'app/View/dezbateri.html'
     })
     .when('/opinii',{
-        templateUrl: 'app/View/opinii.html',
-        controller: 'opiniiController'
+        templateUrl: 'app/View/opinii.html'
     })
     .when('/login',{
-        templateUrl: 'app/View/login.html',
-        controller: 'loginController'
+        templateUrl: 'app/View/login.html'
     })
     .when('/debate',{
-        templateUrl: 'app/View/debate.html',
-        controller: 'debateController'
+        templateUrl: 'app/View/debate.html'
     })
 
 });

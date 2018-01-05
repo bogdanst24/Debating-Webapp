@@ -1,42 +1,43 @@
-<div ng-controller="debateController">
-    <header class="cd-auto-hide-header">
-        <div class="logo"><a href="#0"><img src="assets/img/cd-logo.svg" alt="Logo"></a></div>
+<div ng-controller="debateController as $ctrl">
 
-        <nav class="cd-primary-nav">
-            <a href="#cd-navigation" class="nav-trigger">
-			<span>
-				<em aria-hidden="true"></em>
-				Menu
-			</span>
-            </a> <!-- .nav-trigger -->
-
-            <ul id="cd-navigation">
-                <li><a class="cursor-show font_19" ng-click="$ctrl.navigateFactory.goToAcasa()">Acasa</a></li>
-                <li><a class="cursor-show font_19 bolded" ng-click="$ctrl.navigateFactory.goToDezbateri()">Dezbateri</a></li>
-                <li><a class="cursor-show font_19" ng-click="$ctrl.navigateFactory.goToOpinii()">Opinii</a></li>
-                <li ng-show="!$ctrl.navigateFactory.isLoggedIn()"><a class="cursor-show font_19"
-                                                               ng-click="$ctrl.navigateFactory.goToLogin()">Autentificare</a>
+    <div id="header-main-landing" class="header-nav">
+        <div class="header-main">
+            <a href="#" id="brand">Brand</a>
+            <button id="menu-button">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="header-main-menu" id="menu-header">
+                <li>
+                    <a class="cursor-show" ng-click="$ctrl.navigate('home')">Acasa</a>
+                </li>
+                <li>
+                    <a class="cursor-show bolded" ng-click="$ctrl.navigate('dezbateri')">Dezbateri</a>
+                </li>
+                <li>
+                    <a class="cursor-show" ng-click="$ctrl.navigate('opinii')">Opinii</a>
+                </li>
+                <li ng-show="!$ctrl.navigateFactory.isLoggedIn()">
+                    <a class="cursor-show" ng-click="$ctrl.navigate('login')">Autentificare</a>
                 </li>
                 <li ng-show="$ctrl.navigateFactory.isLoggedIn()" class="dropdown">
-                    <a class="cursor-show font_19">
-                    <span class="dropbtn">
-                       <img src="assets/img/iconUser.png" alt="Logo"
-                            style="max-width: 20px; max-height: 20px; margin-bottom: -4px;">
-                        {{$ctrl.userLogged}}
-                    </span>
+                    <a class="cursor-show">
+                        <span class="dropbtn">
+                            <img src="assets/img/iconUser.png" alt="Logo" style="max-width: 20px; max-height: 20px; margin-bottom: 7px;"> {{$ctrl.userLogged}}
+                        </span>
                         <div class="dropdown-content">
                             <a href="#">Vezi profilul</a>
-                            <a ng-click="$ctrl.navigateFactory.logout()">Delogheaza-te</a>
+                            <a ng-click="$ctrl.navigate('logout')">Delogheaza-te</a>
                         </div>
                     </a>
                 </li>
             </ul>
-        </nav> <!-- .cd-primary-nav -->
 
+        </div>
+    </div>
 
-    </header> <!-- .cd-auto-hide-header -->
-
-    <main class="cd-main-content no_padding">
+    <main id="main-content" class="main-content">
 
         <header class="cd-header top-cd-header" style="padding-bottom: 0">
             <div class="cd-nugget-info" style="display: table">
@@ -49,14 +50,18 @@
                             <img src="http://dezbateri.ro/debate/User-icon.png" class="debate_picture_img">
                         </div>
                         <div style="background-color:#E9B000; margin-top: 10px">
-                            <p class="debate_picture_username">{{$ctrl.proPlayer}}</p>
+                            <p class="debate_picture_username">{{$ctrl.debateFull.proPlayer}}</p>
+                        </div>
+                        <div class="debate_picture_vote">
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                            {{$ctrl.proVotes}} voturi
                         </div>
                     </div>
                 </div>
                 <div class="col-md-8" style="padding: 0 3% 2% 3%;">
-                    <div class="debate_details_title" >{{$ctrl.debateMotion}}</div>
-                    <p class="debate_details_description">{{$ctrl.motionDescription}}</p>
-                    <div class="shadowed boxWhite" >
+                    <div class="debate_details_title">{{$ctrl.debateFull.debateMotion}}</div>
+                    <p class="debate_details_description">{{$ctrl.debateFull.motionDescription}}</p>
+                    <div class="shadowed boxWhite">
                         <!-- GENERAL -->
                         <div id="status_short" class="debate_details_status">
                             {{$ctrl.statusShort}}
@@ -65,43 +70,54 @@
                             {{$ctrl.statusExplained}}
                         </div>
                         <!--ONLY GOING -->
-                        <div ng-show="$ctrl.goingActive" >
+                        <div ng-show="$ctrl.goingActive">
                             <p class="timer-countdown" id="timer"></p>
                             <p ng-show="$ctrl.timeleftVisible" class="warning-message">{{$ctrl.timeleftMessage}}</p>
                             <div class="debate_details_status_expl">
                                 de catre utilizatorul
                             </div>
-                            <p ng-show="$ctrl.debateState.next_round % 2 === 1" class="next-speaker pro">{{$ctrl.proPlayer}}  </p>
-                            <p ng-show="$ctrl.debateState.next_round % 2 !== 1" class="next-speaker con">{{$ctrl.conPlayer}}  </p>
+                            <p ng-show="$ctrl.debateFull.next_round % 2 === 1" class="next-speaker pro">{{$ctrl.debateFull.proPlayer}} </p>
+                            <p ng-show="$ctrl.debateFull.next_round % 2 !== 1" class="next-speaker con">{{$ctrl.debateFull.conPlayer}} </p>
 
                         </div>
                         <!-- ONLY WAITING -->
-                        <div ng-show="$ctrl.!ownDebate">
-                            <button class="btn btn-primary accepta_provocare_btn"
-                                    ng-show="$ctrl.challengeActive" ng-click="$ctrl.joinDebate()">
+                        <div ng-show="!$ctrl.debateFull.ownDebate">
+                            <button class="btn btn-primary accepta_provocare_btn" ng-show="$ctrl.challengeActive" ng-click="$ctrl.joinDebate()">
                                 ACCEPTA PROVOCAREA
                             </button>
                         </div>
-                        <div ng-show="$ctrl.ownDebate">
-                            <button class="btn btn-primary renunta_dezbatere_btn"
-                                    ng-show="$ctrl.challengeActive" ng-click="$ctrl.quitDebate()">
+                        <div ng-show="$ctrl.debateFull.ownDebate">
+                            <button class="btn btn-primary renunta_dezbatere_btn" ng-show="$ctrl.challengeActive" ng-click="$ctrl.quitDebate()">
                                 RENUNTA LA DEZBATERE
                             </button>
                         </div>
                         <!--  ONLY ENDED-->
                         <div ng-show="$ctrl.endActive">
-                            <div class="vote-now-title">
-                                Voteaza acum
+                       
+                            <div ng-show="!$ctrl.inDebate">
+                                <div class="vote-now-title">
+                                    {{$ctrl.myVote.voted ? "Ai votat deja. Iti poti schimba sau retrage votul" : "Voteaza acum"}}
+                                   
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary vote-btn pro" ng-click="$ctrl.vote('pro')">
+                                        <i class="fa fa-check-square-o" ng-show="$ctrl.myVote.pro" aria-hidden="true"></i>
+                                        Voteaza PRO
+                                    </button>
+                                    <button class="btn btn-primary vote-btn con" ng-click="$ctrl.vote('con')">
+                                        Voteaza CON
+                                        <i class="fa fa-check-square-o" ng-show="$ctrl.myVote.con" aria-hidden="true"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div>
-                                <button class="btn btn-primary vote-btn pro">Voteaza PRO</button>
-                                <button class="btn btn-primary vote-btn con">Voteaza CON</button>
-                            </div>
+                               
                             <div class="endedDebate">
                                 Castigatorul dezbaterii este
                             </div>
                             <div class="endedWinner">
+                                <i class="fa fa-trophy" aria-hidden="true"></i>
                                 {{$ctrl.winner}}
+                                <i class="fa fa-trophy" aria-hidden="true"></i>
                             </div>
                         </div>
 
@@ -110,32 +126,26 @@
                     <div class="col-md-12" style="margin: 1.5% 0 1.5% 0">
                         <div class="col-md-2">
                             <p class="debate_details_font_small">
-                                #ID: {{$ctrl.debate_id}}
+                                #ID: {{$ctrl.debateFull.debate_id}}
                             </p>
                         </div>
                         <div class="col-md-4">
                             <p class="debate_details_font_small">
                                 Categorie:
-                                <span ng-repeat="cat in $ctrl.category">{{$ctrl.cat}}{{$last ? '' : ' | '}}</span>
+                                <span ng-repeat="cat in $ctrl.debateFull.category">{{cat}}{{$last ? '' : ' | '}}</span>
                             </p>
                         </div>
                         <div class="col-md-3">
                             <p class="debate_details_font_small">
-                                Data: {{$ctrl.date_created}}
+                                Data: {{$ctrl.debateFull.date_created}}
                             </p>
                         </div>
                         <div class="col-md-3">
                             <p class="debate_details_font_small">
-                                Status: {{$ctrl.status}}
-                                <i ng-show="$ctrl.status === 'desfasurare'"
-                                   class=" glyphicon glyphicon-circle-arrow-right glyphicon-lg"
-                                   style="margin-left: 5px; color: #4cae4c;"></i>
-                                <i ng-show="$ctrl.status === 'asteptare'"
-                                   class="glyphicon glyphicon-exclamation-sign glyphicon-lg"
-                                   style="margin-left: 5px; color: gold;"></i>
-                                <i ng-show="$ctrl.status === 'incheiat'"
-                                   class="glyphicon glyphicon-record glyphicon-lg"
-                                   style="margin-left: 5px; color: #c00004;"></i>
+                                Status: {{$ctrl.debateFull.status}}
+                                <i ng-show="$ctrl.debateFull.status === 'desfasurare'" class=" glyphicon glyphicon-circle-arrow-right glyphicon-lg" style="margin-left: 5px; color: #4cae4c;"></i>
+                                <i ng-show="$ctrl.debateFull.status === 'asteptare'" class="glyphicon glyphicon-exclamation-sign glyphicon-lg" style="margin-left: 5px; color: gold;"></i>
+                                <i ng-show="$ctrl.debateFull.status === 'incheiat'" class="glyphicon glyphicon-record glyphicon-lg" style="margin-left: 5px; color: #c00004;"></i>
                             </p>
                         </div>
                     </div>
@@ -146,16 +156,21 @@
                             <p class="debate_picture_text">Impotriva motiunii</p>
                         </div>
                         <div>
-                            <img ng-show="$ctrl.!challengeActive" src="http://dezbateri.ro/debate/User-icon.png" class="debate_picture_img">
-                            <img ng-show="$ctrl.challengeActive"
-                                 src="http://dezbateri.ro/debate/Custom-Icon-Design-Pretty-Office-3-Male-User-Help.ico" class="debate_picture_img">
+                            <img ng-show="!$ctrl.challengeActive" src="http://dezbateri.ro/debate/User-icon.png" class="debate_picture_img">
+                            <img ng-show="$ctrl.challengeActive" src="http://dezbateri.ro/debate/Custom-Icon-Design-Pretty-Office-3-Male-User-Help.ico"
+                                class="debate_picture_img">
                         </div>
                         <div style="background-color:#E24E42; margin-top: 10px">
-                            <p class="debate_picture_username"> {{$ctrl.conPlayer}}</p>
+                            <p class="debate_picture_username"> {{$ctrl.debateFull.conPlayer}}</p>
+                        </div>
+                        <div class="debate_picture_vote">
+                            <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                            {{$ctrl.conVotes}} voturi
                         </div>
                     </div>
                 </div>
-            </div> <!-- cd-nugget-info -->
+            </div>
+            <!-- cd-nugget-info -->
         </header>
 
 
@@ -164,10 +179,11 @@
 
             <article class="article_personalised pro">
                 <div class="article_username pro">
-                    <p class="speech_pro_player">PRO : {{$ctrl.proPlayer}}</p>
+                    <p class="speech_pro_player">PRO : {{$ctrl.debateFull.proPlayer}}</p>
                 </div>
-                <trix-editor  spellcheck=false angular-trix ng-model="$ctrl.round1.content" trix-blur="$ctrl.trixBlur(e, editor);" ng-show="$ctrl.round1.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
-                <div ng-show="$ctrl.round1.editable">
+                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.debateFull.round1.content" trix-blur="$ctrl.trixBlur(e, editor);"
+                    ng-show="$ctrl.debateFull.round1.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
+                <div ng-show="$ctrl.debateFull.round1.editable">
                     <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.saveSpeech()">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         Salveaza
@@ -177,15 +193,26 @@
                         Publica
                     </button>
                 </div>
-                <div ng-bind-html="$ctrl.round1.content" ng-show="$ctrl.!round1.editable" class="speech-text-personal"> </div>
+                <div ng-bind-html="$ctrl.debateFull.round1.content" ng-show="!$ctrl.debateFull.round1.editable" ng-class="($ctrl.debateFull.round1.minimized == true) ? 'minimized-speech speech-text-personal' : 'speech-text-personal'"></div>
+                <div class="show-more-less-container">
+                    <hr class="minimize-hr">
+                    <i class="fa fa-arrow-circle-up icon-minimize" aria-hidden="true" ng-click="$ctrl.minimizeSpeech(1, true)" ng-show="!$ctrl.debateFull.round1.minimized">
+                        <p>restrange</p>
+                    </i>
+                    <i class="fa fa-arrow-circle-down icon-maximize" aria-hidden="true" ng-click="$ctrl.minimizeSpeech(1, false)" ng-show="$ctrl.debateFull.round1.minimized">
+                        <p>afiseaza mai mult</p>
+                    </i>
+                </div>
+
             </article>
 
             <article class="article_personalised con">
                 <div class="article_username con">
-                    <p class="speech_pro_player">CON : {{$ctrl.conPlayer}}</p>
+                    <p class="speech_pro_player">CON : {{$ctrl.debateFull.conPlayer}}</p>
                 </div>
-                <trix-editor  spellcheck=false angular-trix ng-model="$ctrl.round2.content" trix-blur="$ctrl.trixBlur(e, editor);" ng-show="$ctrl.round2.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
-                <div ng-show="$ctrl.round2.editable">
+                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.debateFull.round2.content" trix-blur="$ctrl.trixBlur(e, editor);"
+                    ng-show="$ctrl.debateFull.round2.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
+                <div ng-show="$ctrl.debateFull.round2.editable">
                     <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.saveSpeech()">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         Salveaza
@@ -195,16 +222,25 @@
                         Publica
                     </button>
                 </div>
-                <div ng-bind-html="$ctrl.round2.content" ng-show="$ctrl.!round2.editable" class="speech-text-personal"> </div>
-
+                <div ng-bind-html="$ctrl.debateFull.round2.content" ng-show="!$ctrl.debateFull.round2.editable" ng-class="($ctrl.debateFull.round2.minimized == true) ? 'minimized-speech speech-text-personal' : 'speech-text-personal'"></div>
+                <div class="show-more-less-container">
+                    <hr class="minimize-hr">
+                    <i class="fa fa-arrow-circle-up icon-minimize" aria-hidden="true" ng-click="$ctrl.minimizeSpeech(2, true)" ng-show="!$ctrl.debateFull.round2.minimized">
+                        <p>restrange</p>
+                    </i>
+                    <i class="fa fa-arrow-circle-down icon-maximize" aria-hidden="true" ng-click="$ctrl.minimizeSpeech(2, false)" ng-show="$ctrl.debateFull.round2.minimized">
+                        <p>afiseaza mai mult</p>
+                    </i>
+                </div>
             </article>
 
             <article class="article_personalised pro">
                 <div class="article_username pro">
-                    <p class="speech_pro_player">PRO : {{$ctrl.proPlayer}}</p>
+                    <p class="speech_pro_player">PRO : {{$ctrl.debateFull.proPlayer}}</p>
                 </div>
-                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.round3.content" trix-blur="$ctrl.trixBlur(e, editor);" ng-show="$ctrl.round3.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
-                <div ng-show="$ctrl.round3.editable">
+                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.debateFull.round3.content" trix-blur="$ctrl.trixBlur(e, editor);"
+                    ng-show="$ctrl.debateFull.round3.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
+                <div ng-show="$ctrl.debateFull.round3.editable">
                     <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.saveSpeech()">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         Salveaza
@@ -214,16 +250,25 @@
                         Publica
                     </button>
                 </div>
-                <div ng-bind-html="$ctrl.round3.content" ng-show="$ctrl.!round3.editable" class="speech-text-personal"> </div>
-
+                <div ng-bind-html="$ctrl.debateFull.round3.content" ng-show="!$ctrl.debateFull.round3.editable" ng-class="($ctrl.debateFull.round3.minimized == true) ? 'minimized-speech speech-text-personal' : 'speech-text-personal'"></div>
+                <div class="show-more-less-container">
+                    <hr class="minimize-hr">
+                    <i class="fa fa-arrow-circle-up icon-minimize" aria-hidden="true" ng-click="$ctrl.minimizeSpeech(3, true)" ng-show="!$ctrl.debateFull.round3.minimized">
+                        <p>restrange</p>
+                    </i>
+                    <i class="fa fa-arrow-circle-down icon-maximize" aria-hidden="true" ng-click="$ctrl.minimizeSpeech(3, false)" ng-show="$ctrl.debateFull.round3.minimized">
+                        <p>afiseaza mai mult</p>
+                    </i>
+                </div>
             </article>
 
             <article class="article_personalised con">
                 <div class="article_username con">
-                    <p class="speech_pro_player">CON : {{$ctrl.conPlayer}}</p>
+                    <p class="speech_pro_player">CON : {{$ctrl.debateFull.conPlayer}}</p>
                 </div>
-                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.round4.content" trix-blur="$ctrl.trixBlur(e, editor);" ng-show="$ctrl.round4.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
-                <div ng-show="$ctrl.round4.editable">
+                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.debateFull.round4.content" trix-blur="$ctrl.trixBlur(e, editor);"
+                    ng-show="$ctrl.debateFull.round4.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
+                <div ng-show="$ctrl.debateFull.round4.editable">
                     <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.saveSpeech()">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         Salveaza
@@ -233,16 +278,25 @@
                         Publica
                     </button>
                 </div>
-                <div ng-bind-html="$ctrl.round4.content" ng-show="$ctrl.!round4.editable" class="speech-text-personal"> </div>
-
+                <div ng-bind-html="$ctrl.debateFull.round4.content" ng-show="!$ctrl.debateFull.round4.editable" ng-class="($ctrl.debateFull.round4.minimized == true) ? 'minimized-speech speech-text-personal' : 'speech-text-personal'"></div>
+                <div class="show-more-less-container">
+                    <hr class="minimize-hr">
+                    <i class="fa fa-arrow-circle-up icon-minimize" aria-hidden="true" ng-click="$ctrl.minimizeSpeech(4, true)" ng-show="!$ctrl.debateFull.round4.minimized">
+                        <p>restrange</p>
+                    </i>
+                    <i class="fa fa-arrow-circle-down icon-maximize" aria-hidden="true" ng-click="$ctrl.minimizeSpeech(4, false)" ng-show="$ctrl.debateFull.round4.minimized">
+                        <p>afiseaza mai mult</p>
+                    </i>
+                </div>
             </article>
 
             <article class="article_personalised pro">
                 <div class="article_username pro">
-                    <p class="speech_pro_player">PRO : {{$ctrl.proPlayer}}</p>
+                    <p class="speech_pro_player">PRO : {{$ctrl.debateFull.proPlayer}}</p>
                 </div>
-                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.round5.content" trix-blur="$ctrl.trixBlur(e, editor);" ng-show="$ctrl.round5.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
-                <div ng-show="$ctrl.round5.editable">
+                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.debateFull.round5.content" trix-blur="$ctrl.trixBlur(e, editor);"
+                    ng-show="$ctrl.debateFull.round5.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
+                <div ng-show="$ctrl.debateFull.round5.editable">
                     <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.saveSpeech()">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         Salveaza
@@ -252,16 +306,25 @@
                         Publica
                     </button>
                 </div>
-                <div ng-bind-html="$ctrl.round5.content" ng-show="$ctrl.!round5.editable" class="speech-text-personal"> </div>
-
+                <div ng-bind-html="$ctrl.debateFull.round5.content" ng-show="!$ctrl.debateFull.round5.editable" ng-class="($ctrl.debateFull.round5.minimized == true) ? 'minimized-speech speech-text-personal' : 'speech-text-personal'"></div>
+                <div class="show-more-less-container">
+                    <hr class="minimize-hr">
+                    <i class="fa fa-arrow-circle-up icon-minimize" aria-hidden="true" ng-click="$ctrl.minimizeSpeech(5, true)" ng-show="!$ctrl.debateFull.round5.minimized">
+                        <p>restrange</p>
+                    </i>
+                    <i class="fa fa-arrow-circle-down icon-maximize" aria-hidden="true" ng-click="$ctrl.minimizeSpeech(5, false)" ng-show="$ctrl.debateFull.round5.minimized">
+                        <p>afiseaza mai mult</p>
+                    </i>
+                </div>
             </article>
 
             <article class="article_personalised con">
                 <div class="article_username con">
-                    <p class="speech_pro_player">CON : {{$ctrl.conPlayer}}</p>
+                    <p class="speech_pro_player">CON : {{$ctrl.debateFull.conPlayer}}</p>
                 </div>
-                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.round6.content" trix-blur="$ctrl.trixBlur(e, editor);" ng-show="$ctrl.round6.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
-                <div ng-show="$ctrl.round6.editable">
+                <trix-editor spellcheck=false angular-trix ng-model="$ctrl.debateFull.round6.content" trix-blur="$ctrl.trixBlur(e, editor);"
+                    ng-show="$ctrl.debateFull.round6.editable" class="trix-personalized" placeholder="scrie aici..."></trix-editor>
+                <div ng-show="$ctrl.debateFull.round6.editable">
                     <button class="btn btn-primary speech-publish-button" ng-click="$ctrl.saveSpeech()">
                         <span class="glyphicon glyphicon-floppy-disk"></span>
                         Salveaza
@@ -271,9 +334,46 @@
                         Publica
                     </button>
                 </div>
-                <div ng-bind-html="$ctrl.round6.content" ng-show="$ctrl.!round6.editable" class="speech-text-personal"> </div>
-
+                <div ng-bind-html="$ctrl.debateFull.round6.content" ng-show="!$ctrl.debateFull.round6.editable" ng-class="($ctrl.debateFull.round6.minimized == true) ? 'minimized-speech speech-text-personal' : 'speech-text-personal'"></div>
+                <div class="show-more-less-container">
+                    <hr class="minimize-hr">
+                    <i class="fa fa-arrow-circle-up icon-minimize" aria-hidden="true" ng-click="$ctrl.minimizeSpeech(6, true)" ng-show="!$ctrl.debateFull.round6.minimized">
+                        <p>restrange</p>
+                    </i>
+                    <i class="fa fa-arrow-circle-down icon-maximize" aria-hidden="true" ng-click="$ctrl.minimizeSpeech(6, false)" ng-show="$ctrl.debateFull.round6.minimized">
+                        <p>afiseaza mai mult</p>
+                    </i>
+                </div>
             </article>
+
+            <hr>
+
+            <div class="anchor_debate" ng-show="$ctrl.endActive">
+                <h3>
+                    <i class="fa fa-comments" aria-hidden="true"></i>
+                    Comentarii
+                </h3>
+                <textarea autofocus maxlength="2000" placeholder="adauga un comentariu..." class="comment-textbox" ng-model="$ctrl.newComment"></textarea>
+                <div class="comment-button-box" style="margin-bottom: 30px">
+                    Maxim 2000 de caractere sunt permise intr-un comentariu
+                    <button class="btn btn-primary btn-comment" ng-click="$ctrl.addComment()">Comenteaza</button>
+                </div>
+
+                <div ng-repeat="comm in $ctrl.allComments | orderBy:'Date_created'" >
+                    <div class="col-md-12" style="margin-bottom:10px">
+                        <div class="col-md-1" style="text-align:center; color: #009197; padding-top:10px;">
+                            <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-md-11">
+                            <p style="color: #009197"><span style="font-weight:bold">{{comm.User_username}}</span>, 
+                                <span style="font-size: smaller">{{comm.Date_created}}</span></p>
+                            <div ng-bind-html="$ctrl.trustedHtml(comm.Comment)"></div>
+                        </div>
+                    </div>
+                    <hr style="width: 100%">
+                </div>
+                
+            </div>
 
             <aside class="cd-read-more withoutList">
                 <ul class="withoutList">
@@ -282,9 +382,8 @@
                             <em>Runda 1</em>
                             <b>PRO</b>
                             <svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
-                                <circle fill="none" stroke="#E9B000" stroke-width="5" cx="18" cy="18" r="16"
-                                        stroke-dasharray="100 100" stroke-dashoffset="100"
-                                        transform="rotate(-90 18 18)"></circle>
+                                <circle fill="none" stroke="#E9B000" stroke-width="5" cx="18" cy="18" r="16" stroke-dasharray="100 100" stroke-dashoffset="100"
+                                    transform="rotate(-90 18 18)"></circle>
                             </svg>
                         </a>
                     </li>
@@ -294,9 +393,8 @@
                             <em>Runda 1</em>
                             <b>CON</b>
                             <svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
-                                <circle fill="none" stroke="#E24E42" stroke-width="5" cx="18" cy="18" r="16"
-                                        stroke-dasharray="100 100" stroke-dashoffset="100"
-                                        transform="rotate(-90 18 18)"></circle>
+                                <circle fill="none" stroke="#E24E42" stroke-width="5" cx="18" cy="18" r="16" stroke-dasharray="100 100" stroke-dashoffset="100"
+                                    transform="rotate(-90 18 18)"></circle>
                             </svg>
                         </a>
                     </li>
@@ -306,9 +404,8 @@
                             <em>Runda 2</em>
                             <b>PRO</b>
                             <svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
-                                <circle fill="none" stroke="#E9B000" stroke-width="5" cx="18" cy="18" r="16"
-                                        stroke-dasharray="100 100" stroke-dashoffset="100"
-                                        transform="rotate(-90 18 18)"></circle>
+                                <circle fill="none" stroke="#E9B000" stroke-width="5" cx="18" cy="18" r="16" stroke-dasharray="100 100" stroke-dashoffset="100"
+                                    transform="rotate(-90 18 18)"></circle>
                             </svg>
                         </a>
                     </li>
@@ -318,9 +415,8 @@
                             <em>Runda 2</em>
                             <b>CON</b>
                             <svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
-                                <circle fill="none" stroke="#E24E42" stroke-width="5" cx="18" cy="18" r="16"
-                                        stroke-dasharray="100 100" stroke-dashoffset="100"
-                                        transform="rotate(-90 18 18)"></circle>
+                                <circle fill="none" stroke="#E24E42" stroke-width="5" cx="18" cy="18" r="16" stroke-dasharray="100 100" stroke-dashoffset="100"
+                                    transform="rotate(-90 18 18)"></circle>
                             </svg>
                         </a>
                     </li>
@@ -330,9 +426,8 @@
                             <em>Runda 3</em>
                             <b>PRO</b>
                             <svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
-                                <circle fill="none" stroke="#E9B000" stroke-width="5" cx="18" cy="18" r="16"
-                                        stroke-dasharray="100 100" stroke-dashoffset="100"
-                                        transform="rotate(-90 18 18)"></circle>
+                                <circle fill="none" stroke="#E9B000" stroke-width="5" cx="18" cy="18" r="16" stroke-dasharray="100 100" stroke-dashoffset="100"
+                                    transform="rotate(-90 18 18)"></circle>
                             </svg>
                         </a>
                     </li>
@@ -342,15 +437,22 @@
                             <em>Runda 3</em>
                             <b>CON</b>
                             <svg x="0px" y="0px" width="36px" height="36px" viewBox="0 0 36 36">
-                                <circle fill="none" stroke="#E24E42" stroke-width="5" cx="18" cy="18" r="16"
-                                        stroke-dasharray="100 100" stroke-dashoffset="100"
-                                        transform="rotate(-90 18 18)"></circle>
+                                <circle fill="none" stroke="#E24E42" stroke-width="5" cx="18" cy="18" r="16" stroke-dasharray="100 100" stroke-dashoffset="100"
+                                    transform="rotate(-90 18 18)"></circle>
                             </svg>
                         </a>
                     </li>
                 </ul>
-            </aside> <!-- .cd-read-more -->
-        </div> <!-- .cd-articles -->
+                <span class="anchor_debate">
+                    <div class="go-to-commentary" ng-show="$ctrl.endActive">
+                        Du-ma la comentarii <i class="fa fa-comments" aria-hidden="true"></i>
+                    </div>
+                </span>
+            </aside>
+            <!-- .cd-read-more -->
+        </div>
+        <!-- .cd-articles -->
 
-    </main> <!-- .cd-main-content -->
+    </main>
+    <!-- .cd-main-content -->
 </div>

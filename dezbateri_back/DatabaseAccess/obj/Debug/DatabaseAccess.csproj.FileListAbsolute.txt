@@ -24,3 +24,29 @@ c:\Users\Admin\Documents\Visual Studio 2017\Projects\dezbateri\DatabaseAccess\bi
 c:\Users\Admin\Documents\Visual Studio 2017\Projects\dezbateri\DatabaseAccess\obj\Debug\DatabaseAccess.csprojResolveAssemblyReference.cache
 c:\Users\Admin\Documents\Visual Studio 2017\Projects\dezbateri\DatabaseAccess\obj\Debug\DatabaseAccess.dll
 c:\Users\Admin\Documents\Visual Studio 2017\Projects\dezbateri\DatabaseAccess\obj\Debug\DatabaseAccess.pdb
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\DatabaseAccess.dll.config
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\DatabaseAccess.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\DatabaseAccess.pdb
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\EntityFramework.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\MySql.Data.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\MySql.Data.Entity.EF6.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\MySql.Web.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\System.Web.Helpers.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\System.Web.Razor.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\WebMatrix.Data.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\WebMatrix.WebData.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\System.Web.WebPages.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\EntityFramework.xml
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\System.Web.Helpers.xml
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\System.Web.Razor.xml
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\WebMatrix.Data.xml
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\WebMatrix.WebData.xml
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\System.Web.WebPages.xml
+C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\GitDevelop\dezbateri_back\DatabaseAccess\obj\Debug\DatabaseAccess.dll
+C:\GitDevelop\dezbateri_back\DatabaseAccess\obj\Debug\DatabaseAccess.pdb
+C:\GitDevelop\dezbateri_back\DatabaseAccess\obj\Debug\DatabaseAccess.csprojResolveAssemblyReference.cache

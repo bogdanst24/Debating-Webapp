@@ -1,5 +1,6 @@
 html{
     height: 100%;
+    font-family: 'Open Sans', sans-serif !important;
 }
 
 body{
@@ -11,7 +12,7 @@ body{
 }
 
 a{
-    font-family: "Hind", sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
 }
 
 .content{
@@ -40,13 +41,13 @@ a{
 
 .heading_title {
     color: #FFFFFF !important;
-    font-family: "Hind", sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
     font-size: 20px !important;
 }
 
 .cd-main-content p{
     font-size: 15px;
-    font-family: "Hind", sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
     margin: 0;
     color: #1d1d1d;
 }
@@ -248,7 +249,7 @@ a{
     border: none;
     flex-direction:row;
     flex-wrap:nowrap;
-    font-family: "Hind", sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
 }
 
 .searchable-container .btn-group {
@@ -413,6 +414,12 @@ a{
     padding-top: 35px;
 }
 
+.procon_yellow{
+    background: url("http://dezbateri.ro/debate/procon_yellow.png")  no-repeat  center top;
+    background-size: 200px 140px;
+    padding-top: 35px;
+}
+
 .procon_pink{
     background: url("http://dezbateri.ro/debate/procon_pink.png")  no-repeat  center top;
     background-size: 200px 140px;
@@ -439,7 +446,7 @@ a{
 
 .cd-read-more em,b {
     font-size: 15px;
-    font-family: "Hind", sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
     font-style: normal !important;
     cursor: pointer;
 }
@@ -462,14 +469,14 @@ a{
     font-weight: bold !important;
     font-size: 16px !important;;
     color: #FFFFFF !important;;
-    font-family: "Hind", sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
 }
 
 .debate_picture_img{
     height: 80%;
     width: 100%;
     padding: 10px 20px 10px 20px;
-    background-color: #FFFFFF !important;"
+    background-color: #FFFFFF !important;
 }
 
 .debate_picture_username{
@@ -479,7 +486,14 @@ a{
     word-break: break-all;
     color: #FFFFFF !important;
     padding: 5px 0 5px 0;
-    font-family: "Hind", sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
+    margin-bottom: 0;
+}
+
+.debate_picture_vote{
+    color: white;
+    font-size: large;
+    margin-top: 10px;
 }
 
 .no_padding{
@@ -587,7 +601,7 @@ a{
     font-weight: bold !important;
     font-size: 17px !important;
     color: #FFFFFF !important;
-    font-family: "Hind", sans-serif !important;
+    font-family: 'Open Sans', sans-serif !important;
     padding: 0 !important;
 }
 
@@ -763,7 +777,6 @@ trix-toolbar .dialogs {
 
 .vote-btn{
     border-radius: 0;
-    font-weight: bold;
     font-size:16px;
     margin: 4px 5px 0 5px;
     padding:6px 10px 5px 10px;
@@ -790,4 +803,92 @@ trix-toolbar .dialogs {
     font-weight: bold;
     margin-top: 15px;
     opacity: 0.7;
+}
+
+.show-more-less-container {
+    text-align: center;
+    position: relative;
+}
+
+.icon-minimize, .icon-maximize{
+    text-align: center;
+    color: #009096;
+    padding: 1px 5px;
+    font-size: x-large;
+    background-color: white;
+}
+
+.icon-minimize p, .icon-maximize p{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 15px;
+    opacity: 0;
+    transition:opacity 0.5s linear;
+}
+
+.icon-minimize:hover p{
+    opacity: 1;
+}
+
+.icon-maximize:hover p{
+    opacity: 1;
+}
+
+hr.minimize-hr {
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+    margin-top: 14px;
+    border-top: 2px solid #00909640;
+}
+
+.minimized-speech{
+    max-height: 100px;
+    overflow: hidden;
+}
+
+.go-to-commentary{
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: medium;
+}
+
+.go-to-commentary:hover{
+    text-decoration: rgb(14, 45, 131) solid underline;
+    color: rgb(14, 45, 131);
+    cursor: pointer;
+}
+
+.comment-textbox{
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100px;
+    padding: 5px 10px;
+    max-height: 400px;
+}
+
+.comment-textbox:focus{
+    outline-color: #005e64;
+}
+
+.btn-comment {
+    float: right;
+    background-color: #009096;
+    border-radius: 2px;
+    outline: none;
+    font-style: normal;
+    color: white;
+}
+
+.btn-comment:focus, .btn-comment:hover, .btn-comment:active:hover{
+    background-color: #03686b;
+    outline: none;
+}
+
+.comment-button-box {
+    font-size: small;
+    color: lightslategray;
+    font-style: italic;
 }

@@ -33,5 +33,6 @@ namespace DatabaseAccess
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserDebate> UserDebates { get; set; }
         public virtual DbSet<Vote> Votes { get; set; }
+        public virtual DbSet<Commentary> Commentaries { get; set; }
     }
 }

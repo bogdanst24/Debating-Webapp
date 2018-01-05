@@ -110,6 +110,12 @@ namespace DataController.Security
             return true;
         }
 
+        public static string getIss(String token)
+        {
+            var decodedToken = Decode(token);
+            return decodedToken["iss"].ToString();
+        }
+
         public static long GetNistTime()
         {
             var myHttpWebRequest = (HttpWebRequest)WebRequest.Create("http://www.microsoft.com");
@@ -119,6 +125,8 @@ namespace DataController.Security
                                        "ddd, dd MMM yyyy HH:mm:ss 'GMT'",
                                        CultureInfo.InvariantCulture.DateTimeFormat,
                                        DateTimeStyles.AssumeUniversal);
+            date = date.AddHours(-2);
+            Debug.WriteLine(date);
             return (long)(date - new DateTime(1970, 1, 1)).TotalMilliseconds;
         }
     }

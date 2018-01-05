@@ -1,258 +1,278 @@
-var index = angular.module('debateModule', ['ngRoute','angularTrix','ngSanitize']);
+var index = angular.module('debateModule', ['ngRoute', 'angularTrix', 'ngSanitize']);
 
-index.controller('debateController', ['navigateFactory', 'debateFactory', '$location','$timeout',
-        function (navigateFactory, debateFactory, $location,$timeout) {
+index.controller('debateController', ['navigateFactory', 'debateFactory', '$location', '$timeout', '$filter', '$sce',
+    function (navigateFactory, debateFactory, $location, $timeout, $filter, $sce) {
 
-            this.navigateFactory = navigateFactory;
-            this.userLogged = navigateFactory.getUserLogged();
-
-            var urlParams = $location.search();
-            this.debate_id = urlParams.deb_id;
-            this.debateFull = [];
-
-            this.proPlayer = null;
-            this.conPlayer = null;
-            this.ownDebate = false;
-
-            this.round1 = {
-                content: "",
-                editable: true
-            };
-            this.round2 = {
-                content: "",
-                editable: false
-            };
-            this.round3 = {
-                content: "",
-                editable: false
-            };
-            this.round4 = {
-                content: "",
-                editable: false
-            };
-            this.round5 = {
-                content: "",
-                editable: false
-            };
-            this.round6 = {
-                content: "",
-                editable: false
-            };
-
-            trixTextSetup();
-
-            debateFactory.getDebate(this.debate_id).then(function (response) {
-                this.debateFull = response.data;
-                this.category = this.debateFull.category;
-                this.date_created = this.debateFull.date_created;
-                this.debateMotion = this.debateFull.subject;
-                this.motionDescription = this.debateFull.description;
-                this.proPlayer = this.debateFull.pro_username;
-                this.conPlayer = this.debateFull.con_username;
-                this.round1.content = this.debateFull.round_1;
-                this.round2.content = this.debateFull.round_2;
-                this.round3.content = this.debateFull.round_3;
-                this.round4.content = this.debateFull.round_4;
-                this.round5.content = this.debateFull.round_5;
-                this.round6.content = this.debateFull.round_6;
-
-                this.status = this.debateFull.state;
-                this.checkStatus();
-                this.getStateOfDebate();
-
-
-                this.winner = this.proPlayer;
-
-                if(this.userLogged === this.debateFull.pro_username){
-                    this.ownDebate = true;
-                }
-
+        if (sessionStorage.getItem("speechpublished")) {
+            swal("Discursul a fost publicat cu succes!", {
+                buttons: {
+                    catch: {
+                        text: "Inchide",
+                        value: "catch",
+                    }
+                },
+                closeOnClickOutside: false
             })
-                .catch(function (err) {
-                    console.log(err)
+                .then((value) => {
+                    switch (value) {
+                        case "catch":
+                            sessionStorage.removeItem("speechpublished");
+                            break;
+                        default:
+                            sessionStorage.removeItem("speechpublished");
+                            break;
+                    }
                 });
+        }
 
-            this.endActive = false;
-            this.challengeActive = false;
-            this.goingActive = false;
+        this.navigateFactory = navigateFactory;
+        this.userLogged = navigateFactory.getUserLogged();
+        this.timeleftMessage = "mesag";
+        this.timeleftVisible = false;
+        this.endActive = false;
+        this.challengeActive = false;
+        this.goingActive = false;
+        this.clockInterval = null;
+        this.proVotes = 0;
+        this.conVotes = 0;
+        this.myVote = [];
+        this.myVote.voted = false;
+        this.myVote.pro = false;
+        this.myVote.con = false;
+        this.allComments = [];
 
-            this.checkStatus = function () {
-                var el = document.getElementById('status_short');
-                if (this.status === "asteptare") {
+        this.newComment = "";
+
+        var urlParams = $location.search();
+
+        this.debateFull = [];
+
+        this.debateFull.debate_id = urlParams.deb_id;
+        this.debateFull.proPlayer = null;
+        this.debateFull.conPlayer = null;
+        this.debateFull.ownDebate = false;
+        this.debateFull.next_round = null;
+
+        this.inDebate = false;
+
+        this.debateFull.round1 = {
+            content: "",
+            editable: true,
+            minimized: false
+        };
+        this.debateFull.round2 = {
+            content: "",
+            editable: false,
+            minimized: false
+        };
+        this.debateFull.round3 = {
+            content: "",
+            editable: false,
+            minimized: false
+        };
+        this.debateFull.round4 = {
+            content: "",
+            editable: false,
+            minimized: false
+        };
+        this.debateFull.round5 = {
+            content: "",
+            editable: false,
+            minimized: false
+        };
+        this.debateFull.round6 = {
+            content: "",
+            editable: false,
+            minimized: false
+        };
+
+        this.winner = "egalitate";
+
+
+        trixTextSetup();
+
+        var _this = this;
+        var promise = debateFactory.getDebate(this.debateFull.debate_id).then(function (response) {
+            var debateResponse = response.data;
+
+            _this.debateFull.category = debateResponse.Category;
+            _this.debateFull.date_created = debateResponse.Date_created;
+            _this.debateFull.debateMotion = debateResponse.Subject;
+            _this.debateFull.motionDescription = debateResponse.Description;
+            _this.debateFull.proPlayer = debateResponse.Pro_username;
+            _this.debateFull.conPlayer = debateResponse.Con_username;
+            _this.debateFull.round1.content = debateResponse.Round_1;
+            _this.debateFull.round2.content = debateResponse.Round_2;
+            _this.debateFull.round3.content = debateResponse.Round_3;
+            _this.debateFull.round4.content = debateResponse.Round_4;
+            _this.debateFull.round5.content = debateResponse.Round_5;
+            _this.debateFull.round6.content = debateResponse.Round_6;
+
+            _this.debateFull.status = debateResponse.State;
+            _this.checkStatus();
+            _this.setRoundsEditable(debateResponse.Next_round);
+            _this.setTimeToNextSpeech(debateResponse.Time_to_next);
+
+            if (_this.userLogged === _this.debateFull.proPlayer) 
+                _this.debateFull.ownDebate = true;
+            
+            if(_this.userLogged === _this.debateFull.conPlayer || _this.userLogged === _this.debateFull.proPlayer)
+                _this.inDebate = true;
+
+
+        })
+            .catch(function (err) {
+                console.log("ERRROR")
+                console.log(err)
+            });
+
+        promise.then( function(payload){
+            debateFactory.getVotes(_this.debateFull.debate_id).then(function(response){
+                var allVotes = response.data;
+                allVotes.forEach(vote => {
+                    if(vote.vote_pro) {
+                        _this.proVotes++;
+                    } else {
+                        _this.conVotes++;
+                    }
+    
+                    if(vote.user_username == _this.userLogged)
+                        _this.myVote.voted = true;
+                        if(vote.vote_pro) {
+                            _this.myVote.pro = true;
+                            _this.myVote.con = false;
+                        } else {
+                            _this.myVote.pro = false;
+                            _this.myVote.con = true;
+                        }
+                });
+    
+                if(_this.proVotes > _this.conVotes)
+                    _this.winner = _this.debateFull.proPlayer;
+                else if (_this.proVotes < _this.conVotes)
+                    _this.winner = _this.debateFull.conPlayer;
+                else
+                    _this.winner = "egalitate";
+            });
+            if(_this.endActive)
+                debateFactory.getAllComments(_this.debateFull.debate_id).then(function(response){
+                    _this.allComments = response.data;
+                    
+                    _this.allComments.forEach(element => {
+                        element.Comment = _this.replaceBackslash(element.Comment);
+                    });
+
+                })
+        });
+
+
+
+        this.checkStatus = function () {
+            var el = document.getElementById('status_short');
+            switch (this.debateFull.status) {
+                case ("asteptare"):
                     this.statusShort = "Asteapta un competitor";
                     this.statusExplained = "Aceasta dezbatere astapta ca un utilizator sa accepte dezbaterea";
                     this.endActive = false;
                     this.challengeActive = true;
                     this.goingActive = false;
                     el.className += el.className ? ' black-status' : 'black-status';
-                } else if (this.status === "incheiat") {
+                    break;
+                case ("incheiat"):
                     this.statusShort = "Dezbatere incheiata";
                     this.statusExplained = "Aceasta dezbatere s-a sfarsit. Utilizatorii pot vota sau comenta dezbaterea";
                     this.endActive = true;
                     this.challengeActive = false;
                     this.goingActive = false;
                     el.className += el.className ? ' red-status' : 'red-status';
-                } else if (this.status === "desfasurare") {
+                    break;
+                case ("desfasurare"):
                     this.statusShort = "Dezbatere in desfasurare";
                     this.statusExplained = "Aceasta dezbatere este in desfasurare. Urmatorul discurs trebuie publicat in";
                     this.endActive = false;
                     this.challengeActive = false;
                     this.goingActive = true;
                     el.className += el.className ? ' green-status' : 'green-status';
-                }
-            };
-            this.winner = this.proPlayer;
+                    break;
+                default: break;
+            }
 
-            this.joinDebate = function () {
-                var user = this.userLogged;
-                var debate_id = this.debate_id;
+        };
 
-                debateFactory.joinDebate(user,debate_id).then(function(){
-                    navigateFactory.goToDebate(debate_id);
-                })
-            };
+        this.setRoundsEditable = function (debateRound) {
+            this.debateFull.next_round = debateRound;
+            this.debateFull.round1.editable = false;
+            this.debateFull.round2.editable = false;
+            this.debateFull.round3.editable = false;
+            this.debateFull.round4.editable = false;
+            this.debateFull.round5.editable = false;
+            this.debateFull.round6.editable = false;
 
-            this.debateState = [];
-            this.getStateOfDebate = function(){
-                debateFactory.getDebateState(this.debate_id).then(function(response){
-                    this.debateState = response.data;
-                    setRoundsEditable();
-                    setTimeToNextSpeech();
-                });
-            };
+            if (this.userLogged === this.debateFull.proPlayer) {
+                var iAmPro = true;
+            } else {
+                iAmPro = false;
+            }
+            if (this.userLogged === this.debateFull.conPlayer) {
+                var iAmCon = true;
+            } else {
+                iAmCon = false;
+            }
 
+            if ((iAmPro || iAmCon) && !this.endActive) {
 
-            this.quitDebate = function () {
-
-                debateFactory.deleteDebate(this.debate_id).then(function (response) {
-                    swal({
-                            title: "Esti sigur?",
-                            text: "Nu vei putea sa recuperezi aceasta dezbatere!",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "Da, sterge!",
-                            closeOnConfirm: false
-                        },
-                        function(){
-                            swal("Dezbatere stearsa!", "Dezbaterea nu mai exista din acest moment", "success");
-                            navigateFactory.goToDezbateri();
-                        });
-                });
-
-
-
-            };
-
-            this.saveSpeech = function(){
-                var debateContent ={
-                    debate_id: this.debate_id,
-                    round_1: this.round1.content,
-                    round_2: this.round2.content,
-                    round_3: this.round3.content,
-                    round_4: this.round4.content,
-                    round_5: this.round5.content,
-                    round_6: this.round6.content
-                };
-                debateFactory.saveSpeech(debateContent).then(function(response){
-                    swal("Salvare reusita", "Puteti reveni oricand fara a va pierde continutul", "success");
-                });
-            };
-
-            this.publishSpeech = function(round){
-                swal({
-                        title: "Esti sigur?",
-                        text: "Odata publicat, discursul nu va mai putea fi modificat",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#008F95",
-                        cancelButtonText: "Renunta",
-                        confirmButtonText: "Publica",
-                        closeOnConfirm: false
-                    },
-                    function(){
-                        this.saveSpeech();
-                        debateFactory.goToNextRound(this.debate_id).then(function(response){
-                            navigateFactory.goToDebate(this.debate_id);
-                            swal("Publicat!", "Discursul tau a fost publicat, iar dezbaterea a trecut in runda urmatoare.", "success");
-                        })
-
-                    });
-            };
-
-            function setRoundsEditable(){
-                var round = this.debateState.next_round;
-                this.round1.editable = false;
-                this.round2.editable = false;
-                this.round3.editable = false;
-                this.round4.editable = false;
-                this.round5.editable = false;
-                this.round6.editable = false;
-                if(this.userLogged === this.proPlayer){
-                    var iAmPro = true;
-                } else {
-                    iAmPro = false;
-                }
-                if(this.userLogged === this.conPlayer){
-                    var iAmCon = true;
-                } else {
-                    iAmCon = false;
-                }
-                if(iAmPro || iAmCon){
-
-                    if(round === "1" && iAmPro){
-                        if(this.round1.content === "<div><!--block-->Discursul inca nu a fost publicat</div>"){
-                            this.round1.content = "";
-                        }
-                        this.activeRound = 1;
-                        this.round1.editable = true;
-                    } else if (round === "2" && iAmCon){
-                        if(this.round2.content === "<div><!--block-->Discursul inca nu a fost publicat</div>"){
-                            this.round2.content = "";
-                        }
-                        this.round2.editable = true;
-                        this.activeRound = 2;
-                    } else if (round === "3" && iAmPro){
-                        if(this.round3.content === "<div><!--block-->Discursul inca nu a fost publicat</div>"){
-                            this.round3.content = "";
-                        }
-                        this.round3.editable = true;
-                        this.activeRound = 3;
-                    } else if (round === "4" && iAmCon ){
-                        if(this.round4.content === "<div><!--block-->Discursul inca nu a fost publicat</div>"){
-                            this.round4.content = "";
-                        }
-                        this.round4.editable = true;
-                        this.activeRound = 4;
-                    } else if (round === "5" && iAmPro){
-                        if(this.round5.content === "<div><!--block-->Discursul inca nu a fost publicat</div>"){
-                            this.round5.content = "";
-                        }
-                        this.round5.editable = true;
-                        this.activeRound = 5;
-                    } else if (round === "6" && iAmCon){
-                        if(this.round6.content === "<div><!--block-->Discursul inca nu a fost publicat</div>"){
-                            this.round6.content = "";
-                        }
-                        this.round6.editable = true;
-                        this.activeRound = 6;
+                if (this.debateFull.next_round === "1" && iAmPro) {
+                    if (this.debateFull.round1.content === "<div><!--block-->Discursul inca nu a fost publicat</div>") {
+                        this.debateFull.round1.content = "";
                     }
+                    this.debateFull.next_round = 1;
+                    this.debateFull.round1.editable = true;
+                } else if (this.debateFull.next_round === "2" && iAmCon) {
+                    if (this.debateFull.round2.content === "<div><!--block-->Discursul inca nu a fost publicat</div>") {
+                        this.debateFull.round2.content = "";
+                    }
+                    this.debateFull.round2.editable = true;
+                    this.debateFull.next_round = 2;
+                } else if (this.debateFull.next_round === "3" && iAmPro) {
+                    if (this.debateFull.round3.content === "<div><!--block-->Discursul inca nu a fost publicat</div>") {
+                        this.debateFull.round3.content = "";
+                    }
+                    this.debateFull.round3.editable = true;
+                    this.debateFull.next_round = 3;
+                } else if (this.debateFull.next_round === "4" && iAmCon) {
+                    if (this.debateFull.round4.content === "<div><!--block-->Discursul inca nu a fost publicat</div>") {
+                        this.debateFull.round4.content = "";
+                    }
+                    this.debateFull.round4.editable = true;
+                    this.debateFull.next_round = 4;
+                } else if (this.debateFull.next_round === "5" && iAmPro) {
+                    if (this.debateFull.round5.content === "<div><!--block-->Discursul inca nu a fost publicat</div>") {
+                        this.debateFull.round5.content = "";
+                    }
+                    this.debateFull.round5.editable = true;
+                    this.debateFull.next_round = 5;
+                } else if (this.debateFull.next_round === "6" && iAmCon) {
+                    if (this.debateFull.round6.content === "<div><!--block-->Discursul inca nu a fost publicat</div>") {
+                        this.debateFull.round6.content = "";
+                    }
+                    this.debateFull.round6.editable = true;
+                    this.debateFull.next_round = 6;
                 }
             }
-            this.timeleftMessage = "mesag";
-            this.timeleftVisible = false;
+        }
 
-            function setTimeToNextSpeech(){
-                this.timeToNextSpeech = this.debateState.time_to_next;
-                var timerTriggered = false;
+        this.setTimeToNextSpeech = function (Time_to_next) {
 
-                var x = setInterval(function() {
+            _this.debateFull.timeToNextSpeech = Time_to_next;
+            var timerTriggered = false;
+            if (_this.goingActive) {
+                _this.clockInterval = setInterval(function () {
 
                     // Get todays date and time
                     var now = new Date().getTime();
 
                     // Find the distance between now an the count down date
-                    var distance = this.timeToNextSpeech - now;
+                    var distance = Time_to_next - now;
 
                     // Time calculations for days, hours, minutes and seconds
                     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -262,103 +282,327 @@ index.controller('debateController', ['navigateFactory', 'debateFactory', '$loca
                     document.getElementById("timer").innerHTML = days + " zile   " + hours + " ore   "
                         + minutes + " minute   " + seconds + " secunde   ";
 
-
-
-                    if(days === 0){
-                        if(hours === 1) {
-                            $timeout(function() {
-                                this.timeleftMessage = "Mai putin de doua ore ramase!";
-                                this.timeleftVisible = true;
+                    if (days === 0 || days < 0) {
+                        if (hours === 1) {
+                            $timeout(function () {
+                                _this.timeleftMessage = "Mai putin de doua ore ramase!";
+                                _this.timeleftVisible = true;
                             });
-                        } else if(hours === 0){
-                            $timeout(function() {
-                                this.timeleftMessage = "Mai putin de o ora ramasa!";
-                                this.timeleftVisible = true;
+                        } else if (hours === 0 || hours < 0) {
+                            $timeout(function () {
+                                _this.timeleftMessage = "Mai putin de o ora ramasa!";
+                                _this.timeleftVisible = true;
                             });
-                            if(minutes < 10 && minutes > 0){
-                                $timeout(function() {
-                                    this.timeleftMessage = "Ultimele minute in care poti publica!";
-                                    this.timeleftVisible = true;
+                            if (minutes < 10 && minutes > 0) {
+                                $timeout(function () {
+                                    _this.timeleftMessage = "Ultimele minute in care poti publica!";
+                                    _this.timeleftVisible = true;
                                 });
-                            } else if(minutes === 0 && seconds === 0) {
-                                if (this.activeRound === 1) {
-                                    this.round1.content = "Discursul nu a fost postat. Dezbaterea continua.";
-                                } else if (this.activeRound === 2) {
-                                    this.round2.content = "Discursul nu a fost postat. Dezbaterea continua.";
-                                } else if (this.activeRound === 3) {
-                                    this.round3.content = "Discursul nu a fost postat. Dezbaterea continua.";
-                                } else if (this.activeRound === 4) {
-                                    this.round4.content = "Discursul nu a fost postat. Dezbaterea continua.";
-                                } else if (this.activeRound === 5) {
-                                    this.round5.content = "Discursul nu a fost postat. Dezbaterea continua.";
-                                } else if (this.activeRound === 6) {
-                                    this.round6.content = "Discursul nu a fost postat. Dezbaterea continua.";
+                            } else if ((minutes === 0 && seconds === 0) || (minutes < 0 && seconds < 0)) {
+                                if (_this.debateFull.next_round === 1) {
+                                    _this.debateFull.round1.content = "Discursul nu a fost postat. Dezbaterea continua.";
+                                } else if (_this.debateFull.next_round === 2) {
+                                    _this.debateFull.round2.content = "Discursul nu a fost postat. Dezbaterea continua.";
+                                } else if (_this.debateFull.next_round === 3) {
+                                    _this.debateFull.round3.content = "Discursul nu a fost postat. Dezbaterea continua.";
+                                } else if (_this.debateFull.next_round === 4) {
+                                    _this.debateFull.round4.content = "Discursul nu a fost postat. Dezbaterea continua.";
+                                } else if (_this.debateFull.next_round === 5) {
+                                    _this.debateFull.round5.content = "Discursul nu a fost postat. Dezbaterea continua.";
+                                } else if (_this.debateFull.next_round === 6) {
+                                    _this.debateFull.round6.content = "Discursul nu a fost postat. Dezbaterea s-a incheiat.";
                                 }
-                                var debateContent ={
-                                    debate_id: this.debate_id,
-                                    round_1: this.round1.content,
-                                    round_2: this.round2.content,
-                                    round_3: this.round3.content,
-                                    round_4: this.round4.content,
-                                    round_5: this.round5.content,
-                                    round_6: this.round6.content
+                                var debateContent = {
+                                    debate_id: _this.debateFull.debate_id,
+                                    round_1: _this.debateFull.round1.content,
+                                    round_2: _this.debateFull.round2.content,
+                                    round_3: _this.debateFull.round3.content,
+                                    round_4: _this.debateFull.round4.content,
+                                    round_5: _this.debateFull.round5.content,
+                                    round_6: _this.debateFull.round6.content
                                 };
+                                var nextRound = {
+                                    debate_id: _this.debateFull.debate_id
+                                }
+                                debateFactory.saveDebate(debateContent).then(function (response) {
+                                })
+                                    .catch(function (err) {
+                                        console.log(err)
+                                    });
 
-                                    debateFactory.saveSpeech(debateContent).then(function (response) {
-                                          debateFactory.goToNextRound(this.debate_id).then(function (response) {
-                                            navigateFactory.goToDebate(this.debate_id);
 
-                                        })
-                                            .catch(function (err) {
-                                                console.log(err)
-                                            });
-                                    })
-                                        .catch(function (err) {
-                                            console.log(err)
-                                        });
+
+                                debateFactory.goToNextRound(nextRound).then(function (response) {
+                                    clearInterval(_this.clockInterval);
+                                    navigateFactory.goToDebate(_this.debateFull.debate_id);
+                                })
+                                    .catch(function (err) {
+                                        console.log(err)
+                                    });
 
                             }
                         }
                     }
-                    if(this.debateState.next_round % 2 === 1){
+
+                    if (this.round % 2 === 1) {
                         this.nextPlayer = this.proPlayer;
                     } else {
                         this.nextPlayer = this.conPlayer;
                     }
-                    if(this.userLogged !== this.nextPlayer){
-                        $timeout(function() {
+                    if (this.userLogged !== this.nextPlayer) {
+                        $timeout(function () {
                             this.timeleftVisible = false;
                         });
                     }
 
                 }, 1000);
-
             }
+        }
 
-            function trixTextSetup(){
-                document.addEventListener("trix-initialize", function(event) {
-                    var toolbar, toolbar_id;
-                    toolbar_id = event.target.getAttribute('toolbar');
-                    toolbar = document.getElementById(toolbar_id);
-                    toolbar.style.display = 'none';
-                });
+        this.joinDebate = function () {
+            var content = {
+                debate_id: this.debateFull.debate_id,
+                user_id: this.userLogged
+            }
+            var _this = this;
+            debateFactory.joinDebate(content).then(function () {
+                clearInterval(_this.clockInterval);
+                navigateFactory.goToDebate(_this.debateFull.debate_id);
+                window.location.reload();
+            })
+        };
 
-                document.addEventListener("trix-focus", function(event) {
-                    event.target.toolbarElement.style.display = "block";
-                });
-
-                this.trixBlur = function(e, editor) {
-                    if(editor.selectionManager.lockCount !== 1){
-                        event.target.toolbarElement.style.display = "none";
+        this.quitDebate = function () {
+            var content = {
+                debate_id: this.debateFull.debate_id
+            }
+            swal("Esti sigur? Acesta dezbatere va fi stearsa definitiv!", {
+                buttons: {
+                    renunta: {
+                        text: "Inapoi",
+                        value: "cancel",
+                    },
+                    catch: {
+                        text: "Renunta la dezbatere",
+                        value: "catch",
                     }
+                },
+                closeOnClickOutside: false
+            })
+                .then((value) => {
+                    switch (value) {
+                        case "cancel":
+                            break;
+                        case "catch":
+                            debateFactory.deleteDebate(content).then(function (response) {
+                                clearInterval(this.clockInterval);
+                                navigateFactory.goToDezbateri();
+                            })
+                            break;
+                        default:
+                            break;
+                    }
+                });
+        };
+
+        this.saveSpeech = function () {
+            var debateContent = {
+                debate_id: this.debateFull.debate_id,
+                round_1: this.debateFull.round1.content,
+                round_2: this.debateFull.round2.content,
+                round_3: this.debateFull.round3.content,
+                round_4: this.debateFull.round4.content,
+                round_5: this.debateFull.round5.content,
+                round_6: this.debateFull.round6.content
+            };
+            debateFactory.saveDebate(debateContent).then(function (response) {
+                swal("Salvare reusita", "Puteti reveni oricand fara a va pierde continutul", "success");
+            });
+        };
+
+        this.publishSpeech = function () {
+            var _this = this;
+            swal("Odata publicat, discursul nu va mai putea fi modificat", {
+                buttons: {
+                    renunta: {
+                        text: "Renunta",
+                        value: "cancel",
+                    },
+                    catch: {
+                        text: "Publica",
+                        value: "catch",
+                    }
+                },
+                closeOnClickOutside: false
+            })
+                .then((value) => {
+                    switch (value) {
+                        case "cancel":
+                            break;
+                        case "catch":
+                            _this.saveSpeech();
+                            var nextRound = {
+                                debate_id: _this.debateFull.debate_id
+                            }
+                            debateFactory.goToNextRound(nextRound).then(function (response) {
+                                clearInterval(_this.debateFull.clockInterval);
+                                navigateFactory.goToDebate(_this.debateFull.debate_id);
+                                sessionStorage.setItem("speechpublished", "yes");
+                                window.location.reload();
+                            })
+                            break;
+                        default:
+                            break;
+                    }
+                });
+
+        };
+
+        function trixTextSetup() {
+            document.addEventListener("trix-initialize", function (event) {
+                var toolbar, toolbar_id;
+                toolbar_id = event.target.getAttribute('toolbar');
+                toolbar = document.getElementById(toolbar_id);
+                toolbar.style.display = 'none';
+            });
+
+            document.addEventListener("trix-focus", function (event) {
+                event.target.toolbarElement.style.display = "block";
+            });
+
+            this.trixBlur = function (e, editor) {
+                if (editor.selectionManager.lockCount !== 1) {
+                    event.target.toolbarElement.style.display = "none";
                 }
-
             }
-
 
         }
 
-    ]
+        this.navigate = function (type) {
+            clearInterval(this.clockInterval);
+            switch (type) {
+                case ("home"):
+                    navigateFactory.goToAcasa();
+                    break;
+                case ("dezbateri"):
+                    navigateFactory.goToDezbateri();
+                    break;
+                case ("opinii"):
+                    navigateFactory.goToOpinii();
+                    break;
+                case ("login"):
+                    navigateFactory.goToLogin();
+                    break;
+                case ("logout"):
+                    navigateFactory.logout();
+                    break;
+            }
+        }
+
+        this.vote = function(side){
+            var userToVote;
+            var debateToVote = this.debateFull.debate_id;
+            var userVoting = this.userLogged;
+
+            switch (side){
+                case 'pro':
+                userToVote = "pro";
+                break;
+                case 'con':
+                userToVote = "con";
+                break;
+            }
+
+            var content = {
+                debate_id: debateToVote,
+                userVoting: userVoting,
+                voteCasted : userToVote
+            };
+            
+            debateFactory.voteDebate(content).then(function (response) {
+                window.location.reload();
+            });
+        }
+
+        this.addComment = function(){
+            var comm = _this.replaceBackslash(_this.newComment);
+            var today = new Date();
+            var formattedDate = $filter('date')(today, 'yyyy.MM.dd hh:mm:ss');
+            var content = {
+                Debate_id: _this.debateFull.debate_id,
+                Comment: comm,
+                Date_created: formattedDate,
+                User_username: _this.userLogged
+            }
+            debateFactory.addComment(content).then(function(response){
+                _this.allComments.push(response.data);
+                _this.newComment = "";
+            });
+        }
+
+        this.minimizeSpeech = function (number, ifmin) {
+            switch (number) {
+                case (1):
+                    if (ifmin)
+                        this.debateFull.round1.minimized = true;
+                    else
+                        this.debateFull.round1.minimized = false;
+                    break;
+                case (2):
+                    if (ifmin)
+                        this.debateFull.round2.minimized = true;
+                    else
+                        this.debateFull.round2.minimized = false;
+                    break;
+                case (3):
+                    if (ifmin)
+                        this.debateFull.round3.minimized = true;
+                    else
+                        this.debateFull.round3.minimized = false;
+                    break;
+                    break;
+                case (4):
+                    if (ifmin)
+                        this.debateFull.round4.minimized = true;
+                    else
+                        this.debateFull.round4.minimized = false;
+                    break;
+                    break;
+                case (5):
+                    if (ifmin)
+                        this.debateFull.round5.minimized = true;
+                    else
+                        this.debateFull.round5.minimized = false;
+                    break;
+                    break;
+                case (6):
+                    if (ifmin)
+                        this.debateFull.round6.minimized = true;
+                    else
+                        this.debateFull.round6.minimized = false;
+                    break;
+                    break;
+            }
+        }
+
+        this.trustedHtml = function (plainText) {
+            return $sce.trustAsHtml(plainText);
+        }
+
+        this.replaceBackslash = function(text){
+            var res = text.replace(/\n/g, "<br/>");
+            return res;
+        }
+
+        $("span.anchor_debate").click(function (e) {
+            e.preventDefault();
+            $("div.anchor_debate").scrollintoview({duration: "fast", viewPadding: {y: 300}});
+        });
+
+
+    }
+
+]
 );
 
 

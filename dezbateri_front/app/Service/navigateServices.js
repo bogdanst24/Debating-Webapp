@@ -8,6 +8,7 @@
 
                 goToDezbateri: function () {
                     $location.path('/dezbateri');
+                    $location.search("");
                     // window.location.reload();
                 },
 

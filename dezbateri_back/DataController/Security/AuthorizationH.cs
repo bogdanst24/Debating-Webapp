@@ -17,12 +17,12 @@ namespace DataController.Security
         {
 
             var headers = Request.Headers;
-            if (!headers.Contains("auth_token"))
+            if (!headers.Contains("token"))
                 throw new AuthorizationException("120");
             else
             {
             
-                var token = headers.GetValues("auth_token").First();
+                var token = headers.GetValues("token").First();
                 if (!AuthToken.VerifyToken(token))
                     throw new AuthorizationException("121");
                 if (!AuthToken.CheckRole(token, role))

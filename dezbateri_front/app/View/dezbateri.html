@@ -19,7 +19,7 @@
                     <a class="cursor-show">
                     <span class="dropbtn">
                        <img src="assets/img/iconUser.png" alt="Logo"
-                            style="max-width: 20px; max-height: 20px; margin-bottom: -4px;">
+                            style="max-width: 20px; max-height: 20px; margin-bottom: 7px;">
                         {{$ctrl.userLogged}}
                     </span>
                         <div class="dropdown-content">
@@ -34,7 +34,7 @@
     </div>
 
     <div id="nav-img" class="header-landing">
-        <img  src="assets/img/cd-hero-backgrousnd.jpg">
+        <img  src="assets/img/cd-hero-background.jpg" width="0" height="0">
     </div>
 
     <div id="header-secondary-landing" class="header-secondary no-landing">
@@ -76,7 +76,7 @@
                                     name="categoryselect" id="categoryselect"
                                     style="background-color: #FFFFFF; height: 50px" ng-model="$ctrl.categoryselect">
                                 <option id="asta" value="">--- Selecteaza ---</option>
-                                <option ng-repeat="cate in $ctrl.categoriesAll">{{$ctrl.cate.cat}}</option>
+                                <option ng-repeat="cate in $ctrl.categoriesAll">{{cate.cat}}</option>
                             </select>
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                                     name="statusselect" id="statusselect"
                                     style="background-color: #FFFFFF; height: 50px" ng-model="$ctrl.statusselect">
                                 <option value="">--- Selecteaza ---</option>
-                                <option ng-repeat="status in $ctrl.statusAll">{{$ctrl.status.sts}}</option>
+                                <option ng-repeat="status in $ctrl.statusAll">{{status.sts}}</option>
                             </select>
                         </div>
                     </div>
@@ -119,43 +119,43 @@
                     <tr ng-show="$ctrl.alldebates.length <= 0">
                         <td colspan="5" style="text-align:center;">Loading new data!!</td>
                     </tr>
-
+                    
                     <tr dir-paginate="debate in $ctrl.alldebates | orderBy:sortKey:reverse | filter:$ctrl.searchFilter | itemsPerPage: $ctrl.itemsPerPage"
                         pagination-id="alldeb">
-
+                        
                         <td class="columnAuto allDebatesTable">
                             <div class="col-md-9" style="position: relative;">
-                                <a ng-click="$ctrl.navigateFactory.goToDebate(debate.debateDescription.debate_id)"
-                                   class="debate_title">{{$ctrl.debate.debateDescription.subject}}</a>
-                                <p style="font-family: Arial; margin-bottom: 7%">
-                                    {{$ctrl.debate.debateDescription.description}}</p>
+                                <a ng-click="$ctrl.navigateFactory.goToDebate(debate.DebateId)"
+                                   class="debate_title">{{debate.Subject}}</a>
+                                <p style="font-family: 'Open Sans', sans-serif;; margin-bottom: 7%">
+                                    {{debate.Description}}</p>
                                 <div class="col-md-12" style="background-color: #F2F2F2 ;padding: 0.5%">
                                     <div class="col-md-2">
                                         <p style="font-size: 14px; ">
-                                            #ID: {{$ctrl.debate.debateDescription.debate_id}}
+                                            #ID: {{debate.DebateId}}
                                         </p>
                                     </div>
                                     <div class="col-md-4">
                                         <p style="font-size: 14px;">
                                             Categorie:
-                                            <span ng-repeat="cat in $ctrl.debate.debateDescription.category">{{$ctrl.cat}}{{$last ? '' : ' | '}}</span>
+                                            <span ng-repeat="cat in debate.Category">{{cat}}{{$last ? '' : ' | '}}</span>
                                         </p>
                                     </div>
                                     <div class="col-md-3">
                                         <p style="font-size: 14px;">
-                                            Data: {{$ctrl.debate.debateDescription.date_created}}
+                                            Data: {{debate.Date_created}}
                                         </p>
                                     </div>
                                     <div class="col-md-3">
                                         <p style="font-size: 14px;">
-                                            Status: {{$ctrl.debate.debateDescription.state}}
-                                            <i ng-show="$ctrl.debate.debateDescription.state === 'desfasurare'"
+                                            Status: {{debate.State}}
+                                            <i ng-show="debate.State === 'desfasurare'"
                                                class=" glyphicon glyphicon-circle-arrow-right"
                                                style="margin-left: 5px; color: #4cae4c;"></i>
-                                            <i ng-show="$ctrl.debate.debateDescription.state === 'asteptare'"
+                                            <i ng-show="debate.State === 'asteptare'"
                                                class="glyphicon glyphicon-exclamation-sign"
                                                style="margin-left: 5px; color: gold;"></i>
-                                            <i ng-show="$ctrl.debate.debateDescription.state === 'incheiat'"
+                                            <i ng-show="debate.State === 'incheiat'"
                                                class="glyphicon glyphicon-record"
                                                style="margin-left: 5px; color: #c00004;"></i>
                                         </p>
@@ -164,18 +164,18 @@
                             </div>
                             <div class="col-md-3 procon_red"  >
                                 <div class="col-md-12">
-                                    <p class="oponent_debate">{{$ctrl.debate.debateRound.pro_username}}</p>
+                                    <p class="oponent_debate">{{debate.Pro_username}}</p>
                                 </div>
                                 <div class="col-md-12">
                                     <p class="oponent_vs">vs</p>
                                 </div>
                                 <div class="col-md-12">
 
-                                    <div ng-show="$ctrl.isJoinable(debate.debateDescription.debate_id)===false">
-                                        <p class="oponent_debate">{{$ctrl.debate.debateRound.con_username}}</p>
+                                    <div ng-show="$ctrl.isJoinable(debate.DebateId)===false">
+                                        <p class="oponent_debate">{{debate.Con_username}}</p>
                                     </div>
-                                    <div ng-show="$ctrl.isJoinable(debate.debateDescription.debate_id)===true"
-                                         ng-click="$ctrl.navigateFactory.goToDebate(debate.debateDescription.debate_id)"
+                                    <div ng-show="$ctrl.isJoinable(debate.DebateId)===true"
+                                         ng-click="$ctrl.navigateFactory.goToDebate(debate.DebateId)"
                                          class="col-md-10 join-debate-box">
                                         <p class="join-debate-text"> intra in dezbatere!</p>
                                     </div>
@@ -199,7 +199,7 @@
 
 
             <div class="container anchor_dezbateri_2">
-                <div class="heading_page heading_page_pink">
+                <div class="heading_page heading_page_yellow">
                     <p class=" heading_title" style="margin: 0px">Dezbaterile mele</p>
                 </div>
 
@@ -219,54 +219,54 @@
                     <tr dir-paginate="debate in $ctrl.mydebates | orderBy:sortKey:reverse | filter:$ctrl.searchFilter2 | itemsPerPage: $ctrl.itemsPerPage_mydebates "
                         pagination-id="mydeb">
 
-                        <td class="columnAuto" style="display: flex; border-bottom: 3px solid #eb6e80;">
+                        <td class="columnAuto" style="display: flex; border-bottom: 3px solid #E9B000;">
                             <div class="col-md-9" style="position: relative;">
-                                <a ng-click="$ctrl.navigateFactory.goToDebate(debate.debateDescription.debate_id)"
-                                   class="debate_title">{{$ctrl.debate.debateDescription.subject}}</a>
-                                <p style="font-family: Arial; margin-bottom: 7%">
-                                    {{$ctrl.debate.debateDescription.description}}</p>
+                                <a ng-click="$ctrl.navigateFactory.goToDebate(debate.DebateId)"
+                                   class="debate_title">{{debate.Subject}}</a>
+                                <p style="font-family: 'Open Sans', sans-serif; margin-bottom: 7%">
+                                    {{debate.Description}}</p>
                                 <div class="col-md-12" style="background-color: #F2F2F2 ;padding: 0.5%">
                                     <div class="col-md-2">
                                         <p style="font-size: 14px; ">
-                                            #ID: {{$ctrl.debate.debateDescription.debate_id}}
+                                            #ID: {{debate.DebateId}}
                                         </p>
                                     </div>
                                     <div class="col-md-4">
                                         <p style="font-size: 14px;">
                                             Categorie:
-                                            <span ng-repeat="cat in $ctrl.debate.debateDescription.category">{{$ctrl.cat}}{{$last ? '' : ' | '}}</span>
+                                            <span ng-repeat="cat in debate.Category">{{cat}}{{$last ? '' : ' | '}}</span>
                                         </p>
                                     </div>
                                     <div class="col-md-3">
                                         <p style="font-size: 14px;">
-                                            Data: {{$ctrl.debate.debateDescription.date_created}}
+                                            Data: {{debate.Date_created}}
                                         </p>
                                     </div>
                                     <div class="col-md-3">
                                         <p style="font-size: 14px;">
-                                            Status: {{$ctrl.debate.debateDescription.state}}
-                                            <i ng-show="$ctrl.debate.debateDescription.state === 'desfasurare'"
+                                            Status: {{debate.State}}
+                                            <i ng-show="debate.State === 'desfasurare'"
                                                class=" glyphicon glyphicon-circle-arrow-right"
                                                style="margin-left: 5px; color: #4cae4c;"></i>
-                                            <i ng-show="$ctrl.debate.debateDescription.state === 'asteptare'"
+                                            <i ng-show="debate.State === 'asteptare'"
                                                class="glyphicon glyphicon-exclamation-sign"
                                                style="margin-left: 5px; color: gold;"></i>
-                                            <i ng-show="$ctrl.debate.debateDescription.state === 'incheiat'"
+                                            <i ng-show="debate.State === 'incheiat'"
                                                class="glyphicon glyphicon-record"
                                                style="margin-left: 5px; color: #c00004;"></i>
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 procon_pink">
+                            <div class="col-md-3 procon_yellow">
                                 <div class="col-md-12">
-                                    <p class="oponent_debate">{{$ctrl.debate.debateRound.pro_username}}</p>
+                                    <p class="oponent_debate">{{debate.Pro_username}}</p>
                                 </div>
                                 <div class="col-md-12">
                                     <p class="oponent_vs">vs</p>
                                 </div>
                                 <div class="col-md-12">
-                                    <p class="oponent_debate">{{$ctrl.debate.debateRound.con_username}}</p>
+                                    <p class="oponent_debate">{{debate.Con_username}}</p>
                                 </div>
                             </div>
                         </td>
@@ -287,7 +287,7 @@
             </div>
 
             <div class="container anchor_dezbateri_3">
-                <div class="heading_page heading_page_yellow">
+                <div class="heading_page heading_page_pink">
                     <p class=" heading_title" style="margin: 0px"> Incepe o dezbatere</p>
                 </div>
                 <div class="col-md-12">
@@ -399,7 +399,7 @@
                                                                        autocomplete="off" value="">
                                                                 <span class="glyphicon glyphicon-ok glyphicon-lg pull-right"
                                                                       style="padding: 0 5px 0 3px"></span>
-                                                                {{$ctrl.categ.cat}}
+                                                                {{categ.cat}}
                                                             </div>
                                                         </label>
                                                     </div>
@@ -444,12 +444,13 @@
                         <div class="categories-container" id="astama">
                             <div ng-repeat="categ in $ctrl.categoriesAll" class="items"
                                  style="width: auto; display: inline-block">
+
                                 <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
                                     <div class="flipper">
                                         <div class="front">
                                             <div class="insidebox">
                                                 <div style="word-wrap: break-word; height: auto">
-                                                    {{$ctrl.categ.cat}}
+                                                    {{categ.cat}}
                                                 </div>
                                                 <div class="glyphicon glyphicon-hand-up glyphicon-lg"
                                                      style="padding: 10px 0 0 0"></div>
@@ -462,7 +463,7 @@
                                                 <div class="glyphicon glyphicon-share glyphicon-lg"
                                                      style="padding: 10px 0 20px 0"></div>
                                                 <div style="font-size: small  !important;">
-                                                    {{$ctrl.categ.cat}}
+                                                    {{categ.cat}}
                                                 </div>
                                             </div>
                                         </div>
@@ -494,37 +495,37 @@
 
                                     <td class="columnAuto" style="display: flex; border-bottom: 3px solid #008f95;">
                                         <div class="col-md-9" style="position: relative;">
-                                            <a ng-click="$ctrl.navigateFactory.goToDebate(debate.debateDescription.debate_id)"
-                                              class="debate_title" >{{$ctrl.debate.debateDescription.subject}}</a>
-                                            <p style="font-family: Arial; margin-bottom: 7%">
-                                                {{$ctrl.debate.debateDescription.description}}</p>
+                                            <a ng-click="$ctrl.navigateFactory.goToDebate(debate.DebateId)"
+                                              class="debate_title" >{{debate.Subject}}</a>
+                                            <p style="font-family: 'Open Sans', sans-serif; margin-bottom: 7%">
+                                                {{debate.Description}}</p>
                                             <div class="col-md-12" style="background-color: #F2F2F2 ;padding: 0.5%">
                                                 <div class="col-md-2">
                                                     <p style="font-size: 14px; ">
-                                                        #ID: {{$ctrl.debate.debateDescription.debate_id}}
+                                                        #ID: {{debate.DebateId}}
                                                     </p>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <p style="font-size: 14px;">
                                                         Categorie:
-                                                        <span ng-repeat="cat in $ctrl.debate.debateDescription.category">{{$ctrl.cat}}{{$last ? '' : ' | '}}</span>
+                                                        <span ng-repeat="cat in debate.Category">{{cat}}{{$last ? '' : ' | '}}</span>
                                                     </p>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <p style="font-size: 14px;">
-                                                        Data: {{$ctrl.debate.debateDescription.date_created}}
+                                                        Data: {{debate.Date_created}}
                                                     </p>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <p style="font-size: 14px;">
-                                                        Status: {{$ctrl.debate.debateDescription.state}}
-                                                        <i ng-show="$ctrl.debate.debateDescription.state === 'desfasurare'"
+                                                        Status: {{debate.State}}
+                                                        <i ng-show="debate.State === 'desfasurare'"
                                                            class=" glyphicon glyphicon-circle-arrow-right"
                                                            style="margin-left: 5px; color: #4cae4c;"></i>
-                                                        <i ng-show="$ctrl.debate.debateDescription.state === 'asteptare'"
+                                                        <i ng-show="debate.State === 'asteptare'"
                                                            class="glyphicon glyphicon-exclamation-sign"
                                                            style="margin-left: 5px; color: gold;"></i>
-                                                        <i ng-show="$ctrl.debate.debateDescription.state === 'incheiat'"
+                                                        <i ng-show="debate.State === 'incheiat'"
                                                            class="glyphicon glyphicon-record"
                                                            style="margin-left: 5px; color: #c00004;"></i>
                                                     </p>
@@ -533,13 +534,13 @@
                                         </div>
                                         <div class="col-md-3 procon_blue">
                                             <div class="col-md-12 oponent_box">
-                                                <p class="oponent_debate">{{$ctrl.debate.debateRound.pro_username}} </p>
+                                                <p class="oponent_debate">{{debate.Pro_username}} </p>
                                             </div>
                                             <div class="col-md-12">
                                                 <p class="oponent_vs">vs</p>
                                             </div>
                                             <div class="col-md-12 oponent_box">
-                                                <p class="oponent_debate">{{$ctrl.debate.debateRound.con_username}}</p>
+                                                <p class="oponent_debate">{{debate.Con_username}}</p>
                                             </div>
                                         </div>
                                     </td>

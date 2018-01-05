@@ -10,7 +10,7 @@ body {
       background: -moz-linear-gradient(right, #29B8B6, #08bfc2);
       background: -o-linear-gradient(right, #29B8B6, #08bfc2);
       background: linear-gradient(to left, #29B8B6, #08bfc2);*/
-    font-family: "Roboto", sans-serif;
+      font-family: 'Open Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

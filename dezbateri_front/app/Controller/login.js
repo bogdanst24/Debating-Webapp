@@ -41,22 +41,22 @@ index.controller('loginController', ['navigateFactory','loginFactory', 'userFact
             this.registrationForm["birthdate"].$setValidity('birthdate', true);
         };
 
-
+        var _this = this;
         //************** LOGIN START***********************************************************//
         this.login = function (loginForm) {
       
             var data =  {};
-            if(this.loginemail.toString().match(/[@]/)){
+            if(_this.loginemail.toString().match(/[@]/)){
                 data = {
                     "username": "",
-                    "email": this.loginemail,
-                    "password": this.loginpassword
+                    "email": _this.loginemail,
+                    "password": _this.loginpassword
                 };
             } else {
                 data = {
-                    "username": this.loginemail,
+                    "username": _this.loginemail,
                     "email": "",
-                    "password": this.loginpassword
+                    "password": _this.loginpassword
                 };
             }
             if (loginForm.$valid) {
@@ -70,7 +70,7 @@ index.controller('loginController', ['navigateFactory','loginFactory', 'userFact
         };
         var successLogin = function (response) {
            
-            this.wrongCredentialsVar = false;
+            _this.wrongCredentialsVar = false;
 
             var res = response.data;
              console.log(response.data);
@@ -81,10 +81,10 @@ index.controller('loginController', ['navigateFactory','loginFactory', 'userFact
                 if(wrong === undefined){
                     wrong = "Error in performing login";
                 }
-                this.wrong = wrong;
-                 console.log(this.wrong);
-                this.wrongCredentialsVar = true;
-                 console.log(this.wrongCredentialsVar);
+                _this.wrong = wrong;
+                 console.log(_this.wrong);
+                 _this.wrongCredentialsVar = true;
+                 console.log(_this.wrongCredentialsVar);
             }
             else {
                 var tkn = response.data;
@@ -93,9 +93,9 @@ index.controller('loginController', ['navigateFactory','loginFactory', 'userFact
             }
         };
         var errorLogin = function (response) {
-            this.wrong = "Date de logare invalide";
-            this.wrongCredentialsVar = true;
-            this.user.password = "";
+            _this.wrong = "Date de logare invalide";
+            _this.wrongCredentialsVar = true;
+            _this.user.password = "";
         };
         //************** LOGIN END ***********************************************************//
 
@@ -120,7 +120,7 @@ index.controller('loginController', ['navigateFactory','loginFactory', 'userFact
             }
         };
         var successRegister = function (response) {
-            this.wrongCredentialsVar = false;
+            _this.wrongCredentialsVar = false;
             var res = response.data;
             if(res["ErrorCode"] !== undefined){
                 var code = res["ErrorCode"];
@@ -128,30 +128,30 @@ index.controller('loginController', ['navigateFactory','loginFactory', 'userFact
                 if(wrong === undefined){
                     wrong = "Error in performing login";
                 }
-                this.wrong = wrong;
-                this.wrongCredentialsVar = true;
+                _this.wrong = wrong;
+                _this.wrongCredentialsVar = true;
             }
             else {
                 sweetAlert("Succes", "Contul a fost creat. Va puteti loga", "success");
-                this.showLoginF();
+                _this.showLoginF();
             }
 
 
         };
         var errorRegister = function (response) {
             if(response === "birthate_error"){
-                this.wrong = "Selectati data nasterii";
-                this.wrongCredentialsVar = true;
+                _this.wrong = "Selectati data nasterii";
+                _this.wrongCredentialsVar = true;
             } else
             if (response.data.message === "dupplicate_email") {
-                this.wrong = "Exista un cont cu aceasta adresa de E-mail";
-                this.wrongCredentialsVar = true;
-                this.registeremail = "";
+                _this.wrong = "Exista un cont cu aceasta adresa de E-mail";
+                _this.wrongCredentialsVar = true;
+                _this.registeremail = "";
             } else
             if (response.data.message === "dupplicate_username") {
-                this.wrong = "Exista un cont cu acest username";
-                this.wrongCredentialsVar = true;
-                this.registerusername = "";
+                _this.wrong = "Exista un cont cu acest username";
+                _this.wrongCredentialsVar = true;
+                _this.registerusername = "";
             }
         };
         //************** REGISTER END ***********************************************************//

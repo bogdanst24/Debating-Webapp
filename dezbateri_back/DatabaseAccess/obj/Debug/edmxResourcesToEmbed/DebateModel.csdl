@@ -189,5 +189,16 @@
       <End Role="DebateInfo" EntitySet="DebateInfoes" />
       <End Role="Vote" EntitySet="Votes" />
     </AssociationSet>
+    <EntitySet Name="Commentaries" EntityType="dezbateriModel.Commentary" />
   </EntityContainer>
+  <EntityType Name="Commentary">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Debate_id" Type="Int32" Nullable="false" />
+    <Property Name="User_username" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+    <Property Name="Date_created" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+    <Property Name="Comment" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

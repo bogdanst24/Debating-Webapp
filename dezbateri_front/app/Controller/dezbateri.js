@@ -7,21 +7,21 @@ index.run(['$anchorScroll', function ($anchorScroll) {
 
 index.controller('dezbateriController', ['navigateFactory', 'debateFactory', 
         function (navigateFactory, debateFactory) {
-
+            console.log("loaded");
             this.navigateFactory = navigateFactory;
             this.userLogged = navigateFactory.getUserLogged();
-
+         
             this.categoriesAll = [];
+            _this = this;
             debateFactory.getAllCategories().then(function (response) {
-                console.log(response.data);
-                this.categoriesAll = response.data.map(categ => categ.name);
+                _this.categoriesAll = response.data.map(function(obj){
+                    var cate = {};
+                    cate["cat"] = obj.name;
+                    return cate;
+                });
             });
 
-                // [ {cat: "Economie"}, {cat: "Mediu"}, {cat: "Politica internationala"},
-                // {cat: "Drepturi si libertati"}, {cat: "Moralitate"}, {cat: "Religie"},
-                // {cat: "Politica"}, {cat: "Sport"}, {cat: "Stiinta si tehnologie"},
-                // {cat: "Cultura si arta"}, {cat: "Istorie"}, {cat: "Societate"}, {cat: "Conflicte"}];
-
+       
             this.statusAll = [ {sts: "In asteptare"}, {sts: "In desfasurare"}, {sts: "Incheiata"}];
 
             $("a.anchor_dezbateri_1").click(function (e) {
@@ -47,24 +47,26 @@ index.controller('dezbateriController', ['navigateFactory', 'debateFactory',
             this.pageno = 1; // initialize page no to 1
             this.total_count = 0;
             this.itemsPerPage = 5;
+            this.debates = [];
+            _this = this;
+           
             this.getData = function (pageno) { // This would fetch the data on page change.
-                //In practice this should be in a factory.
-                this.debates = [];
+               
                 debateFactory.getAllDebates().then(function (response) {
-                    //ajax request to fetch data into vm.data
-                    this.debates = response.data;  // data to be displayed on current page.
-                    this.alldebates = this.debates;
-                    angular.copy(this.alldebates,  this.copiedDebates);
-                    this.total_count = response.total_count; // total data count.
-                    for (var i = 0; i < this.debates.length; i++) {
-                        if (this.userLogged === this.debates[i].debateRound.pro_username) {
-                            this.mydebates.push(this.debates[i]);
+                  
+                    _this.debates = response.data;  
+                    _this.alldebates = _this.debates;
+                    angular.copy(_this.alldebates,  _this.copiedDebates);
+                    _this.total_count = response.total_count; // total data count.
+                    for (var i = 0; i < _this.debates.length; i++) {
+                        if (_this.userLogged === _this.debates[i].Pro_username) {
+                            _this.mydebates.push(_this.debates[i]);
                         }
-                        if (this.userLogged === this.debates[i].debateRound.con_username) {
-                            this.mydebates.push(this.debates[i]);
+                        if (_this.userLogged === _this.debates[i].Con_username) {
+                            _this.mydebates.push(_this.debates[i]);
                         }
                     }
-                    this.total_count_mydebates = this.mydebates.totalItems;
+                    _this.total_count_mydebates = _this.mydebates.totalItems;
                 })
                     .catch(function (err) {
                         console.log(err)
@@ -81,9 +83,7 @@ index.controller('dezbateriController', ['navigateFactory', 'debateFactory',
                 this.statusSearched = this.statusselect;
             };
             this.searchedusername = null;
-
             this.copiedDebates = [];
-
             this.resetCautare = false;
 
             this.searchForDebates = function(){
@@ -107,32 +107,32 @@ index.controller('dezbateriController', ['navigateFactory', 'debateFactory',
                        var ifstatus = false;
                        var ifcateg =  false;
                        var ifuser = false;
-                       if(status === null){
+                       if(status === null || status === undefined){
                            ifstatus = true;
                        }
-                       if(categ === null){
+                       if(categ === null || categ === undefined){
                            ifcateg = true;
                        }
-                       if(user === null){
+                       if(user === null || user === undefined){
                            ifuser = true;
                        }
 
-                       if(this.alldebates[i].debateDescription.state === status){
+                       if(this.alldebates[i].State === status){
                            ifstatus = true;
                        }
 
-                       for(var c = 0 ; c < this.alldebates[i].debateDescription.category.length; c++){
-                           if(this.alldebates[i].debateDescription.category[c] === categ){
+                       for(var c = 0 ; c < this.alldebates[i].Category.length; c++){
+                           if(this.alldebates[i].Category[c] === categ){
                                ifcateg = true;
                            }
                        }
 
-                       if(this.alldebates[i].debateRound.pro_username === user || this.alldebates[i].debateRound.con_username === user){
+                       if(this.alldebates[i].Pro_username === user || this.alldebates[i].Con_username === user){
                            ifuser = true;
                        }
 
                        var del = true;
-                       if(ifstatus && ifcateg && ifuser){
+                       if((ifstatus && ifcateg) && ifuser){
                            del = false;
                        }
                        if(del === true){
@@ -151,28 +151,28 @@ index.controller('dezbateriController', ['navigateFactory', 'debateFactory',
                 if(isfound){
                     this.resetCautare = true;
                 }
+
             };
 
             this.resetDebates = function(){
-
                 this.resetCautare = false;
                 this.alldebates = [];
-
                 angular.copy(this.copiedDebates,  this.alldebates);
                 var element = document.getElementById('categoryselect');
                 element.value = "";
                 element = document.getElementById('statusselect');
                 element.value = "";
-                this.searchedusername = "";
-
+                this.searchedusername = null;
+                this.categorySearched = null;
+                this.statusSearched = null; 
             };
 
             this.isJoinable = function(id){
 
                 for (var i = 0; i < this.copiedDebates.length; i++) {
-                    if(this.copiedDebates[i].debateDescription.debate_id === id){
-                        var user = this.copiedDebates[i].debateRound.con_username;
-                        var creator = this.copiedDebates[i].debateRound.pro_username;
+                    if(this.copiedDebates[i].DebateId === id){
+                        var user = this.copiedDebates[i].Con_username;
+                        var creator = this.copiedDebates[i].Pro_username;
                         if(user === 'waiting'){
 
                             if(creator === this.userLogged){
@@ -220,7 +220,6 @@ index.controller('dezbateriController', ['navigateFactory', 'debateFactory',
             };
 
             this.select = {};
-            this.select.debateDescription = null;
             this.select.idcard = null;
             this.select.name = null;
             this.select.dateOfBirth = null;
@@ -269,26 +268,30 @@ index.controller('dezbateriController', ['navigateFactory', 'debateFactory',
                     var createDate = d.getDate() + "/" +(d.getMonth()+1)+"/"+d.getFullYear();
 
                     var newdebate ={
-                        state: "asteptare",
-                        description: this.newDebate_description,
-                        subject: this.newDebate_subject,
-                        debate_id: "empty",
-                        date_created: createDate,
-                        con_username: "waiting",
-                        pro_username:  this.userLogged,
-                        category: chosenCategories,
-                        round_1: "incepe sa scrii primul discurs...",
-                        round_3: "Discursul inca nu a fost publicat",
-                        round_2: "Discursul inca nu a fost publicat",
-                        round_4: "Discursul inca nu a fost publicat",
-                        round_5: "Discursul inca nu a fost publicat",
-                        round_6: "Discursul inca nu a fost publicat"
+                        State: "asteptare",
+                        Description: this.newDebate_description,
+                        Subject: this.newDebate_subject,
+                        DebateId: "empty",
+                        Date_created: createDate,
+                        Con_username: "waiting",
+                        Pro_username:  this.userLogged,
+                        Category: chosenCategories,
+                        Round_1: "incepe sa scrii primul discurs...",
+                        Round_3: "Discursul inca nu a fost publicat",
+                        Round_2: "Discursul inca nu a fost publicat",
+                        Round_4: "Discursul inca nu a fost publicat",
+                        Round_5: "Discursul inca nu a fost publicat",
+                        Round_6: "Discursul inca nu a fost publicat"
                     };
 
+                    
+
+                    _this = this;
                     debateFactory.addNewDebate(newdebate).then(function(){
-                        this.copiedDebates.push(newdebate);
-                        this.mydebates.push(newdebate);
+                        _this.copiedDebates.push(newdebate);
+                        _this.mydebates.push(newdebate);
                         navigateFactory.goToDezbateri();
+                        window.location.reload();
                     });
                 } else {
                     this.wrongInputVar = true;
@@ -297,9 +300,9 @@ index.controller('dezbateriController', ['navigateFactory', 'debateFactory',
             };
 
             $(".tiptext").mouseover(function () {
-                $(this).children(".description").show();
+                $(this).children(".Description").show();
             }).mouseout(function () {
-                $(this).children(".description").hide();
+                $(this).children(".Description").hide();
             });
 
 
@@ -319,8 +322,8 @@ index.controller('dezbateriController', ['navigateFactory', 'debateFactory',
                 this.debatesOfCateg = [];
                 this.selectedCategory = categ;
                 for(var i=0; i<this.copiedDebates.length;i++){
-                    for(var c = 0 ; c < this.copiedDebates[i].debateDescription.category.length; c++){
-                        if(this.copiedDebates[i].debateDescription.category[c] === categ){
+                    for(var c = 0 ; c < this.copiedDebates[i].Category.length; c++){
+                        if(this.copiedDebates[i].Category[c] === categ){
                             this.debatesOfCateg.push(this.copiedDebates[i]);
                         }
                     }

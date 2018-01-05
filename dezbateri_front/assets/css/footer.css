@@ -19,7 +19,7 @@
     line-height: 1;
     position: relative;
     text-transform: uppercase;
-    font-family: 'Fjalla One', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     margin-top: 0;
     margin-right: 0;
     margin-bottom: 25px;
@@ -75,10 +75,10 @@
     line-height: 20px;
     margin: 0 0 15px;
     text-transform: uppercase;
-    font-family: 'Fjalla One', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
-.footerp p {font-family: 'Gudea', sans-serif; }
+.footerp p {font-family: 'Open Sans', sans-serif; }
 
 
 #social:hover {
