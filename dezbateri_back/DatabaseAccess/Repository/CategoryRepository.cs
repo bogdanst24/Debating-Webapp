@@ -75,6 +75,31 @@ namespace DatabaseAccess.Repository
             }
         }
 
+        public Category GetByName(string name)
+        {
+            Boolean check = false;
+            try
+            {
+                using (var context = new dezbateriEntities())
+                {
+                    var categoryFound = context.Categories.FirstOrDefault(category => category.name == name);
+                    if (categoryFound == null)
+                    {
+                        check = true;
+                    }
+                    return categoryFound;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new CategoryException("814", ex);
+            }
+            finally
+            {
+                if (check) throw new UserException("812");
+            }
+        }
+
         public void Update(Category category)
         {
             Boolean check = false;

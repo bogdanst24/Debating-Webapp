@@ -45,17 +45,18 @@ namespace DatabaseAccess.Repository
             }
         }
 
-        public Vote GetById(int voteDebateId)
+        public List<Vote> GetById(int debateId)
         {
             try
             {
                 using (var context = new dezbateriEntities())
                 {
-                    var voteFound = context.Votes.FirstOrDefault(vote => vote.vote_id == voteDebateId);
+                    var voteFound = context.Votes.Where(vote => vote.debate_id == debateId).ToList();
                     if (voteFound == null)
                     {
                         throw new VoteException("No vote found");
                     }
+                   
                     return voteFound;
                 }
             }
@@ -78,7 +79,7 @@ namespace DatabaseAccess.Repository
                     }
                     voteUpdated.debate_id = vote.debate_id;
                     voteUpdated.user_username = vote.user_username;
-                    voteUpdated.vote_pro = voteUpdated.vote_pro;
+                    voteUpdated.vote_pro = vote.vote_pro;
                     context.SaveChanges();
                 }
             }
@@ -106,6 +107,27 @@ namespace DatabaseAccess.Repository
             catch (Exception ex)
             {
                 throw new VoteException("Delete", ex);
+            }
+        }
+
+        public Vote GetDebateVote(int debate_id, String user)
+        {
+            try
+            {
+                using (var context = new dezbateriEntities())
+                {
+                    var query = context.Votes.Where(vote => vote.debate_id == debate_id);
+                    Vote voteFound = query.FirstOrDefault(vote => vote.user_username == user);
+                    if (voteFound == null)
+                    {
+                        throw new VoteException("333");
+                    }
+                    return voteFound;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new VoteException(ex.Message);
             }
         }
     }

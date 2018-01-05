@@ -14,7 +14,7 @@ svg {
   padding-top: 15px;
 }
 .cd-header h1 {
-  font-family: Georgia, serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 2rem;
   color: #141414;
 }
@@ -35,7 +35,7 @@ svg {
   text-align: center;
 }
 .cd-footer p {
-  font-family: Georgia, serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 1.8rem;
   line-height: 250px;
 }
@@ -108,7 +108,7 @@ Articles
   color: #141414;
   line-height: 1.2;
   font-size: 2.4rem;
-  font-family: Georgia, serif;
+  font-family: 'Open Sans', sans-serif;
 }
 .cd-articles p {
   padding: 0.3em 0;
@@ -132,8 +132,8 @@ Articles
   }
   .cd-articles p {
     font-size: 1.4rem;
-    font-family: Georgia, serif;
-    margin: 0em auto; !important;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0em auto;
   }
 }
 
@@ -175,7 +175,7 @@ Aside
   line-height: 34px;
   border-radius: 50%;
   color: #b3b3b3;
-  font-family: Georgia, serif;
+  font-family: 'Open Sans', sans-serif;
   text-align: center;
   box-shadow: inset 0 0 0 1px #d9d9d9;
   -webkit-transition: background-color 0.3s, color 0.3s;
@@ -232,7 +232,7 @@ Aside
 .cd-read-more b {
   color: #a6a6a6;
   font-size: 1.2rem;
-  font-family: Georgia, serif;
+  font-family: 'Open Sans', sans-serif;
   font-style: italic;
 }
 .cd-read-more svg {

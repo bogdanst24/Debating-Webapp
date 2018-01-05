@@ -19,6 +19,7 @@
         <AssociationConnector Association="dezbateriModel.round_debate_id" ManuallyRouted="false" />
         <AssociationConnector Association="dezbateriModel.user_debate_id" ManuallyRouted="false" />
         <AssociationConnector Association="dezbateriModel.vote_debate_id" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="dezbateriModel.Commentary" Width="1.5" PointX="0.875" PointY="3.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -6,7 +6,7 @@
 
             return {
                 getAllDebates: function () {
-                    return $http.get(API_URL + '/debate/getGeneral');
+                    return $http.get(API_URL + '/debate/GetAllDebates');
                 },
 
                 getAllCategories: function(){
@@ -14,17 +14,35 @@
                 },
 
                 getDebate: function(debate_id){
-                    return $http.get(API_URL + '/debate/getDebate/' + debate_id);
+                    return $http.get(API_URL + '/debate/GetDebate/' + debate_id);
                 },
                 addNewDebate: function (debate) {
                     return $http.post(API_URL + '/debate/addDebate', JSON.stringify(debate));
                 },
-                deleteDebate: function(debate_id){
-                    return $http.delete(API_URL + '/debate/deleteDebate/' + debate_id);
+                deleteDebate: function(content){
+                    return $http.post(API_URL + '/debate/deleteDebate', JSON.stringify(content));
                 },
-                joinDebate: function(user,debate_id){
-                    return $http.post(API_URL + '/debate/joinDebate/' + debate_id + "/"+user)
-                }
+                joinDebate: function(content){
+                    return $http.post(API_URL + '/debate/JoinDebate', JSON.stringify(content));
+                },
+                saveDebate: function(debate){
+                    return $http.post(API_URL + '/debate/UpdateDebateContent', JSON.stringify(debate));
+                },
+                goToNextRound: function(debate){
+                    return $http.post(API_URL + '/debate/GoToNextRound' , JSON.stringify(debate));
+                },
+                voteDebate: function(content){
+                    return $http.post(API_URL + '/debate/Vote' , JSON.stringify(content));
+                },
+                getVotes: function(debate_id){
+                    return $http.get(API_URL + '/debate/GetDebateVotes/' + debate_id);
+                },
+                getAllComments: function(debate_id){
+                    return $http.get(API_URL + '/debate/GetAllComments/' + debate_id);
+                },
+                addComment: function(content){
+                    return $http.post(API_URL + '/debate/AddComment' , JSON.stringify(content));
+                },
             };
         }
     ]);

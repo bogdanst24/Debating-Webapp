@@ -74,12 +74,7 @@ namespace DatabaseAccess.Repository
             {
                 using (var context = new dezbateriEntities())
                 {
-                    var deleteCategoryDebate = context.CategoryDebates.FirstOrDefault(categoryDebate => categoryDebate.debate_id == categoryDebateId);
-                    if (deleteCategoryDebate == null)
-                    {
-                        throw new CategoryDebateException("CategoryDebate not found to delete");
-                    }
-                    context.CategoryDebates.Remove(deleteCategoryDebate);
+                    context.CategoryDebates.RemoveRange(context.CategoryDebates.Where(categoryDebate => categoryDebate.debate_id == categoryDebateId));
                     context.SaveChanges();
                 }
             }

@@ -9,14 +9,15 @@ namespace DatabaseAccess.Repository
 {
     public class DebateRepository
     {
-        public void Add(DebateInfo debate)
+        public dynamic Add(DebateInfo debate)
         {
             try
             {
                 using (var context = new dezbateriEntities())
                 {
-                    context.DebateInfoes.Add(debate);
+                    var addedDebate = context.DebateInfoes.Add(debate);
                     context.SaveChanges();
+                    return addedDebate;
                 }
             }
             catch (Exception ex)

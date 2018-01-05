@@ -15,6 +15,16 @@
     <Property Name="category_id" Type="int" Nullable="false" />
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
+  <EntityType Name="Commentary">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Debate_id" Type="int" Nullable="false" />
+    <Property Name="User_username" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="Date_created" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="Comment" Type="varchar" MaxLength="2000" Nullable="false" />
+  </EntityType>
   <EntityType Name="Content">
     <Key>
       <PropertyRef Name="debate_id" />
@@ -59,7 +69,7 @@
     <Key>
       <PropertyRef Name="debate_id" />
     </Key>
-    <Property Name="debate_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="debate_id" Type="int" Nullable="false" />
     <Property Name="pro_username" Type="varchar" MaxLength="35" Nullable="false" />
     <Property Name="con_username" Type="varchar" MaxLength="35" Nullable="false" />
   </EntityType>
@@ -132,12 +142,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'user-id-con' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="user-id-con" />-->
-  <!--Errors Found During Generation:
-warning 6035: The relationship 'user-id-pro' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
-        <Association Name="user-id-pro" />-->
   <Association Name="vote-debate-id">
     <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
     <End Role="Vote" Type="Self.Vote" Multiplicity="*" />
@@ -156,6 +160,7 @@ warning 6035: The relationship 'vote-username' has columns that are not part of 
   <EntityContainer Name="dezbateriModelStoreContainer">
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="CategoryDebate" EntityType="Self.CategoryDebate" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <EntitySet Name="Commentary" EntityType="Self.Commentary" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="Content" EntityType="Self.Content" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="DebateInfo" EntityType="Self.DebateInfo" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="RoundState" EntityType="Self.RoundState" Schema="dezbater_sitedebate" store:Type="Tables" />
