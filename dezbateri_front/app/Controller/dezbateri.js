@@ -7,7 +7,6 @@ index.run(['$anchorScroll', function ($anchorScroll) {
 
 index.controller('dezbateriController', ['navigateFactory', 'debateFactory', 
         function (navigateFactory, debateFactory) {
-            console.log("loaded");
             this.navigateFactory = navigateFactory;
             this.userLogged = navigateFactory.getUserLogged();
          
@@ -24,22 +23,7 @@ index.controller('dezbateriController', ['navigateFactory', 'debateFactory',
        
             this.statusAll = [ {sts: "In asteptare"}, {sts: "In desfasurare"}, {sts: "Incheiata"}];
 
-            $("a.anchor_dezbateri_1").click(function (e) {
-                e.preventDefault();
-                $("div.anchor_dezbateri_1").scrollintoview({duration: "slow", viewPadding: {y: 300}});
-            });
-            $("a.anchor_dezbateri_2").click(function (e) {
-                e.preventDefault();
-                $("div.anchor_dezbateri_2").scrollintoview({duration: "slow", viewPadding: {y: 300}});
-            });
-            $("a.anchor_dezbateri_3").click(function (e) {
-                e.preventDefault();
-                $("div.anchor_dezbateri_3").scrollintoview({duration: "slow", viewPadding: {y: 300}});
-            });
-            $("a.anchor_dezbateri_4").click(function (e) {
-                e.preventDefault();
-                $("div.anchor_dezbateri_4").scrollintoview({duration: "slow", viewPadding: {y: 300}});
-            });
+         
 
             this.debates = null;
             this.alldebates = null;
@@ -341,6 +325,23 @@ index.controller('dezbateriController', ['navigateFactory', 'debateFactory',
                     $("#astama").fadeIn(1000)
                 });
             }
+
+            $("a.anchor_dezbateri_1").click(function (e) {
+                e.preventDefault();
+                $("div.anchor_dezbateri_1").scrollintoview({duration: "slow", viewPadding: {y: 300}});
+            });
+            $("a.anchor_dezbateri_2").click(function (e) {
+                e.preventDefault();
+                $("div.anchor_dezbateri_2").scrollintoview({duration: "slow", viewPadding: {y: 300}});
+            });
+            $("a.anchor_dezbateri_3").click(function (e) {
+                e.preventDefault();
+                $("div.anchor_dezbateri_3").scrollintoview({duration: "slow", viewPadding: {y: 300}});
+            });
+            $("a.anchor_dezbateri_4").click(function (e) {
+                e.preventDefault();
+                $("div.anchor_dezbateri_4").scrollintoview({duration: "slow", viewPadding: {y: 300}});
+            });
 
 
         }

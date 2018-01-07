@@ -20,6 +20,14 @@
                     return $http.post(API_URL + '/login/register', JSON.stringify(user));
                 },
 
+                checkVerificationCode: function(content){
+                    return $http.post(API_URL + '/login/CheckCode', JSON.stringify(content));
+                },
+
+                resendVerificationCode: function(content){
+                    return $http.post(API_URL + '/login/ResendCode', JSON.stringify(content));
+                },
+
                 decode: function(){
                     var token;
                     token = localStorage.auth_token;

@@ -4,15 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a7e99b2f8992432a9f44378c20fe2c24" Name="Diagram1">
+      <Diagram DiagramId="a7e99b2f8992432a9f44378c20fe2c24" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="dezbateriModel.Category" Width="1.5" PointX="3.75" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="dezbateriModel.CategoryDebate" Width="1.5" PointX="6" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="dezbateriModel.Content" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="dezbateriModel.DebateInfo" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dezbateriModel.CategoryDebate" Width="1.5" PointX="3.625" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dezbateriModel.Content" Width="1.5" PointX="0.5" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dezbateriModel.DebateInfo" Width="1.5" PointX="6.375" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="dezbateriModel.RoundState" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="dezbateriModel.User" Width="1.5" PointX="7.5" PointY="3.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="dezbateriModel.UserDebate" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="dezbateriModel.Vote" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="dezbateriModel.User" Width="1.5" PointX="6.375" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dezbateriModel.UserDebate" Width="1.5" PointX="9.125" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dezbateriModel.Vote" Width="1.5" PointX="6.25" PointY="11.25" IsExpanded="true" />
         <AssociationConnector Association="dezbateriModel.cd_category_id" ManuallyRouted="false" />
         <AssociationConnector Association="dezbateriModel.cd_debate_id" ManuallyRouted="false" />
         <AssociationConnector Association="dezbateriModel.content_debate_id" ManuallyRouted="false" />
@@ -20,6 +20,19 @@
         <AssociationConnector Association="dezbateriModel.user_debate_id" ManuallyRouted="false" />
         <AssociationConnector Association="dezbateriModel.vote_debate_id" ManuallyRouted="false" />
         <EntityTypeShape EntityType="dezbateriModel.Commentary" Width="1.5" PointX="0.875" PointY="3.375" />
+        <EntityTypeShape EntityType="dezbateriModel.UserVerification" Width="1.5" PointX="10.625" PointY="6.25" />
+        <AssociationConnector Association="dezbateriModel.email" />
+        <EntityTypeShape EntityType="dezbateriModel.Argument" Width="1.5" PointX="11" PointY="0.5" />
+        <EntityTypeShape EntityType="dezbateriModel.CategoryOpinion" Width="1.5" PointX="3.75" PointY="0.5" />
+        <EntityTypeShape EntityType="dezbateriModel.Opinion" Width="1.5" PointX="6.375" PointY="0.5" />
+        <AssociationConnector Association="dezbateriModel.categ_id" />
+        <AssociationConnector Association="dezbateriModel.opinion_id" />
+        <AssociationConnector Association="dezbateriModel.opinionArg_opid2" />
+        <AssociationConnector Association="dezbateriModel.User_email1" />
+        <AssociationConnector Association="dezbateriModel.userArg_userid" />
+        <EntityTypeShape EntityType="dezbateriModel.OpinionVote" Width="1.5" PointX="9.125" PointY="2.875" />
+        <AssociationConnector Association="dezbateriModel.vote_opinion_id" />
+        <AssociationConnector Association="dezbateriModel.vote_user_id" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

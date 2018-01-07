@@ -34,5 +34,10 @@ namespace DatabaseAccess
         public virtual DbSet<UserDebate> UserDebates { get; set; }
         public virtual DbSet<Vote> Votes { get; set; }
         public virtual DbSet<Commentary> Commentaries { get; set; }
+        public virtual DbSet<UserVerification> UserVerifications { get; set; }
+        public virtual DbSet<Argument> Arguments { get; set; }
+        public virtual DbSet<CategoryOpinion> CategoryOpinions { get; set; }
+        public virtual DbSet<Opinion> Opinions { get; set; }
+        public virtual DbSet<OpinionVote> OpinionVotes { get; set; }
     }
 }

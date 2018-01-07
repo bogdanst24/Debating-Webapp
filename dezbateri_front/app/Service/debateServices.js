@@ -43,6 +43,10 @@
                 addComment: function(content){
                     return $http.post(API_URL + '/debate/AddComment' , JSON.stringify(content));
                 },
+
+                sendEmail: function(content){
+                    return $http.post(API_URL + '/debate/SendEmail', JSON.stringify(content));
+                }
             };
         }
     ]);

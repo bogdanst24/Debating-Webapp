@@ -5,6 +5,7 @@ var app = angular.module("dezbateriApp", [
     'homepageModule',
     'debateModule',
     'opiniiModule',
+    'opinionModule',
     'dezbateriModule',
     'loginModule',
 
@@ -12,6 +13,7 @@ var app = angular.module("dezbateriApp", [
     'navigateServices',
     'debateServices',
     'loginServices',
+    'opiniiServices',
 
     'errorHandler'
 ]);
@@ -58,8 +60,14 @@ app.config(function ($routeProvider) {
     .when('/login',{
         templateUrl: 'app/View/login.html'
     })
+    .when('/verify', {
+        templateUrl: 'app/View/verify.html'
+    })
     .when('/debate',{
         templateUrl: 'app/View/debate.html'
+    })
+    .when('/opinie',{
+        templateUrl: 'app/View/opinie.html'
     })
 
 });

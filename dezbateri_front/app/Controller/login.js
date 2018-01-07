@@ -73,18 +73,14 @@ index.controller('loginController', ['navigateFactory','loginFactory', 'userFact
             _this.wrongCredentialsVar = false;
 
             var res = response.data;
-             console.log(response.data);
             if(res["ErrorCode"] !== undefined){
                 var code = res["ErrorCode"];
                 var wrong = errHandler.handleError(code);
-                console.log(code);
                 if(wrong === undefined){
                     wrong = "Error in performing login";
                 }
                 _this.wrong = wrong;
-                 console.log(_this.wrong);
                  _this.wrongCredentialsVar = true;
-                 console.log(_this.wrongCredentialsVar);
             }
             else {
                 var tkn = response.data;
@@ -102,6 +98,8 @@ index.controller('loginController', ['navigateFactory','loginFactory', 'userFact
 
         //************** REGISTER START ***********************************************************//
         this.registerAccount = function () {
+
+            var email = this.registerusername
 
             var birth = $("#datetimepicker9").find("input").val();
             if (birth === "") {
@@ -156,7 +154,15 @@ index.controller('loginController', ['navigateFactory','loginFactory', 'userFact
         };
         //************** REGISTER END ***********************************************************//
 
-
+        this.showWindow = function(type){
+            if(type == 'login'){
+                this.showLogin = true;
+                this.showRegister = false;
+            } else {
+                this.showLogin = false;
+                this.showRegister = true;
+            }
+        }
 
 
         $('#datetimepicker9').datetimepicker({
@@ -175,6 +181,46 @@ index.controller('loginController', ['navigateFactory','loginFactory', 'userFact
             return false;
         });
 
+        var path = window.location.href;
+        var urlParams = $location.search();
+        this.verifyErrorMsg = "";
+        if(path.includes("/verify")){
+            this.verifyEmail = urlParams.email;
+            $("#footer").addClass("hidden");            
+        }
+
+        this.checkVerificationCode = function(){
+            var content = {
+                email: this.verifyEmail,
+                code: this.codActivare
+            }
+            var promise = loginFactory.checkVerificationCode(content);
+            promise.then(successVerification, errorVerification);
+        }
+
+        var successVerification = function (response) {
+            if(response.data == true){
+                navigateFactory.goToLogin();
+                _this.verifyErrorMsg = "";
+                _this.codActivare = "";
+                $location.url($location.path());
+                sweetAlert("Succes", "Contul a fost verificat. Va puteti loga", "success");
+            } else{
+                _this.verifyErrorMsg = "Codul nu este valid";
+                _this.codActivare = "";
+            }
+        };
+        var errorVerification = function (response) {
+            console.log("error");
+        };
+
+        this.resendVerificationCode = function(){
+            var promise = loginFactory.resendVerificationCode(this.verifyEmail);
+            promise.then(function (response) {
+                _this.verifyErrorMsg = "Codul de verificare a fost retrimis pe E-mail";
+                _this.codActivare = "";
+            })
+        }
 
     }]
 );

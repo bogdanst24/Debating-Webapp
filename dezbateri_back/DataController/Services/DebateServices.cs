@@ -3,6 +3,7 @@ using DatabaseAccess.Exceptions;
 using DatabaseAccess.Repository;
 using DataController.Models;
 using DataController.Security;
+using DataController.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -247,9 +248,13 @@ namespace DataController.Services
             ud.con_username = us.Username;
             _userDebateRepository.Update(ud);
 
+            User pro_us = _userRepository.GetByUsername(ud.pro_username);
+
             DebateInfo di = _debateRepository.GetById(int.Parse(debate_id.ToString()));
             di.state = "desfasurare";
             _debateRepository.Update(di);
+
+            MailService.SendStartDebateMail(pro_us, us, di);
         }
 
         internal void updateDebateContent(dynamic body)
@@ -269,11 +274,17 @@ namespace DataController.Services
             RoundState debateState = _roundStateRepository.GetById(int.Parse(debate_id));
             if (debateState != null)
             {
+                UserDebate ud = _userDebateRepository.GetById(int.Parse(debate_id.ToString()));
+                User pro_username = _userRepository.GetByUsername(ud.pro_username);
+                User con_username = _userRepository.GetByUsername(ud.con_username);
+                DebateInfo di = _debateRepository.GetById(int.Parse(debate_id));
+
                 if (debateState.next_round == 6)
                 {
-                    DebateInfo di = _debateRepository.GetById(int.Parse(debate_id));
                     di.state = "incheiat";
                     _debateRepository.Update(di);
+
+                    MailService.SendDoneDebateMail(pro_username, con_username, di);
                 }
                 else
                 {
@@ -284,6 +295,8 @@ namespace DataController.Services
                     long nextRoundTime = actualTime + threeDaysInMillis;
                     debateState.time_to_next = nextRoundTime.ToString();
                     _roundStateRepository.Update(debateState);
+
+                    MailService.SendNextRoundMail(pro_username, con_username, di, debateState.next_round);
                 }
             }
            

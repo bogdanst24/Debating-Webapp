@@ -49,6 +49,7 @@ namespace DataController.Controllers
                                     {
                                         _userServices.RegisterUser(user);
                                         _userRepository.Add(user);
+                                        _userServices.VerifyEmail(user);
                                         return Ok(new SuccessMessage());
                                     }
                                     catch (Exception ex)
@@ -105,6 +106,13 @@ namespace DataController.Controllers
                         var email = UserLog.email.ToString();
                         try
                         {
+                            try { 
+                                _userServices.CheckIfActivated("email", email.ToString());
+                            }
+                            catch(Exception ex)
+                            {
+                                return Ok(new ErrorMessage(int.Parse(ex.Message)));
+                            }
                             user = _userRepository.GetByEmail(email);
                             var username = user.Username;
                             if (user.Password == password)
@@ -123,6 +131,7 @@ namespace DataController.Controllers
                         var username = UserLog.username.ToString();
                         try
                         {
+                            _userServices.CheckIfActivated("username", username.ToString());
                             user = _userRepository.GetByUsername(username);
                             if (user.Password == password)
                             {
@@ -154,5 +163,21 @@ namespace DataController.Controllers
 
         }
 
+        [HttpPost]
+        public IHttpActionResult CheckCode([FromBody] dynamic body)
+        {
+            var response = false;
+            if (body.email == null || body.code == null)
+                return Ok(response);
+            response = _userServices.CheckCode(body.email.ToString(), body.code.ToString());
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public IHttpActionResult ResendCode([FromBody] dynamic email)
+        {
+            _userServices.ResendVerifyEmail(email.ToString());
+            return Ok();
+        }
     }
 }

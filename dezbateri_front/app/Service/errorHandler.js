@@ -21,6 +21,9 @@
                             return "Session expired";
                         case 124:
                             return "Operation denied";
+                        case 133:
+                            return "Adresa de E-mail nu este verificata"
+                                +"\n Pentru a te putea autentifica, urmeaza pasii primiti pe E-mail";
                         case 400:
                             return "Success";
                         case 700:

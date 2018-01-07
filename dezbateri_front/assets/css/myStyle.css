@@ -31,6 +31,10 @@ a{
     font-weight: bolder;
 }
 
+.hidden{
+    display: none;
+}
+
 .heading_page {
     margin-top: 20px;
     margin-bottom: 5px;
@@ -78,24 +82,23 @@ a{
     font-size: 20px;
 }
 
-.tiptext {
-
-}
-
 .description {
     display: none;
-    background-color: #F2F2F2;
-    color: #FFFFFF !important;
-    padding-left: 8px;
-    padding-right: 8px;
+    background-color: #ffffff;
+    color: #666666 !important;
+    padding: 8px 8px 0 8px;
+    /* padding-right: 8px; */
+    line-height: 15px;
     position: absolute;
     font-size: 13px;
-    left: 30px;
-    top: -10px;
-    width: 300px;
+    left: -100px;
+    top: 16px;
+    width: 200px;
     height: auto;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
     z-index: 3;
+    border: 1px solid #66666654;
+    font-family: 'Open Sans', sans-serif !important;
 }
 
 .icon-flipped {
@@ -250,10 +253,6 @@ a{
     flex-direction:row;
     flex-wrap:nowrap;
     font-family: 'Open Sans', sans-serif !important;
-}
-
-.searchable-container .btn-group {
-
 }
 
 .searchable-container .btn span.glyphicon {
@@ -482,7 +481,6 @@ a{
 .debate_picture_username{
     font-weight: bold !important;
     font-size: 18px !important;
-    text-wrap: normal;
     word-break: break-all;
     color: #FFFFFF !important;
     padding: 5px 0 5px 0;
@@ -891,4 +889,267 @@ hr.minimize-hr {
     font-size: small;
     color: lightslategray;
     font-style: italic;
+}
+
+.logo-bar {
+    width: 120px;
+}
+
+.logo-icon-bg {
+    width: 300px !important;
+    position: absolute;
+    top: 200px;
+    left: calc(50% - 150px);
+}
+
+.image-holder {
+    padding: 50px;
+    text-align: center;
+}
+
+.image-holder img{
+    margin-top: 120px;
+    width: 300px;
+    max-width: 100%;
+}
+
+@media (max-width: 990px){
+    .image-holder{
+        padding:10px;
+    }
+    .image-holder img{
+        margin-top: 0px;
+        max-width: 90%;
+    }
+}
+
+.login-register-tab{
+    padding: 40px 80px;
+    height: 400px;
+}
+
+.btn-selected-active, .btn-selected-active:hover, .btn-selected-active:focus, .btn-selected-active:active, .btn-selected-active:active:focus {
+    color: #009096;
+    background:none;
+    border-radius: 0;
+    width: 100%;
+    box-shadow:none;
+    border-bottom: 3px solid #009096;
+    font-weight: bold;
+    font-size: medium;
+    outline: none;
+}
+
+.btn-not-selected, .btn-not-selected:hover, .btn-not-selected:focus, .btn-not-selected:active, .btn-not-selected:active:focus {
+    border-radius: 0;
+    background:none;
+    color: #81818173;
+    font-size: medium;
+    width: 100%;
+    box-shadow:none;
+    border-bottom: 3px solid #b4b4b473;
+    outline: none;
+}
+
+.nav-tabs{
+    border:none;
+}
+
+.nav-tabs li{
+    width: 50%;
+    text-align: center;
+    border:none;
+}
+
+.form-horizontal{
+    text-align: center;
+}
+
+.input-fields-group span{
+     background-color: #009096;
+     color: white;
+     border: none;
+     border-radius: 2px;
+}
+
+.input-fields-group input{
+    height: 40px !important;
+    width: 100%;
+    border-radius: 2px;
+    border-left:none !important;
+}
+
+.input-fields-group input:focus{
+    border:none !important;
+    box-shadow: inset 0 0px 0px rgba(0,0,0,.075), 0 0 4px rgba(12, 154, 159, 0.52);
+
+}
+
+.has-success .form-control:focus, .has-error .form-control:focus{
+    border:none;
+}
+.has-success .form-control{
+    border: 1px solid #dff0d8;;
+}
+
+.has-error .form-control{
+    border: 1px solid #f2dede;;
+}
+
+.login-button{ 
+    width: 120px; 
+    height: 40px; 
+    background-color: #009096;
+    border-radius: 2px;
+    outline: none;
+    border:none;
+}
+
+.login-button[disabled], .login-button:focus, .login-button:hover, .login-button:active, .login-button:active:focus{ 
+    background-color: #009096;
+    outline: none;
+}
+
+.add-margin-top-10{
+    margin-top: 10px;
+}
+
+.add-margin-top-50{
+    margin-top: 50px;
+}
+
+.verify-holder img{
+    margin-top: 30px;
+}
+
+.opinion-container {
+    overflow: hidden;
+    height: 350px;
+    background-color: white;
+    border: 1px #e7e7e7 solid;
+    margin: 20px auto;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.opinion-container:hover {
+    border: 1px #dfdfdf solid;
+}
+
+.opinion-image {
+    height: 150px;
+    width: 100%;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.opinion-image img{
+    width: 100%;
+}
+
+.opinion-content {
+    height: 150px;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.opinion-subject {
+    font-size: large;
+    font-weight: bold;
+    color: #444444;
+}
+
+.opinion-container:hover .opinion-subject{
+    color:#E24E42;
+}
+
+.opinion-user {
+    height: 50px;
+    padding: 10px 5px;
+    border-top: 1px solid lightgray;
+    margin: auto 20px;
+    font-size: larger;
+}
+
+.opinion-user-user i{
+    margin-right: 10px;
+}
+
+.opinion-user-date {
+    float:right;
+}
+
+.opinion-user-date i{
+    margin-left: 10px;
+}
+
+.op-search-more{
+    display:flex;
+    background-color: #eeeeee; 
+    padding: 25px 10px 25px 10px;
+    margin-left:16px; 
+    margin-right:16px;
+}
+
+.op-search-adv{
+    display:flex;
+    background-color: #eeeeee; 
+    padding: 0px 10px 25px 12px;
+    margin-left: 16px;
+    margin-right:16px;
+}
+
+.reset-search-bar{
+    background-color: #dedede; 
+    text-align: center; 
+    padding:  0 0 5px 0; 
+    margin-left:16px; 
+    margin-right:16px;
+}
+
+.reset-search-bar button{
+    height: 25px;
+    width: 200px; 
+    background-color: #2d2d2d; 
+    font-size: small; 
+    margin-top: 5px;
+    border-width: 0; 
+    padding: 0;
+}
+
+.reset-search-bar button i{
+    padding: 3px 5px 0 0
+}
+
+.search-op-container input{
+    border-radius: 2px;
+    outline:none;
+}
+
+.search-op-container input:focus, .search-op-container input:active:focus{
+    box-shadow: inset 0 0px 0px rgba(0,0,0,.075), 0 0 1px rgba(227, 77, 64, 0.59);
+    border-color:#e34d4042;
+}
+
+.search-op-container select{
+    outline: none;
+    box-shadow: none;
+    border-radius:2px;
+}
+
+.search-op-container select:active, .search-op-container select:active:focus{
+    box-shadow: none;
+    outline: none;
+}
+
+.search-op-container select option:focus{
+    outline-color: #E24E42;
+}
+
+.no-margin{
+    margin:0 !important;
+}
+
+.no-padding{
+    padding:0 !important;
 }

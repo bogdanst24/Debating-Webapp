@@ -32,6 +32,11 @@
                     // window.location.reload();
                 },
 
+                goToOpinie: function(op_id){
+                    console.log(op_id);
+                    $location.path('/opinie').search({opinie_id: op_id})
+                },
+
                 isLoggedIn: function () {
                     var value = !!(localStorage.getItem('auth_token'));
                     return (value);

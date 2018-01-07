@@ -50,11 +50,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DebateController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OpinionController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DebateModel.cs" />
+    <Compile Include="Models\OpinionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AuthorizationException.cs" />
     <Compile Include="Security\AuthorizationH.cs" />
@@ -63,7 +65,9 @@
     <Compile Include="Security\UserRightsException.cs" />
     <Compile Include="Security\UserTypesClass.cs" />
     <Compile Include="Services\DebateServices.cs" />
+    <Compile Include="Services\OpinionServices.cs" />
     <Compile Include="Services\UserServices.cs" />
+    <Compile Include="Utility\MailService.cs" />
     <Compile Include="Utility\SuccessMessage.cs" />
   </ItemGroup>
   <ItemGroup>

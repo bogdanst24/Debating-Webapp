@@ -18,6 +18,7 @@ namespace DatabaseAccess
         public Category()
         {
             this.CategoryDebates = new HashSet<CategoryDebate>();
+            this.CategoryOpinions = new HashSet<CategoryOpinion>();
         }
     
         public int id { get; set; }
@@ -25,5 +26,7 @@ namespace DatabaseAccess
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CategoryDebate> CategoryDebates { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CategoryOpinion> CategoryOpinions { get; set; }
     }
 }

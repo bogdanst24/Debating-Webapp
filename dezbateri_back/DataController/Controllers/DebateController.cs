@@ -21,28 +21,6 @@ namespace DataController.Controllers
             _debateServices = new DebateServices();
         }
 
-        //[HttpGet]
-        //public IHttpActionResult GetAllUsers()
-        //{
-        //    try
-        //    {
-        //        AuthorizationH.Verify(Request, UserTypes.User, false, null);
-        //        try
-        //        {
-        //            List<User> users = _userRepository.GetAll();
-        //            return Ok(users);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            return Ok(new ErrorMessage(int.Parse(ex.Message)));
-        //        }
-        //    }
-        //    catch (AuthorizationException ex)
-        //    {
-        //        return Ok(new ErrorMessage(int.Parse(ex.Message)));
-        //    }
-        //}
-
         [HttpGet]
         public IHttpActionResult GetAllDebates()
         {
@@ -152,5 +130,7 @@ namespace DataController.Controllers
             Commentary comm = _debateServices.AddComment(debate_id, commentary, date_created, user_username);
             return Ok(comm);
         }
+
+      
     }
 }

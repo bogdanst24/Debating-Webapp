@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="dezbateriModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Argument">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Side" Type="tinyint" Nullable="false" />
+    <Property Name="Content" Type="varchar" MaxLength="1500" Nullable="false" />
+    <Property Name="Date_created" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="Opinion_id" Type="int" Nullable="false" />
+    <Property Name="User_email" Type="varchar" MaxLength="35" Nullable="false" />
+  </EntityType>
   <EntityType Name="Category">
     <Key>
       <PropertyRef Name="id" />
@@ -14,6 +25,14 @@
     <Property Name="debate_id" Type="int" Nullable="false" />
     <Property Name="category_id" Type="int" Nullable="false" />
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CategoryOpinion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Opinion_id" Type="int" Nullable="false" />
+    <Property Name="Categ_id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Commentary">
     <Key>
@@ -47,6 +66,25 @@
     <Property Name="state" Type="varchar" MaxLength="32" Nullable="false" />
     <Property Name="description" Type="varchar" MaxLength="256" Nullable="false" />
   </EntityType>
+  <EntityType Name="Opinion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_email" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="Subject" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="Date_created" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="Picture_url" Type="varchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OpinionVote">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Opinion_id" Type="int" Nullable="false" />
+    <Property Name="User_email" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="Vote_pro" Type="bool" Nullable="false" />
+  </EntityType>
   <EntityType Name="RoundState">
     <Key>
       <PropertyRef Name="debate_id" />
@@ -73,6 +111,14 @@
     <Property Name="pro_username" Type="varchar" MaxLength="35" Nullable="false" />
     <Property Name="con_username" Type="varchar" MaxLength="35" Nullable="false" />
   </EntityType>
+  <EntityType Name="UserVerification">
+    <Key>
+      <PropertyRef Name="UserEmail" />
+    </Key>
+    <Property Name="UserEmail" Type="varchar" MaxLength="35" Nullable="false" />
+    <Property Name="Verified" Type="bool" Nullable="false" />
+    <Property Name="Code" Type="varchar" MaxLength="12" Nullable="false" />
+  </EntityType>
   <EntityType Name="Vote">
     <Key>
       <PropertyRef Name="vote_id" />
@@ -82,6 +128,18 @@
     <Property Name="user_username" Type="varchar" MaxLength="35" Nullable="false" />
     <Property Name="vote_pro" Type="bool" Nullable="false" />
   </EntityType>
+  <Association Name="categ-id">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="CategoryOpinion" Type="Self.CategoryOpinion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CategoryOpinion">
+        <PropertyRef Name="Categ_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="cd-category-id">
     <End Role="Category" Type="Self.Category" Multiplicity="1" />
     <End Role="CategoryDebate" Type="Self.CategoryDebate" Multiplicity="*" />
@@ -118,6 +176,46 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="email">
+    <End Role="User" Type="Self.User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="UserVerification" Type="Self.UserVerification" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="UserVerification">
+        <PropertyRef Name="UserEmail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="opinionArg-opid">
+    <End Role="Opinion" Type="Self.Opinion" Multiplicity="1" />
+    <End Role="Argument" Type="Self.Argument" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Opinion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Argument">
+        <PropertyRef Name="Opinion_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="opinion-id">
+    <End Role="Opinion" Type="Self.Opinion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CategoryOpinion" Type="Self.CategoryOpinion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Opinion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CategoryOpinion">
+        <PropertyRef Name="Opinion_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="round-debate-id">
     <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
     <End Role="RoundState" Type="Self.RoundState" Multiplicity="0..1" />
@@ -127,6 +225,18 @@
       </Principal>
       <Dependent Role="RoundState">
         <PropertyRef Name="debate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="userArg-userid">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Argument" Type="Self.Argument" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="Argument">
+        <PropertyRef Name="User_email" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -142,6 +252,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="User-email">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Opinion" Type="Self.Opinion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="Opinion">
+        <PropertyRef Name="User_email" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="vote-debate-id">
     <End Role="DebateInfo" Type="Self.DebateInfo" Multiplicity="1" />
     <End Role="Vote" Type="Self.Vote" Multiplicity="*" />
@@ -154,19 +276,56 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="vote-opinion-id">
+    <End Role="Opinion" Type="Self.Opinion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OpinionVote" Type="Self.OpinionVote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Opinion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OpinionVote">
+        <PropertyRef Name="Opinion_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="vote-user-id">
+    <End Role="User" Type="Self.User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OpinionVote" Type="Self.OpinionVote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="OpinionVote">
+        <PropertyRef Name="User_email" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <!--Errors Found During Generation:
 warning 6035: The relationship 'vote-username' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="vote-username" />-->
   <EntityContainer Name="dezbateriModelStoreContainer">
+    <EntitySet Name="Argument" EntityType="Self.Argument" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="CategoryDebate" EntityType="Self.CategoryDebate" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <EntitySet Name="CategoryOpinion" EntityType="Self.CategoryOpinion" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="Commentary" EntityType="Self.Commentary" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="Content" EntityType="Self.Content" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="DebateInfo" EntityType="Self.DebateInfo" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <EntitySet Name="Opinion" EntityType="Self.Opinion" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <EntitySet Name="OpinionVote" EntityType="Self.OpinionVote" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="RoundState" EntityType="Self.RoundState" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="UserDebate" EntityType="Self.UserDebate" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <EntitySet Name="UserVerification" EntityType="Self.UserVerification" Schema="dezbater_sitedebate" store:Type="Tables" />
     <EntitySet Name="Vote" EntityType="Self.Vote" Schema="dezbater_sitedebate" store:Type="Tables" />
+    <AssociationSet Name="categ-id" Association="Self.categ-id">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="CategoryOpinion" EntitySet="CategoryOpinion" />
+    </AssociationSet>
     <AssociationSet Name="cd-category-id" Association="Self.cd-category-id">
       <End Role="Category" EntitySet="Category" />
       <End Role="CategoryDebate" EntitySet="CategoryDebate" />
@@ -179,17 +338,45 @@ warning 6035: The relationship 'vote-username' has columns that are not part of 
       <End Role="DebateInfo" EntitySet="DebateInfo" />
       <End Role="Content" EntitySet="Content" />
     </AssociationSet>
+    <AssociationSet Name="email" Association="Self.email">
+      <End Role="User" EntitySet="User" />
+      <End Role="UserVerification" EntitySet="UserVerification" />
+    </AssociationSet>
+    <AssociationSet Name="opinionArg-opid" Association="Self.opinionArg-opid">
+      <End Role="Opinion" EntitySet="Opinion" />
+      <End Role="Argument" EntitySet="Argument" />
+    </AssociationSet>
+    <AssociationSet Name="opinion-id" Association="Self.opinion-id">
+      <End Role="Opinion" EntitySet="Opinion" />
+      <End Role="CategoryOpinion" EntitySet="CategoryOpinion" />
+    </AssociationSet>
     <AssociationSet Name="round-debate-id" Association="Self.round-debate-id">
       <End Role="DebateInfo" EntitySet="DebateInfo" />
       <End Role="RoundState" EntitySet="RoundState" />
+    </AssociationSet>
+    <AssociationSet Name="userArg-userid" Association="Self.userArg-userid">
+      <End Role="User" EntitySet="User" />
+      <End Role="Argument" EntitySet="Argument" />
     </AssociationSet>
     <AssociationSet Name="user-debate-id" Association="Self.user-debate-id">
       <End Role="DebateInfo" EntitySet="DebateInfo" />
       <End Role="UserDebate" EntitySet="UserDebate" />
     </AssociationSet>
+    <AssociationSet Name="User-email" Association="Self.User-email">
+      <End Role="User" EntitySet="User" />
+      <End Role="Opinion" EntitySet="Opinion" />
+    </AssociationSet>
     <AssociationSet Name="vote-debate-id" Association="Self.vote-debate-id">
       <End Role="DebateInfo" EntitySet="DebateInfo" />
       <End Role="Vote" EntitySet="Vote" />
+    </AssociationSet>
+    <AssociationSet Name="vote-opinion-id" Association="Self.vote-opinion-id">
+      <End Role="Opinion" EntitySet="Opinion" />
+      <End Role="OpinionVote" EntitySet="OpinionVote" />
+    </AssociationSet>
+    <AssociationSet Name="vote-user-id" Association="Self.vote-user-id">
+      <End Role="User" EntitySet="User" />
+      <End Role="OpinionVote" EntitySet="OpinionVote" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

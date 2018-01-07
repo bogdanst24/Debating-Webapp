@@ -1,0 +1,21 @@
+<div ng-controller="loginController as $ctrl">
+    <div class="container" style="text-align:center">
+        <div class="image-holder verify-holder">
+            <img src="assets/img/dezbateriro_logo_icon.png">
+        </div>
+        <h4>Intridu codul primit prin E-mail mai jos pentru a verifica contul</h4>
+        <h4>corespunzator adresei de E-mail <b> {{$ctrl.verifyEmail}}</b></h4>
+        <div class="row">
+            <input placeholder="cod activare" style="width: 200px; margin-top: 20px;height: 30px; padding: 0 5px;" ng-model="$ctrl.codActivare"/>
+        <div>
+        <div class="row">
+            <button class="btn btn-primary" style="margin-top: 10px;border-radius: 2px; outline: none;background: #e34d40;"
+                ng-click="$ctrl.checkVerificationCode()">Activeaza</button>
+            <button class="btn btn-primary" style="margin-top: 10px;border-radius: 2px; outline: none;background: #eab200;"
+                ng-click="$ctrl.resendVerificationCode()">Retrimite E-mail</button>
+        </div>
+        <div class="row">
+            <p style="color:red">{{$ctrl.verifyErrorMsg}}</p>
+        </div>
+    </div>
+</div>

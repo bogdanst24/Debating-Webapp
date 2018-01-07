@@ -92,5 +92,56 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="UserVerifications">
+      <EntityTypeMapping TypeName="dezbateriModel.UserVerification">
+        <MappingFragment StoreEntitySet="UserVerification">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Verified" ColumnName="Verified" />
+          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Arguments">
+      <EntityTypeMapping TypeName="dezbateriModel.Argument">
+        <MappingFragment StoreEntitySet="Argument">
+          <ScalarProperty Name="User_email" ColumnName="User_email" />
+          <ScalarProperty Name="Opinion_id" ColumnName="Opinion_id" />
+          <ScalarProperty Name="Date_created" ColumnName="Date_created" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Side" ColumnName="Side" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CategoryOpinions">
+      <EntityTypeMapping TypeName="dezbateriModel.CategoryOpinion">
+        <MappingFragment StoreEntitySet="CategoryOpinion">
+          <ScalarProperty Name="Categ_id" ColumnName="Categ_id" />
+          <ScalarProperty Name="Opinion_id" ColumnName="Opinion_id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Opinions">
+      <EntityTypeMapping TypeName="dezbateriModel.Opinion">
+        <MappingFragment StoreEntitySet="Opinion">
+          <ScalarProperty Name="User_email" ColumnName="User_email" />
+          <ScalarProperty Name="Picture_url" ColumnName="Picture_url" />
+          <ScalarProperty Name="Date_created" ColumnName="Date_created" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OpinionVotes">
+      <EntityTypeMapping TypeName="dezbateriModel.OpinionVote">
+        <MappingFragment StoreEntitySet="OpinionVote">
+          <ScalarProperty Name="Vote_pro" ColumnName="Vote_pro" />
+          <ScalarProperty Name="User_email" ColumnName="User_email" />
+          <ScalarProperty Name="Opinion_id" ColumnName="Opinion_id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -1,155 +1,436 @@
-<div ng-controller="opiniiController">
-    <header class="cd-auto-hide-header">
-        <div class="logo"><a href="#0"><img src="assets/img/cd-logo.svg" alt="Logo"></a></div>
+<div ng-controller="opiniiController as $ctrl" style="background-color: #fafcfd;">
 
-        <nav class="cd-primary-nav">
-            <a href="#cd-navigation" class="nav-trigger">
-			<span>
-				<em aria-hidden="true"></em>
-				Menu
-			</span>
-            </a> <!-- .nav-trigger -->
-
-            <ul id="cd-navigation">
-                <li><a class="cursor-show" ng-click="navigateFactory.goToAcasa()">Acasa</a></li>
-                <li><a class="cursor-show" ng-click="navigateFactory.goToDezbateri()">Dezbateri</a></li>
-                <li><a class="cursor-show bolded" ng-click="navigateFactory.goToOpinii()">Opinii</a></li>
-                <li ng-show="!navigateFactory.isLoggedIn()"><a class="cursor-show" ng-click="navigateFactory.goToLogin()">Autentificare</a></li>
-                <li ng-show="navigateFactory.isLoggedIn()" class="dropdown">
+    <div id="header-main-landing" class="header-nav">
+        <div class="header-main">
+            <a href="#" id="brand">
+                <img src="assets/img/dezbateriro_logo.png" class="logo-bar" />
+            </a>
+            <button id="menu-button">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="header-main-menu" id="menu-header">
+                <li>
+                    <a class="cursor-show" ng-click="$ctrl.navigateFactory.goToAcasa()">Acasa</a>
+                </li>
+                <li>
+                    <a class="cursor-show" ng-click="$ctrl.navigateFactory.goToDezbateri()">Dezbateri</a>
+                </li>
+                <li>
+                    <a class="cursor-show bolded" ng-click="$ctrl.navigateFactory.goToOpinii()">Opinii</a>
+                </li>
+                <li ng-show="!$ctrl.navigateFactory.isLoggedIn()">
+                    <a class="cursor-show" ng-click="$ctrl.navigateFactory.goToLogin()">Autentificare</a>
+                </li>
+                <li ng-show="$ctrl.navigateFactory.isLoggedIn()" class="dropdown">
                     <a class="cursor-show">
-                    <span class="dropbtn">
-                       <img src="assets/img/iconUser.png" alt="Logo" style="max-width: 20px; max-height: 20px; margin-bottom: -4px;">
-                        {{userLogged}}
-                    </span>
+                        <span class="dropbtn">
+                            <img src="assets/img/iconUser.png" alt="Logo" style="max-width: 20px; max-height: 20px; margin-bottom: 7px;"> {{$ctrl.userLogged}}
+                        </span>
                         <div class="dropdown-content">
                             <a href="#">Vezi profilul</a>
-                            <a href="#">Delogheaza-te</a>
+                            <a ng-click="$ctrl.navigateFactory.logout()">Delogheaza-te</a>
                         </div>
                     </a>
                 </li>
             </ul>
-        </nav> <!-- .cd-primary-nav -->
 
-
-        <nav class="cd-secondary-nav">
-            <ul>
-                <li><a class="active" href="#0">Intro</a></li>
-                <li><a href="#0">Features</a></li>
-                <li><a href="#0">Photos</a></li>
-                <li><a href="#0">Videos</a></li>
-                <li><a href="#0">Specs</a></li>
-                <li><a href="#0">Support</a></li>
-                <li><a href="#0">Compare</a></li>
-                <li><a href="#0">Buy</a></li>
-            </ul>
-        </nav> <!-- .cd-secondary-nav -->
-    </header> <!-- .cd-auto-hide-header -->
-
-    <main class="cd-main-content sub-nav">
-
-        <div>
-
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, quos, voluptate, sunt, in suscipit
-                quibusdam quis dignissimos eligendi repellendus ipsam exercitationem adipisci nostrum fugit accusamus
-                quae cum nisi accusantium eaque.
-            </p>
-
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet
-                necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente minus
-                esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim odio
-                natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat corrupti.
-                Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam iure
-                temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates molestias
-                natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia doloremque
-                quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure,
-                vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia
-                voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in
-                asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem
-                voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum maiores
-                consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima cupiditate
-                quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero ullam
-                quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
-            </p>
-
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet
-                necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente minus
-                esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim odio
-                natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat corrupti.
-                Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam iure
-                temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates molestias
-                natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia doloremque
-                quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure,
-                vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia
-                voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in
-                asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem
-                voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum maiores
-                consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima cupiditate
-                quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero ullam
-                quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
-            </p>
-
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, quos, voluptate, sunt, in suscipit
-                quibusdam quis dignissimos eligendi repellendus ipsam exercitationem adipisci nostrum fugit accusamus
-                quae cum nisi accusantium eaque.
-            </p>
-
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet
-                necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente minus
-                esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim odio
-                natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat corrupti.
-                Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam iure
-                temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates molestias
-                natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia doloremque
-                quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure,
-                vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia
-                voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in
-                asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem
-                voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum maiores
-                consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima cupiditate
-                quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero ullam
-                quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
-            </p>
-
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet
-                necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente minus
-                esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim odio
-                natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat corrupti.
-                Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam iure
-                temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates molestias
-                natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia doloremque
-                quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure,
-                vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia
-                voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in
-                asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem
-                voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum maiores
-                consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima cupiditate
-                quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero ullam
-                quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
-            </p>
-
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet
-                necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente minus
-                esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim odio
-                natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat corrupti.
-                Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam iure
-                temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates molestias
-                natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia doloremque
-                quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure,
-                vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia
-                voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in
-                asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem
-                voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum maiores
-                consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima cupiditate
-                quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero ullam
-                quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
-            </p>
         </div>
-    </main> <!-- .cd-main-content -->
+    </div>
+
+    <div id="nav-img" class="header-landing" style="max-height:0 !important">
+        <img src="assets/img/cd-hero-background.jpg" width="0" height="0">
+    </div>
+
+    <div id="header-secondary-landing" class="header-secondary no-landing">
+        <ul>
+            <li>
+                <a href="#" class="anchor_dezbateri_1">Toate opiniile</a>
+            </li>
+            <li>
+                <a href="#" class="anchor_dezbateri_2">Opiniile mele</a>
+            </li>
+            <li>
+                <a href="#" class="anchor_dezbateri_3">Creaza o opinie</a>
+            </li>
+            <li>
+                <a href="#" class="anchor_dezbateri_4">Categorii</a>
+            </li>
+        </ul>
+    </div>
+
+    <main id="main-content" class="main-content" style="background-color: #fafcfd;">
+
+        <div class="container anchor_dezbateri_1">
+            <div class="heading_page heading_page_red" style="margin-left:16px; margin-right:16px">
+                <p class=" heading_title" style="margin: 0px">Opinii</p>
+            </div>
+            <div class="">
+                <div ng-show="$ctrl.allOpinions.length <= 0">
+                    <td colspan="5" style="text-align:center;">Loading new data!!</td>
+                </div>
+                <div class="search-op-container">
+                    <div class=" op-search-more">
+                        <div class="col-md-6">
+                            <input class="form-control" style="width: 100%; height: 50px;  margin: 0" ng-model="$ctrl.searchFilter" placeholder="Cauta o dezbatere...">
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary pull-right btn_no_focus" style="height: 50px; background-color: inherit; font-size: large; color: #1d1d1d; border-style: dashed"
+                                ng-click="$ctrl.showAdvancedSearch()">
+                                {{$ctrl.searchMore}}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="op-search-adv" ng-show="$ctrl.advancedSearch">
+                        <div class=" noselect col-md-4">
+                            Categorie:
+                            <div class="dropdown">
+                                <select ng-click="$ctrl.setSelectedCategory()" class="btn btn-default dropdown-toggle" name="categoryselect" id="categoryselect"
+                                    style="background-color: #FFFFFF; height: 50px" ng-model="$ctrl.categoryselect">
+                                    <option id="asta" value="">--- Selecteaza ---</option>
+                                    <option ng-repeat="cate in $ctrl.categoriesAll">{{cate.cat}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" pull-right>
+                            <input class="form-control" style="width: 100%; height: 50px;  margin: 0" ng-model="$ctrl.searchedusername" placeholder="Cauta dupa utilizator">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary pull-right" style="height: 50px;width: 50%; background-color: #E24E42; font-size: large" ng-click="$ctrl.searchForOpinii()">
+                                Cauta
+                            </button>
+                        </div>
+                    </div>
+                    <div class="reset-search-bar" ng-show="$ctrl.resetCautare" ng-click="$ctrl.resetOpinionSearch()">
+                        <button class="btn btn-primary" ng-click="$ctrl.searchForOpinii()">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                            RESETEAZA CAUTAREA
+                        </button>
+                    </div>
+                </div>
+
+                <div dir-paginate="opinion in $ctrl.allOpinions | orderBy:Date_created:reverse | filter:$ctrl.searchFilter | itemsPerPage: $ctrl.itemsPerPage"
+                    pagination-id="allop">
+
+                    <div class="col-md-4" ng-click="$ctrl.navigateFactory.goToOpinie(opinion.Id)>
+                        <div class="opinion-container ">
+                            <div class="opinion-image">
+                                <img src={{opinion.Picture_url}}>
+                            </div>
+                            <div class="opinion-content">
+                                <div class="opinion-subject">
+                                    {{opinion.Subject}}
+                                </div>
+                            </div>
+                            <div class="opinion-info">
+                                <div class="opinion-user">
+                                    <span class="opinion-user-user">
+                                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                        {{opinion.User_username}}
+                                    </span>
+                                    <span class="opinion-user-date">
+                                        {{opinion.Date_created}}
+                                        <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <dir-pagination-controls pagination-id="allop" class="pull-right" max-size="8" direction-links="true" boundary-links="true"
+                on-page-change="data.getData(newPageNumber)">
+            </dir-pagination-controls>
+        </div>
+
+        <div class="container anchor_dezbateri_2">
+            <div class="heading_page heading_page_yellow" style="margin-left:16px; margin-right:16px">
+                <p class=" heading_title" style="margin: 0px">Opiniile mele</p>
+            </div>
+
+            <div ng-show="$ctrl.myOpinions.length <= 0">
+                    <div colspan="5" style="text-align:center; padding: 15% 0 15% 0">
+                        <a class="cursor-show" style="font-size: larger"
+                           ng-show="!$ctrl.navigateFactory.isLoggedIn()"
+                           ng-click="$ctrl.navigateFactory.goToLogin()">{{$ctrl.myOpinionMessage}}</a>
+                        <a class="cursor-show anchor_dezbateri_3" style="font-size: larger"
+                           ng-show="$ctrl.navigateFactory.isLoggedIn()">{{$ctrl.myOpinionMessage}}</a>
+                    </div>
+                </div>
+
+            <div dir-paginate="opinion in $ctrl.myOpinions | orderBy:sortKey:reverse |filter:$ctrl.searchFilter2 | itemsPerPage: $ctrl.itemsPerPage_myOpinions"
+                pagination-id="allmyopinions">
+                <div class="col-md-4">
+                    <div class="opinion-container ">
+                        <div class="opinion-image">
+                            <img src={{opinion.Picture_url}}>
+                        </div>
+                        <div class="opinion-content">
+                            <div class="opinion-subject">
+                                {{opinion.Subject}}
+                            </div>
+                        </div>
+                        <div class="opinion-info">
+                            <div class="opinion-user">
+                                <span class="opinion-user-user">
+                                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                    {{opinion.User_username}}
+                                </span>
+                                <span class="opinion-user-date">
+                                    {{opinion.Date_created}}
+                                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <dir-pagination-controls pagination-id="allmyopinions" class="pull-right" max-size="8" direction-links="true" boundary-links="true"
+                on-page-change="data.getDatamyopinions(newPageNumber_mydebates)">
+            </dir-pagination-controls>
+
+        </div>
+
+        <div class="container anchor_dezbateri_3">
+            <div class="heading_page heading_page_pink">
+                <p class=" heading_title" style="margin: 0px"> Creaza o opinie</p>
+            </div>
+            <div class="col-md-12">
+                <div style="margin: 10px 0 25px 0;">
+                    <p style="font-size: 16px; text-align: justify; max-width: 100%">
+                        <b>Creaza o opinie!
+                        </b> Pentru aceasta, este nevoie sa completezi urmatoarele informatii. Odata completate toate informatiile
+                        cerute mai jos vei putea apasa butonul
+                        <b>"Creaza opinia!"</b>. Aceasta va fi facuta publica imediat.</p>
+                    <p style="font-weight: bold;font-size: 16px; text-align: justify">Continutul neadecvat va fi imediat sters, iar autorul risca blocarea sau stergerea contului</p>
+                </div>
+                <div class="col-md-8">
+                    <form class="form-horizontal" style="text-align:start" name="newOpinionForm" novalidate>
+
+                        <div class="alert alert-danger" ng-show="$ctrl.wrongInput() === true;">
+                            {{$ctrl.wrong}}
+                        </div>
+
+                        <div class="form-group no-margin" ng-class="{'has-error' : newOpinionForm.subject.$invalid && newOpinionForm.subject.$dirty,
+                                 'has-success' : newOpinionForm.subject.$valid && newOpinionForm.subject.$dirty}">
+                            <span>
+                                <label for="subject" style="font-weight: bold; padding: 0 5px 10px 0">
+                                    Opinie (tema opiniei):
+                                </label>
+                                <!-- <div class="glyphicon glyphicon glyphicon-info-sign tiptext">
+                                    <div class="description">
+                                        <p>Adresa de E-mail trebuie sa fie unica, reala si personala. Adresa de E-mail va fi
+                                            folosita pentru logare.
+                                            <p>
+                                    </div>
+                                </div> -->
+                            </span>
+                            <textarea class="form-control textarea-newdebate" rows="2" id="subject" name="subject" ng-model="$ctrl.newOpinion_subject"
+                                required maxlength="150">
+                            </textarea>
+                        </div>
+
+                        <div class="form-group no-margin">
+                            <div style="margin-top:35px">
+                                <div class="col-md-8 no-margin no-padding">
+                                    <label for="description" style="font-weight: bold; padding: 0 5px 10px 0">
+                                        Categorii:
+                                    </label>
+                                    <!-- <div class="glyphicon glyphicon glyphicon-info-sign tiptext">
+                                        <div class="description">
+                                            <p>Adresa de E-mail trebuie sa fie unica, reala si personala. Adresa de E-mail va
+                                                fi folosita pentru logare.
+                                                <p>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <div class="col-md-4" style="padding: 0">
+                                    <input type="search" class="form-control input-search-category" id="search" placeholder="Cauta o categorie..">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="searchable-container" style="width:auto">
+
+                                        <div ng-repeat="categ in $ctrl.categoriesAll" class="items" style="width: auto; display: inline-block">
+                                            <div class="info-block block-info clearfix">
+                                                <div data-toggle="buttons" class="btn-group bizmoduleselect">
+                                                    <label class="btn btn-default">
+                                                        <div class="bizcontent">
+                                                            <input type="checkbox" name="var_id[]" autocomplete="off" value="">
+                                                            <span class="glyphicon glyphicon-ok glyphicon-lg pull-right" style="padding: 0 5px 0 3px"></span>
+                                                            {{categ.cat}}
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="!$ctrl.navigateFactory.isLoggedIn()" class="col-md-12" style="font-weight: bold; color: #c00004; margin-bottom: 25px; text-align: center">
+                            {{$ctrl.addOpinionMessage}}
+                        </div>
+                        <div class="div-md-12" style="margin-bottom: 50px;    margin-top: 7px;">
+
+                            <div class="form-group col-md-12">
+                                <button class="btn btn-primary btn-add-categ" 
+                                ngDisabled="$ctrl.newOpinionForm.$invalid|!$ctrl.navigateFactory.isLoggedIn()" 
+                                ng-click="$ctrl.createOpinion(newOpinionForm.$valid)"
+                                    type="submit">
+                                    Creaza opinia
+                                </button>
+                            </div>
+                        </div>
+                     
+
+                    </form>
+                </div>
+
+                <div class="col-md-4">
+                    <div>
+                        <label style="font-size:large">Previzualizeaza opinia</label>
+                    </div>
+                    <div class="opinion-container" style="margin-top:5px">
+                        <div class="opinion-image">
+                            <img src="http://dezbateri.ro/pic/opinion.jpg">
+                        </div>
+                        <div class="opinion-content">
+                            <div class="opinion-subject">
+                                {{$ctrl.newOpinion_subject}}
+                            </div>
+                        </div>
+                        <div class="opinion-info">
+                            <div class="opinion-user">
+                                <span class="opinion-user-user">
+                                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                    {{$ctrl.userLogged}}
+                                </span>
+                                <span class="opinion-user-date">
+                                    {{$ctrl.dateNow}}
+                                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container anchor_dezbateri_4">
+            <div class="heading_page heading_page_blue">
+                <p class=" heading_title" style="margin: 0"> Categorii</p>
+            </div>
+            <div class="row" style="margin: 0">
+                    <div class="col-md-12" style="min-height: 500px; padding: 0; margin: 0">
+                        <div class="categories-container" id="astama">
+                            <div ng-repeat="categ in $ctrl.categoriesAll" class="items"
+                                 style="width: auto; display: inline-block">
+
+                                <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                                    <div class="flipper">
+                                        <div class="front">
+                                            <div class="insidebox">
+                                                <div style="word-wrap: break-word; height: auto">
+                                                    {{categ.cat}}
+                                                </div>
+                                                <div class="glyphicon glyphicon-hand-up glyphicon-lg"
+                                                     style="padding: 10px 0 0 0"></div>
+                                            </div>
+                                        </div>
+                                        <div class="back">
+                                            <div class="outsidebox" ng-click="$ctrl.changethis(categ.cat)">
+                                                <div style="font-size: large  !important;"> Deschide categoria</div>
+
+                                                <div class="glyphicon glyphicon-share glyphicon-lg"
+                                                     style="padding: 10px 0 20px 0"></div>
+                                                <div style="font-size: small  !important;">
+                                                    {{categ.cat}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="searchable-container" style="display:none; margin: 0" id="allOpinionsInCategory">
+                            <div style="background-color: #a7dadc; text-align: center;width: 100%;  height: 42px">
+
+                                <button class="btn btn-primary" ng-click="$ctrl.changeBack()"
+                                        style="background-color: inherit; border-width: 0; font-size: large; outline: none">
+                                    <i class="glyphicon glyphicon-fullscreen" style="margin: 4px 3px 0 0"></i>
+                                    Inapoi la categorii
+                                </button>
+                            </div>
+                            <div  style="text-align: justify">
+                                <div ng-show="$ctrl.opinionsOfCateg.length <= 0">
+                                    <div colspan="5" style="text-align:center; padding: 15% 0 15% 0">
+                                        <p>Nu exista nicio opinie in aceasta categorie</p>
+                                    </div>
+                                </div>
+
+                                <div dir-paginate="opinion in $ctrl.opinionsOfCateg | orderBy:sortKey:reverse | filter:$ctrl.searchFilter3 | itemsPerPage: $ctrl.itemsPerPage_mydebates "
+                                    pagination-id="mydeb">
+
+                                    <div class="col-md-4">
+                                           
+                                            <div class="opinion-container" >
+                                                    <div class="opinion-image">
+                                                            <img src={{opinion.Picture_url}}>
+                                                        </div>
+                                                        <div class="opinion-content">
+                                                            <div class="opinion-subject">
+                                                                {{opinion.Subject}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="opinion-info">
+                                                            <div class="opinion-user">
+                                                                <span class="opinion-user-user">
+                                                                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                                                    {{opinion.User_username}}
+                                                                </span>
+                                                                <span class="opinion-user-date">
+                                                                    {{opinion.Date_created}}
+                                                                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                            </div>
+                                        </div>
+                                
+
+                                </div>
+               
+
+                            </div>
+
+                            <dir-pagination-controls
+                                    pagination-id="mydeb"
+                                    class="pull-right"
+                                    max-size="8"
+                                    direction-links="true"
+                                    boundary-links="true"
+                                    on-page-change="data.getDatamydebates(newPageNumber_mydebates)">
+                            </dir-pagination-controls>
+
+                        </div>
+
+                    </div>
+                </div>
+
+        </div>
+
+    </main>
+    <!-- .cd-main-content -->
 </div>

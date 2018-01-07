@@ -1,0 +1,44 @@
+<div ng-controller="opinionController as $ctrl">
+    <div id="header-main-landing" class="header-nav">
+        <div class="header-main">
+            <a href="#" id="brand">
+                <img src="assets/img/dezbateriro_logo.png" class="logo-bar" />
+            </a>
+            <button id="menu-button">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="header-main-menu" id="menu-header">
+                <li>
+                    <a class="cursor-show" ng-click="$ctrl.navigate('home')">Acasa</a>
+                </li>
+                <li>
+                    <a class="cursor-show bolded" ng-click="$ctrl.navigate('dezbateri')">Dezbateri</a>
+                </li>
+                <li>
+                    <a class="cursor-show" ng-click="$ctrl.navigate('opinii')">Opinii</a>
+                </li>
+                <li ng-show="!$ctrl.navigateFactory.isLoggedIn()">
+                    <a class="cursor-show" ng-click="$ctrl.navigate('login')">Autentificare</a>
+                </li>
+                <li ng-show="$ctrl.navigateFactory.isLoggedIn()" class="dropdown">
+                    <a class="cursor-show">
+                        <span class="dropbtn">
+                            <img src="assets/img/iconUser.png" alt="Logo" style="max-width: 20px; max-height: 20px; margin-bottom: 7px;"> {{$ctrl.userLogged}}
+                        </span>
+                        <div class="dropdown-content">
+                            <a href="#">Vezi profilul</a>
+                            <a ng-click="$ctrl.navigate('logout')">Delogheaza-te</a>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <main id="main-content" class="main-content">
+        {{$ctrl.OpinionFull}}
+    </main>
+</div>

@@ -282,6 +282,14 @@ index.controller('debateController', ['navigateFactory', 'debateFactory', '$loca
                     document.getElementById("timer").innerHTML = days + " zile   " + hours + " ore   "
                         + minutes + " minute   " + seconds + " secunde   ";
 
+                    // if(days === 1 && hours === 0 && minutes === 0 && seconds === 0){
+                    //     var content = {
+                    //         type: "reminder",
+                    //         email: _this.userLogged
+                    //     }
+                    //     debateFactory.sendEmail(content);
+                    // }
+
                     if (days === 0 || days < 0) {
                         if (hours === 1) {
                             $timeout(function () {
