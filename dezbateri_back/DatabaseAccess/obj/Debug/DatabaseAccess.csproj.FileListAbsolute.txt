@@ -47,6 +47,6 @@ C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\WebMatrix.Data.xml
 C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\WebMatrix.WebData.xml
 C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\System.Web.WebPages.xml
 C:\GitDevelop\dezbateri_back\DatabaseAccess\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\GitDevelop\dezbateri_back\DatabaseAccess\obj\Debug\DatabaseAccess.csprojResolveAssemblyReference.cache
 C:\GitDevelop\dezbateri_back\DatabaseAccess\obj\Debug\DatabaseAccess.dll
 C:\GitDevelop\dezbateri_back\DatabaseAccess\obj\Debug\DatabaseAccess.pdb
-C:\GitDevelop\dezbateri_back\DatabaseAccess\obj\Debug\DatabaseAccess.csprojResolveAssemblyReference.cache

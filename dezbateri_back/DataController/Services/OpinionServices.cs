@@ -57,8 +57,17 @@ namespace DataController.Services
                 om.Category = categList;
 
                 List<Argument> allOpinionArguments = _argumentRepository.GetAllOfOpinion(op.Id);
+                foreach (Argument ar in allOpinionArguments)
+                {
+                    ar.Opinion = new Opinion();
+                    ar.User = new User();
+                    ar.User.Email = ar.User_email;
+                    ar.User.Username = _userRepository.GetByEmail(ar.User_email).Username;
+                }
                 om.Arguments = allOpinionArguments;
-
+                om.Pro_votes = "0";
+                om.Con_votes = "0";
+                
                 allOpinions.Add(om);
  
             }
@@ -88,7 +97,37 @@ namespace DataController.Services
             om.Category = categList;
 
             List<Argument> allOpinionArguments = _argumentRepository.GetAllOfOpinion(op.Id);
+            foreach(Argument ar in allOpinionArguments)
+            {
+                ar.Opinion = new Opinion();
+                ar.User = new User();
+                ar.User.Email = ar.User_email;
+                ar.User.Username = _userRepository.GetByEmail(ar.User_email).Username;
+            }
             om.Arguments = allOpinionArguments;
+
+            try { 
+                List<OpinionVote> votes = _voteOpinionRepository.GetAll();
+                int pro = 0, con = 0;
+                foreach (OpinionVote ov in votes)
+                {
+                    if (ov.Opinion_id == int.Parse(op_id))
+                    {
+                        if (ov.Vote_pro)
+                            pro++;
+                        else
+                            con++;
+                    }
+                }
+                om.Pro_votes = pro.ToString();
+                om.Con_votes = con.ToString();
+            }
+            catch 
+            {
+                om.Pro_votes = "0";
+                om.Con_votes = "0";
+            }
+          
 
             return om;
         }
@@ -142,13 +181,15 @@ namespace DataController.Services
 
         internal void AddArgument(dynamic body)
         {
+            var username = body.User_email;
+            User user = _userRepository.GetByUsername(username.ToString());
             Argument ag = new Argument
             {
                 Side = body.Syde,
                 Content = body.Content.ToString(),
                 Date_created = body.Date_Created.ToString(),
                 Opinion_id = int.Parse(body.Opinion_id.ToString()),
-                User_email = body.User_email
+                User_email = user.Email
             };
             _argumentRepository.Add(ag);
         }

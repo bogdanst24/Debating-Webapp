@@ -13,27 +13,30 @@
                     return $http.get(API_URL + '/category/GetAllCategories')
                 },
 
-                getDebate: function(debate_id){
-                    return $http.get(API_URL + '/debate/GetDebate/' + debate_id);
+                getOpinion: function(id){
+                    return $http.get(API_URL + '/opinion/GetOpinion/' + id);
                 },
+
                 addNewOpinion: function (opinion) {
                     return $http.post(API_URL + '/opinion/AddOpinion', JSON.stringify(opinion));
                 },
-                deleteDebate: function(content){
-                    return $http.post(API_URL + '/debate/deleteDebate', JSON.stringify(content));
+
+                castVote: function(content){
+                    return $http.post(API_URL + '/opinion/CastVote' , JSON.stringify(content));
                 },
-                joinDebate: function(content){
-                    return $http.post(API_URL + '/debate/JoinDebate', JSON.stringify(content));
+
+                addArgument: function(content){
+                    return $http.post(API_URL + '/opinion/AddArgument', JSON.stringify(content));
                 },
+
+
                 saveDebate: function(debate){
                     return $http.post(API_URL + '/debate/UpdateDebateContent', JSON.stringify(debate));
                 },
                 goToNextRound: function(debate){
                     return $http.post(API_URL + '/debate/GoToNextRound' , JSON.stringify(debate));
                 },
-                voteDebate: function(content){
-                    return $http.post(API_URL + '/debate/Vote' , JSON.stringify(content));
-                },
+                
                 getVotes: function(debate_id){
                     return $http.get(API_URL + '/debate/GetDebateVotes/' + debate_id);
                 },

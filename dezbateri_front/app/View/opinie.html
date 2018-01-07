@@ -1,4 +1,4 @@
-<div ng-controller="opinionController as $ctrl">
+<div ng-controller="opinionController as $ctrl" style="background-color: #f9f9f9;">
     <div id="header-main-landing" class="header-nav">
         <div class="header-main">
             <a href="#" id="brand">
@@ -11,16 +11,16 @@
             </button>
             <ul class="header-main-menu" id="menu-header">
                 <li>
-                    <a class="cursor-show" ng-click="$ctrl.navigate('home')">Acasa</a>
+                    <a class="cursor-show" ng-click="$ctrl.navigateFactory.goToAcasa()">Acasa</a>
                 </li>
                 <li>
-                    <a class="cursor-show bolded" ng-click="$ctrl.navigate('dezbateri')">Dezbateri</a>
+                    <a class="cursor-show" ng-click="$ctrl.navigateFactory.goToDezbateri()">Dezbateri</a>
                 </li>
                 <li>
-                    <a class="cursor-show" ng-click="$ctrl.navigate('opinii')">Opinii</a>
+                    <a class="cursor-show bolded" ng-click="$ctrl.navigateFactory.goToOpinii()">Opinii</a>
                 </li>
                 <li ng-show="!$ctrl.navigateFactory.isLoggedIn()">
-                    <a class="cursor-show" ng-click="$ctrl.navigate('login')">Autentificare</a>
+                    <a class="cursor-show" ng-click="$ctrl.navigateFactory.goToLogin()">Autentificare</a>
                 </li>
                 <li ng-show="$ctrl.navigateFactory.isLoggedIn()" class="dropdown">
                     <a class="cursor-show">
@@ -29,7 +29,7 @@
                         </span>
                         <div class="dropdown-content">
                             <a href="#">Vezi profilul</a>
-                            <a ng-click="$ctrl.navigate('logout')">Delogheaza-te</a>
+                            <a ng-click="$ctrl.navigateFactory.logout()">Delogheaza-te</a>
                         </div>
                     </a>
                 </li>
@@ -38,7 +38,122 @@
         </div>
     </div>
 
-    <main id="main-content" class="main-content">
-        {{$ctrl.OpinionFull}}
+    <main id="main-content" class="main-content" style="background-color: #f9f9f9;">
+        <div class="container container-mobile" style="padding-top:75px; padding-bottom:100px; height:100%">
+            <div class="col-md-12 no-padding">
+                <div class="opi-heading" style="border: 1px solid #0090968f;">
+                    <div class="opi-subject">
+                        {{$ctrl.OpinionFull.Subject}}
+                    </div>
+                    <div class="opi-details">
+                        <div class="col-md-3 opinion-details-user">
+                            <i class="fa fa-user-circle" aria-hidden="true"></i>
+                            {{$ctrl.OpinionFull.User_username}}
+                        </div>
+                        <div class="col-md-6 opinion-details-category">
+                            <i class="fa fa-hashtag" aria-hidden="true"></i>
+                            <span ng-repeat="cat in $ctrl.OpinionFull.Category">{{cat}}{{$last ? '' : ' | '}}</span>
+                        </div>
+                        <div class="col-md-3 opinion-details-date">
+                            <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                            {{$ctrl.OpinionFull.Date_created}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 no-padding opi-mobile-col-12">
+                <div class="col-md-6 opi-mobile-half no-padding">
+                    <div class=" opi-heading" style="display:flex">
+                        <div class="col-md-7 opi-pro-side">PRO</div>
+                        <div class="col-md-3 mobile-voturi-count" style="text-align:center">
+                            <div class="votes-opinion">
+                                {{$ctrl.OpinionFull.Pro_votes}}
+                            </div>
+                            voturi
+                        </div>
+                        <div class="col-md-2" style="text-align:right; ">
+                            <i class="fa fa-thumbs-up my-thumb-up" aria-hidden="true" ng-click="$ctrl.vote('pro')">
+                                <div class="show-vote-info">
+                                    voteaza
+                                </div>
+                            </i>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6 opi-mobile-half no-padding">
+                    <div class=" opi-heading" style="display:flex">
+                        <div class="col-md-7 opi-con-side">CON</div>
+                        <div class="col-md-3 mobile-voturi-count" style="text-align:center">
+                            <div class="votes-opinion">
+                                {{$ctrl.OpinionFull.Con_votes}}
+                            </div>
+                            voturi
+                        </div>
+                        <div class="col-md-2" style="text-align:right; ">
+                            <i class="fa fa-thumbs-down my-thumb-down" aria-hidden="true" ng-click="$ctrl.vote('con')">
+                                <div class="show-vote-info">
+                                    voteaza
+                                </div>
+                            </i>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="opi-mobile-container">
+                <div class="col-md-6 no-padding opi-mobile-column">
+                    <div ng-repeat="argument in $ctrl.OpinionFull.ArgumentsPro" class="no-padding">
+                        <div class=" opi-heading argument-pro">
+                            {{argument.Content}}
+                            <div class="opi-details pro">
+                                <div class="col-md-6 opinion-details-user">
+                                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                    {{argument.User}}
+                                </div>
+                                <div class="col-md-6 opinion-details-date">
+                                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                                    {{argument.Date_created}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" opi-heading" style="margin-top:30px">
+                        <textarea autofocus maxlength="2000" placeholder="adauga un argument..." class="comment-textbox pro" ng-model="$ctrl.newArgPro"></textarea>
+                        <div class="comment-button-box" style="margin-bottom: 30px">
+                            Maxim 1500 de caractere sunt permise intr-un argument
+                            <button class="btn btn-primary btn-pro-arg" ng-click="$ctrl.addArgument('pro')">Adauga</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 no-padding opi-mobile-column">
+                    <div ng-repeat="argument in $ctrl.OpinionFull.ArgumentsCon" class="no-padding">
+                        <div class=" opi-heading argument-con">
+                            {{argument.Content}}
+                            <div class="opi-details con">
+                                <div class="col-md-6 opinion-details-user">
+                                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                    {{argument.User}}
+                                </div>
+                                <div class="col-md-6 opinion-details-date">
+                                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                                    {{argument.Date_created}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" opi-heading" style="margin-top:30px">
+                        <textarea autofocus maxlength="2000" placeholder="adauga un argument..." class="comment-textbox con" ng-model="$ctrl.newArgCon"></textarea>
+                        <div class="comment-button-box " style="margin-bottom: 30px">
+                            Maxim 1500 de caractere sunt permise intr-un argument
+                            <button class="btn btn-primary btn-con-arg" ng-click="$ctrl.addArgument('con')">Adauga</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </main>
 </div>

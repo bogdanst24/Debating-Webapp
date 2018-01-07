@@ -115,7 +115,8 @@
                 <div dir-paginate="opinion in $ctrl.allOpinions | orderBy:Date_created:reverse | filter:$ctrl.searchFilter | itemsPerPage: $ctrl.itemsPerPage"
                     pagination-id="allop">
 
-                    <div class="col-md-4" ng-click="$ctrl.navigateFactory.goToOpinie(opinion.Id)>
+                    
+                    <div class="col-md-4" ng-click="$ctrl.navigateFactory.goToOpinie(opinion.OpinionId)">
                         <div class="opinion-container ">
                             <div class="opinion-image">
                                 <img src={{opinion.Picture_url}}>
