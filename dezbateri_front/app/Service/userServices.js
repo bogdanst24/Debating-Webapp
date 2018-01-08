@@ -25,6 +25,10 @@
                     return $http.delete(API_URL + '/accounts/' + username);
                 },
 
+                getAllUsers: function(){
+                    return $http.get(API_URL + '/user/GetAllUsers');
+                }
+
             };
         }
     ]);

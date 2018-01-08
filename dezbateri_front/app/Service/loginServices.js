@@ -33,6 +33,14 @@
                     token = localStorage.auth_token;
                     var decoded = jwt_decode(token);
                     return decoded.sub;
+                },
+
+                checkAdmin: function(token){
+                    var role = jwt_decode(token).role;
+                    if(role == "Administrator"){
+                        return true;
+                    }
+                    return false;
                 }
 
             };

@@ -31,7 +31,9 @@ namespace DataController.Controllers
                 AuthorizationH.Verify(Request, UserTypes.User, false, null);
                 try
                 {
-                    List<User> users = _userRepository.GetAll();
+                    List<User> users = new List<User>();
+                    users = _userRepository.GetAll();
+                   
                     return Ok(users);
                 }
                 catch (Exception ex)

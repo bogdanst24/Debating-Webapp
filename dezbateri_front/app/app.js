@@ -8,6 +8,7 @@ var app = angular.module("dezbateriApp", [
     'opinionModule',
     'dezbateriModule',
     'loginModule',
+    'adminModule',
 
     'userServices',
     'navigateServices',
@@ -68,6 +69,9 @@ app.config(function ($routeProvider) {
     })
     .when('/opinie',{
         templateUrl: 'app/View/opinie.html'
+    })
+    .when('/manage',{
+        templateUrl: 'app/View/admin.html'
     })
 
 });

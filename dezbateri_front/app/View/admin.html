@@ -1,0 +1,120 @@
+<div ng-controller="adminController as $ctrl" style="background-color: #fafcfd;">
+
+    <div class="container" ng-show="$ctrl.showFirst">
+        <div class="col-md-3"></div>
+        <div class="col-md-6" style="text-align:center; margin-top:100px;">
+
+            <p style="margin-bottom: 25px; font-weight: bold; font-size: 20px; text-align: center">Autentifica-te cu contul propriu</p>
+
+            <form class="form-horizontal" name="loginForm" novalidate ng-submit="$ctrl.adminLogin(loginForm)">
+                <div class="alert alert-danger" ng-show="$ctrl.wrongCredentialsVar">
+                    {{$ctrl.wrong}}
+                </div>
+                <div class="input-fields-group">
+                    <div class="input-group my-input-login" ng-class="{'has-error' : loginForm.email.$invalid && loginForm.email.$dirty,
+                                        'has-success' : loginForm.email.$valid && loginForm.email.$dirty}">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-user" style="max-height : 25px;"></i>
+                        </span>
+                        <input type="text" class="form-control" name="email" placeholder="e-mail" ng-pattern="mailRegex" ng-model="$ctrl.loginemail"
+                            required/>
+
+                    </div>
+                    <br>
+                    <div style="margin-bottom: 25px" class="input-group my-input-login" ng-class="{'has-error' : loginForm.password.$invalid && loginForm.password.$dirty,
+                                            'has-success' : loginForm.password.$valid && loginForm.password.$dirty}">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-lock"></i>
+                        </span>
+                        <input class="form-control" type="password" name="password" minlength="6" required placeholder="parola" ng-model="$ctrl.loginpassword"
+                        />
+                    </div>
+                </div>
+
+                <div class="div-md-12">
+                    <div class="col-md-8" style="font-weight: bold; margin-top: 10px">
+                        Nu ai cont?
+                        <a class="cursor-show" ng-click="$ctrl.showRegistration()">Inregistreaza-te acum!</a>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <button class="btn btn-primary pull-right login-button" ng-disabled="loginForm.$invalid" type="submit">
+                            Log In
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    <div class="container-fluid" ng-show="$ctrl.showSecond==true">
+        <div class="row">
+            <div class="col-md-12" style="text-align:center">
+                <h1 class="authenticator">Authenticator Test</h1>
+
+
+                <img class="js-qrcode" width="166" height="166" ng-src="{{$ctrl.imageSource}}" />
+                <div class="scan">
+                    Scan with
+                    <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" target="_blank">Google Authenticator App</a>
+                </div>
+                <div class="verify">
+                    <label class="token-label">Enter Verification Token:</label>
+                    <br />
+                    <input class="token-input" ng-model="$ctrl.js_token" type="text" placeholder="i.e.  123 456" />
+                    <button class="btn" ng-click="$ctrl.verify()">Verify</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" ng-show="$ctrl.showMain==true">
+        <ul class="nav nav-tabs admin-nav" style="margin-bottom:0">
+            <li class="active" style="margin:0 !important">
+                <button ng-class="($ctrl.showMenu('1') ==  true) ? 'btn btn-primary btn-selected-active' : 'btn btn-primary btn-not-selected'"
+                    ng-click="$ctrl.changeMenu('1')">Users</button>
+            </li>
+            <li class="active" style="margin:0 !important">
+                <button ng-class="($ctrl.showMenu('2') ==  true) ? 'btn btn-primary btn-selected-active' : 'btn btn-primary btn-not-selected'"
+                    ng-click="$ctrl.changeMenu('2')">Debates</button>
+            </li>
+            <li class="active" style="margin:0 !important">
+                <button ng-class="($ctrl.showMenu('3') ==  true) ? 'btn btn-primary btn-selected-active' : 'btn btn-primary btn-not-selected'"
+                    ng-click="$ctrl.changeMenu('3')">Opinions</button>
+            </li>
+            <li class="active" style="margin:0 !important">
+                <button ng-class="($ctrl.showMenu('4') ==  true) ? 'btn btn-primary btn-selected-active' : 'btn btn-primary btn-not-selected'"
+                    ng-click="$ctrl.changeMenu('4')">Categories</button>
+            </li>
+            <li class="active" style="margin:0 !important">
+                <button ng-class="($ctrl.showMenu('5') ==  true) ? 'btn btn-primary btn-selected-active' : 'btn btn-primary btn-not-selected'"
+                    ng-click="$ctrl.changeMenu('5')">Commentaries</button>
+            </li>
+            <li class="active" style="margin:0 !important">
+                <button ng-class="($ctrl.showMenu('6') ==  true) ? 'btn btn-primary btn-selected-active' : 'btn btn-primary btn-not-selected'"
+                    ng-click="$ctrl.changeMenu('6')">Arguments</button>
+            </li>
+        </ul>
+
+        <div ng-show="$ctrl.showMenu('1')">
+            {{$ctrl.allUsers}}
+        </div>
+        <div ng-show="$ctrl.showMenu('2')">
+            {{$ctrl.allUsers}}
+        </div>
+        <div ng-show="$ctrl.showMenu('3')">
+            {{$ctrl.allUsers}}
+        </div>
+        <div ng-show="$ctrl.showMenu('4')">
+            {{$ctrl.allUsers}}
+        </div>
+        <div ng-show="$ctrl.showMenu('5')">
+            {{$ctrl.allUsers}}
+        </div>
+        <div ng-show="$ctrl.showMenu('6')">
+            {{$ctrl.allUsers}}
+        </div>
+
+    </div>
+
+</div>

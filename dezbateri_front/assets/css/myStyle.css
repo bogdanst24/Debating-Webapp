@@ -1403,3 +1403,7 @@ hr.minimize-hr {
 .argument-con:hover{
     border: 1px solid #E24E42;
 }
+
+.admin-nav li{
+    width: 15%;
+}

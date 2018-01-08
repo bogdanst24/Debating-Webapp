@@ -17,9 +17,10 @@ namespace DatabaseAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.Opinions1 = new HashSet<Opinion>();
-            this.Arguments = new HashSet<Argument>();
-            this.OpinionVotes = new HashSet<OpinionVote>();
+            this.Opinions1 = new List<Opinion>();
+            this.Arguments = new List<Argument>();
+            this.OpinionVotes = new List<OpinionVote>();
+            this.UserVerification = new UserVerification();
         }
     
         public string Email { get; set; }
